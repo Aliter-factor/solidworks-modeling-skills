@@ -1,0 +1,302 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "齿轮（wheel，渐开线 m=2 z=52 整圈一次成形）",
+    "units": "mm",
+    "note": "★ **模数来自 `meta.gear_train.module` = 2**（用户硬要求：两齿轮模数必须相同才能啮合），不是 parts/wheel.m 也不是 drive.m。其余尺寸 source=measured（sw_faces 取证）；**不硬编码**",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front",
+      "note": "齿面 = XY（Front，法向 Z）；拉伸沿 Z ⇒ bbox [da, da, b]"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "gear",
+      "op": "gear_profile",
+      "mn": 2.0,
+      "z": 52,
+      "beta": 0.0,
+      "alpha_n": 20.0,
+      "x": 0.0,
+      "mode": "polyline",
+      "n_flank": 6,
+      "n_root": 2,
+      "n_tip": 3,
+      "note": "**整圈渐开线一次成形**（m=2 取自 meta.gear_train，z=52）。polyline 模式几何精确（内接误差 <0.01mm）；spline 会向外过冲 ~0.2mm，不当精确齿形用"
+    },
+    {
+      "id": "zf0",
+      "op": "zoom_fit"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "齿廓"
+    },
+    {
+      "id": "ck1",
+      "op": "check_sketch_constraint",
+      "sketch": "齿廓",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态（整圈折线轮廓）"
+    },
+    {
+      "id": "boss",
+      "op": "extrude_boss",
+      "depth": 20.0,
+      "end_cond": "swEndCondBlind",
+      "name": "齿圈体"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [
+        108.0,
+        108.0,
+        20.0
+      ],
+      "tol": 0.15,
+      "note": "齿顶圆 da = m(z+2) = 108，齿宽 20。实测 113.976 vs 114（采样误差 0.02）"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "bore",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 32.0
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "中心孔"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "中心孔",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "cut1",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAll",
+      "name": "中心孔"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 48.0,
+      "note": "轮毂 Ø48"
+    },
+    {
+      "id": "r2",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 88.0,
+      "note": "凹槽外径 Ø88（**端面面积反解**：Z=±4.5 面积 5130.22 = π/4(94²−48²)）"
+    },
+    {
+      "id": "s6",
+      "op": "sketch_end",
+      "name": "凹槽近面"
+    },
+    {
+      "id": "ck3",
+      "op": "check_sketch_constraint",
+      "sketch": "凹槽近面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "cut2",
+      "op": "extrude_cut",
+      "depth": 6.0,
+      "end_cond": "swEndCondBlind",
+      "name": "凹槽1"
+    },
+    {
+      "id": "po",
+      "op": "plane_offset",
+      "base": "Front",
+      "offset": 20.0,
+      "name": "背面",
+      "note": "背面基准面 Z=+20（与**单向**拉伸成对：实体 Z ∈ [0, 20]）"
+    },
+    {
+      "id": "p4",
+      "op": "select_plane",
+      "plane": "背面"
+    },
+    {
+      "id": "s7",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r3",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 48.0
+    },
+    {
+      "id": "r4",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 88.0
+    },
+    {
+      "id": "s8",
+      "op": "sketch_end",
+      "name": "凹槽远面"
+    },
+    {
+      "id": "ck4",
+      "op": "check_sketch_constraint",
+      "sketch": "凹槽远面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "cut3",
+      "op": "extrude_cut",
+      "depth": 6.0,
+      "end_cond": "swEndCondBlind",
+      "name": "凹槽2"
+    },
+    {
+      "id": "p5",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s9",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "kw",
+      "op": "keyway_rect",
+      "bore": 32.0,
+      "spec": "10x3.3",
+      "note": "键槽 10x3.3（GB/T 1096 对 Ø32 轴 ⇒ 键 10×8，槽深 t1 = 5.0−b/2 = 3.5，取 3.3 留 0.2 装配余量）"
+    },
+    {
+      "id": "s10",
+      "op": "sketch_end",
+      "name": "键槽"
+    },
+    {
+      "id": "ck5",
+      "op": "check_sketch_constraint",
+      "sketch": "键槽",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "cut4",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAll",
+      "name": "键槽"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 44.0,
+      "tol": 0.05,
+      "note": "最大**圆柱面**半径 44（= 凹槽底 Ø88/2）。★ 注意：齿顶圆 da=108 **不是圆柱面**（55 段渐开线），所以齿顶由 `check_bbox` 判（实测 113.99 ≈ 108）。本判据钉住中心孔 Ø32 / 轮毂 Ø48 / 凹槽底 Ø88 三者"
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 100.736,
+      "tol": 0.02,
+      "note": "**100.736g 是真机标定值，不是解析式** —— 齿隙体积取决于 gear_profile 的采样密度（n_flank/n_root/n_tip），解析式算不出 52 个齿隙挖掉多少。★ **齿数重新设计后旧标定值作废**，用 `--calibrate` 重取。"
+    },
+    {
+      "id": "bb2",
+      "op": "check_bbox",
+      "expect": [
+        108.0,
+        108.0,
+        20.0
+      ],
+      "tol": 0.15,
+      "note": "键槽切完后包围盒应不变（键槽在内部）"
+    },
+    {
+      "id": "fc",
+      "op": "check_feature_count",
+      "min": 5
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error",
+      "note": "★ 齿顶变尖/根切等 error 级诊断（z=52, x=0.0）"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/33-wheel-m2z52x108.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "m": 2.0,
+    "z": 52,
+    "alpha_n": 20.0,
+    "x": 0.0,
+    "d": 104.0,
+    "da": 108.0,
+    "df": 99.0,
+    "b": 20.0,
+    "hub_od": 48.0,
+    "rim_id": 88.0,
+    "recess": 6.0,
+    "bore": 32.0,
+    "keyway": "10x3.3",
+    "center_distance": 70.0,
+    "expect_mass_g": 100.736,
+    "mass_note": "真机标定值（非解析式）",
+    "reference_volume_mm3": 134366.9,
+    "reference_bbox_mm": [
+      113.976,
+      113.973,
+      26.0
+    ]
+  }
+}

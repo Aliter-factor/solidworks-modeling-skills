@@ -1,0 +1,2039 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "箱座（housing_base：圆角矩形薄壁箱体【抽壳】+ 轴承座 + 孔系）",
+    "units": "mm",
+    "note": "★ 按**图纸 04.jpg** 重做（2026-10-04；RapidOCR+分区放大读数）：主坯圆角矩形 104×180 R20 → **抽壳(壁 6)** → 顶法兰环 104×230 R23（腔口 74×168 R6）→ 内腔底加厚(底厚 10) → 轴承座 R37/R43 → 轴承孔 Ø47/Ø62 + 沉孔 Ø55/Ø70 → 6×Ø9⊥Ø18 与 4×Ø9⊥Ø18 → 油标 Ø14 + 放油 Ø8.5。先主体后细节；拉伸一律 MidPlane。加强筋 2×厚5（Z 向骑轴线）；登记简化（Q15）：Ø46 螺栓凸台、锥销孔、未注圆角 R2、内部油道。",
+    "layers": [
+      {
+        "n": 1,
+        "name": "箱体壁（薄壁箱体）",
+        "size": "104×180 圆角矩形 R20，壁厚 6",
+        "built_by": [
+          "e0 主坯（MidPlane 全高）",
+          "sh 抽壳（移除 +Y 面）"
+        ],
+        "why_first": "抽壳特征必须先有实体；层2/层3 都长在它上面"
+      },
+      {
+        "n": 2,
+        "name": "顶板（剖分法兰）",
+        "size": "104×230 R23 − 腔口 74×168 R6，厚 2.764（y 40→42.764）",
+        "built_by": [
+          "e2 顶法兰"
+        ]
+      },
+      {
+        "n": 3,
+        "name": "底板（底壁加厚）",
+        "size": "内腔底面加厚到底厚 10（y -34→-30）",
+        "built_by": [
+          "e1 内腔底加厚"
+        ]
+      }
+    ],
+    "details_on_layers": "轴承座 R37/R43 半圆凸台、轴承孔 Ø47/Ø62 + 沉孔 Ø55/Ø70、法兰 6×Ø9⊥Ø18、底脚 4×Ø9⊥Ø18、油标 Ø34/Ø24/Ø14、放油 Ø17/M10 —— **全部基于上述三层加工**，特征树中排在三层之后",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {
+    "out": "D:/out/reducer"
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "po1",
+      "op": "plane_offset",
+      "base": "Top",
+      "offset": 1.3820000000000014,
+      "name": "主坯中面",
+      "note": "平行 Top @ y=1.382（主坯中线）"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "主坯中面"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt1",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定（Top 面 (u,v)=(X,−Z)）"
+    },
+    {
+      "id": "outl0",
+      "op": "line",
+      "x1": -32.0,
+      "y1": -180.0,
+      "x2": 32.0,
+      "y2": -180.0,
+      "note": "底边"
+    },
+    {
+      "id": "outa0",
+      "op": "arc3p",
+      "p1": [
+        32.0,
+        -180.0
+      ],
+      "p2": [
+        52.0,
+        -160.0
+      ],
+      "p3": [
+        46.14213562373095,
+        -174.14213562373095
+      ],
+      "note": "右下角 R20"
+    },
+    {
+      "id": "outl1",
+      "op": "line",
+      "x1": 52.0,
+      "y1": -160.0,
+      "x2": 52.0,
+      "y2": -20.0,
+      "note": "右边"
+    },
+    {
+      "id": "outa1",
+      "op": "arc3p",
+      "p1": [
+        52.0,
+        -20.0
+      ],
+      "p2": [
+        32.0,
+        -0.0
+      ],
+      "p3": [
+        46.14213562373095,
+        -5.857864376269051
+      ],
+      "note": "右上角 R20"
+    },
+    {
+      "id": "outl2",
+      "op": "line",
+      "x1": 32.0,
+      "y1": -0.0,
+      "x2": -32.0,
+      "y2": -0.0,
+      "note": "顶边"
+    },
+    {
+      "id": "outa2",
+      "op": "arc3p",
+      "p1": [
+        -32.0,
+        -0.0
+      ],
+      "p2": [
+        -52.0,
+        -20.0
+      ],
+      "p3": [
+        -46.14213562373095,
+        -5.857864376269051
+      ],
+      "note": "左上角 R20"
+    },
+    {
+      "id": "outl3",
+      "op": "line",
+      "x1": -52.0,
+      "y1": -20.0,
+      "x2": -52.0,
+      "y2": -160.0,
+      "note": "左边"
+    },
+    {
+      "id": "outa3",
+      "op": "arc3p",
+      "p1": [
+        -52.0,
+        -160.0
+      ],
+      "p2": [
+        -32.0,
+        -180.0
+      ],
+      "p3": [
+        -46.14213562373095,
+        -174.14213562373095
+      ],
+      "note": "左下角 R20"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "箱座主坯截面"
+    },
+    {
+      "id": "ck1",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座主坯截面",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "e0",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 82.76400000000001,
+      "name": "箱座主坯",
+      "note": "MidPlane 82.764 ⇒ Y∈[-40,42.764]"
+    },
+    {
+      "id": "m0",
+      "op": "check_mass",
+      "expect_volume_mm3": 1520923.99,
+      "vol_tol": 0.005,
+      "note": "主坯 圆角矩形(18376.6mm²)×82.764 = 1520924.0mm³"
+    },
+    {
+      "id": "sh",
+      "op": "shell",
+      "thickness": 6.0,
+      "remove": [
+        "+Y"
+      ],
+      "name": "箱座抽壳",
+      "note": "【层1 箱体壁】壁厚 6；移除顶面（剖分面）⇒ 薄壁箱体开口向上"
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_volume_mm3": 347374.983,
+      "vol_tol": 0.03,
+      "note": "【层1 完】抽壳后（内腔无干净闭式 ⇒ 容差 3%）"
+    },
+    {
+      "id": "po3",
+      "op": "plane_offset",
+      "base": "Top",
+      "offset": 41.382000000000005,
+      "name": "法兰中面",
+      "note": "平行 Top @ y=41.382"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "法兰中面"
+    },
+    {
+      "id": "s5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt3",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "fol0",
+      "op": "line",
+      "x1": -29.0,
+      "y1": -205.0,
+      "x2": 29.0,
+      "y2": -205.0,
+      "note": "底边"
+    },
+    {
+      "id": "foa0",
+      "op": "arc3p",
+      "p1": [
+        29.0,
+        -205.0
+      ],
+      "p2": [
+        52.0,
+        -182.0
+      ],
+      "p3": [
+        45.2634559672906,
+        -198.26345596729058
+      ],
+      "note": "右下角 R23"
+    },
+    {
+      "id": "fol1",
+      "op": "line",
+      "x1": 52.0,
+      "y1": -182.0,
+      "x2": 52.0,
+      "y2": 2.0,
+      "note": "右边"
+    },
+    {
+      "id": "foa1",
+      "op": "arc3p",
+      "p1": [
+        52.0,
+        2.0
+      ],
+      "p2": [
+        29.0,
+        25.0
+      ],
+      "p3": [
+        45.2634559672906,
+        18.263455967290593
+      ],
+      "note": "右上角 R23"
+    },
+    {
+      "id": "fol2",
+      "op": "line",
+      "x1": 29.0,
+      "y1": 25.0,
+      "x2": -29.0,
+      "y2": 25.0,
+      "note": "顶边"
+    },
+    {
+      "id": "foa2",
+      "op": "arc3p",
+      "p1": [
+        -29.0,
+        25.0
+      ],
+      "p2": [
+        -52.0,
+        2.0
+      ],
+      "p3": [
+        -45.2634559672906,
+        18.263455967290593
+      ],
+      "note": "左上角 R23"
+    },
+    {
+      "id": "fol3",
+      "op": "line",
+      "x1": -52.0,
+      "y1": 2.0,
+      "x2": -52.0,
+      "y2": -182.0,
+      "note": "左边"
+    },
+    {
+      "id": "foa3",
+      "op": "arc3p",
+      "p1": [
+        -52.0,
+        -182.0
+      ],
+      "p2": [
+        -29.0,
+        -205.0
+      ],
+      "p3": [
+        -45.2634559672906,
+        -198.26345596729058
+      ],
+      "note": "左下角 R23"
+    },
+    {
+      "id": "fil0",
+      "op": "line",
+      "x1": -31.0,
+      "y1": -174.0,
+      "x2": 31.0,
+      "y2": -174.0,
+      "note": "底边"
+    },
+    {
+      "id": "fia0",
+      "op": "arc3p",
+      "p1": [
+        31.0,
+        -174.0
+      ],
+      "p2": [
+        37.0,
+        -168.0
+      ],
+      "p3": [
+        35.242640687119284,
+        -172.2426406871193
+      ],
+      "note": "右下角 R6"
+    },
+    {
+      "id": "fil1",
+      "op": "line",
+      "x1": 37.0,
+      "y1": -168.0,
+      "x2": 37.0,
+      "y2": -12.0,
+      "note": "右边"
+    },
+    {
+      "id": "fia1",
+      "op": "arc3p",
+      "p1": [
+        37.0,
+        -12.0
+      ],
+      "p2": [
+        31.0,
+        -6.0
+      ],
+      "p3": [
+        35.242640687119284,
+        -7.757359312880715
+      ],
+      "note": "右上角 R6"
+    },
+    {
+      "id": "fil2",
+      "op": "line",
+      "x1": 31.0,
+      "y1": -6.0,
+      "x2": -31.0,
+      "y2": -6.0,
+      "note": "顶边"
+    },
+    {
+      "id": "fia2",
+      "op": "arc3p",
+      "p1": [
+        -31.0,
+        -6.0
+      ],
+      "p2": [
+        -37.0,
+        -12.0
+      ],
+      "p3": [
+        -35.242640687119284,
+        -7.757359312880715
+      ],
+      "note": "左上角 R6"
+    },
+    {
+      "id": "fil3",
+      "op": "line",
+      "x1": -37.0,
+      "y1": -12.0,
+      "x2": -37.0,
+      "y2": -168.0,
+      "note": "左边"
+    },
+    {
+      "id": "fia3",
+      "op": "arc3p",
+      "p1": [
+        -37.0,
+        -168.0
+      ],
+      "p2": [
+        -31.0,
+        -174.0
+      ],
+      "p3": [
+        -35.242640687119284,
+        -172.2426406871193
+      ],
+      "note": "左下角 R6"
+    },
+    {
+      "id": "s6",
+      "op": "sketch_end",
+      "name": "箱座顶法兰环"
+    },
+    {
+      "id": "ck3",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座顶法兰环",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "e2",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 2.764000000000003,
+      "name": "箱座顶法兰",
+      "note": "【层2 顶板】MidPlane 2.764 ⇒ Y∈[40,42.764]"
+    },
+    {
+      "id": "m2",
+      "op": "check_mass",
+      "expect_volume_mm3": 369420.427,
+      "vol_tol": 0.03,
+      "note": "【层2 完】层1 + 法兰环 22045 ≈ 369420mm³"
+    },
+    {
+      "id": "po2",
+      "op": "plane_offset",
+      "base": "Top",
+      "offset": 32.0,
+      "name": "内腔底加厚中面",
+      "note": "平行 Top @ y=-32",
+      "flip": true
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "内腔底加厚中面"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt2",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "padl0",
+      "op": "line",
+      "x1": -32.0,
+      "y1": -174.0,
+      "x2": 32.0,
+      "y2": -174.0,
+      "note": "底边"
+    },
+    {
+      "id": "pada0",
+      "op": "arc3p",
+      "p1": [
+        32.0,
+        -174.0
+      ],
+      "p2": [
+        46.0,
+        -160.0
+      ],
+      "p3": [
+        41.89949493661167,
+        -169.89949493661166
+      ],
+      "note": "右下角 R14"
+    },
+    {
+      "id": "padl1",
+      "op": "line",
+      "x1": 46.0,
+      "y1": -160.0,
+      "x2": 46.0,
+      "y2": -20.0,
+      "note": "右边"
+    },
+    {
+      "id": "pada1",
+      "op": "arc3p",
+      "p1": [
+        46.0,
+        -20.0
+      ],
+      "p2": [
+        32.0,
+        -6.0
+      ],
+      "p3": [
+        41.89949493661167,
+        -10.100505063388335
+      ],
+      "note": "右上角 R14"
+    },
+    {
+      "id": "padl2",
+      "op": "line",
+      "x1": 32.0,
+      "y1": -6.0,
+      "x2": -32.0,
+      "y2": -6.0,
+      "note": "顶边"
+    },
+    {
+      "id": "pada2",
+      "op": "arc3p",
+      "p1": [
+        -32.0,
+        -6.0
+      ],
+      "p2": [
+        -46.0,
+        -20.0
+      ],
+      "p3": [
+        -41.89949493661167,
+        -10.100505063388335
+      ],
+      "note": "左上角 R14"
+    },
+    {
+      "id": "padl3",
+      "op": "line",
+      "x1": -46.0,
+      "y1": -20.0,
+      "x2": -46.0,
+      "y2": -160.0,
+      "note": "左边"
+    },
+    {
+      "id": "pada3",
+      "op": "arc3p",
+      "p1": [
+        -46.0,
+        -160.0
+      ],
+      "p2": [
+        -32.0,
+        -174.0
+      ],
+      "p3": [
+        -41.89949493661167,
+        -169.89949493661166
+      ],
+      "note": "左下角 R14"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "箱座内腔底"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座内腔底",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 4.0,
+      "name": "箱座内腔底加厚",
+      "note": "【层3 底板】MidPlane 4 ⇒ 内腔底面到 y=-30（底厚 10）"
+    },
+    {
+      "id": "m3",
+      "op": "check_mass",
+      "expect_volume_mm3": 430571.435,
+      "vol_tol": 0.03,
+      "note": "【三层主体完】≈ 430571mm³ —— 以下所有特征均为基于三层的加工"
+    },
+    {
+      "id": "poR",
+      "op": "plane_offset",
+      "base": "Right",
+      "offset": 33.0,
+      "name": "座面R",
+      "note": "平行 Right @ x=33（凸台中线）"
+    },
+    {
+      "id": "pR0",
+      "op": "select_plane",
+      "plane": "座面R"
+    },
+    {
+      "id": "skR0",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptR0",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "arcR0",
+      "op": "arc3p",
+      "p1": [
+        -28.0,
+        40.0
+      ],
+      "p2": [
+        -102.0,
+        40.0
+      ],
+      "p3": [
+        -65.0,
+        3.0
+      ],
+      "note": "半圆 R37 @ Z=65（轴心 Y=40）"
+    },
+    {
+      "id": "linR0",
+      "op": "line",
+      "x1": -102.0,
+      "y1": 40.0,
+      "x2": -28.0,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "seR0",
+      "op": "sketch_end",
+      "name": "箱座座截面R0"
+    },
+    {
+      "id": "ckR0",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座座截面R0",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "boR0",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 26.0,
+      "name": "箱座座R0",
+      "note": "MidPlane 26 ⇒ X∈[20,46]，外圆 R37（+壁 6 ⇒ 该处壁厚 32 ✓ A-A「40」）"
+    },
+    {
+      "id": "pR1",
+      "op": "select_plane",
+      "plane": "座面R"
+    },
+    {
+      "id": "skR1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptR1",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "arcR1",
+      "op": "arc3p",
+      "p1": [
+        -92.0,
+        40.0
+      ],
+      "p2": [
+        -178.0,
+        40.0
+      ],
+      "p3": [
+        -135.0,
+        -3.0
+      ],
+      "note": "半圆 R43 @ Z=135（轴心 Y=40）"
+    },
+    {
+      "id": "linR1",
+      "op": "line",
+      "x1": -178.0,
+      "y1": 40.0,
+      "x2": -92.0,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "seR1",
+      "op": "sketch_end",
+      "name": "箱座座截面R1"
+    },
+    {
+      "id": "ckR1",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座座截面R1",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "boR1",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 26.0,
+      "name": "箱座座R1",
+      "note": "MidPlane 26 ⇒ X∈[20,46]，外圆 R43（+壁 6 ⇒ 该处壁厚 32 ✓ A-A「40」）"
+    },
+    {
+      "id": "poL",
+      "op": "plane_offset",
+      "base": "Right",
+      "offset": 33.0,
+      "name": "座面L",
+      "note": "平行 Right @ x=-33（凸台中线）",
+      "flip": true
+    },
+    {
+      "id": "pL0",
+      "op": "select_plane",
+      "plane": "座面L"
+    },
+    {
+      "id": "skL0",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptL0",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "arcL0",
+      "op": "arc3p",
+      "p1": [
+        -28.0,
+        40.0
+      ],
+      "p2": [
+        -102.0,
+        40.0
+      ],
+      "p3": [
+        -65.0,
+        3.0
+      ],
+      "note": "半圆 R37 @ Z=65（轴心 Y=40）"
+    },
+    {
+      "id": "linL0",
+      "op": "line",
+      "x1": -102.0,
+      "y1": 40.0,
+      "x2": -28.0,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "seL0",
+      "op": "sketch_end",
+      "name": "箱座座截面L0"
+    },
+    {
+      "id": "ckL0",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座座截面L0",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "boL0",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 26.0,
+      "name": "箱座座L0",
+      "note": "MidPlane 26 ⇒ X∈[-20,-46]，外圆 R37（+壁 6 ⇒ 该处壁厚 32 ✓ A-A「40」）"
+    },
+    {
+      "id": "pL1",
+      "op": "select_plane",
+      "plane": "座面L"
+    },
+    {
+      "id": "skL1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptL1",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "arcL1",
+      "op": "arc3p",
+      "p1": [
+        -92.0,
+        40.0
+      ],
+      "p2": [
+        -178.0,
+        40.0
+      ],
+      "p3": [
+        -135.0,
+        -3.0
+      ],
+      "note": "半圆 R43 @ Z=135（轴心 Y=40）"
+    },
+    {
+      "id": "linL1",
+      "op": "line",
+      "x1": -178.0,
+      "y1": 40.0,
+      "x2": -92.0,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "seL1",
+      "op": "sketch_end",
+      "name": "箱座座截面L1"
+    },
+    {
+      "id": "ckL1",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座座截面L1",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "boL1",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 26.0,
+      "name": "箱座座L1",
+      "note": "MidPlane 26 ⇒ X∈[-20,-46]，外圆 R43（+壁 6 ⇒ 该处壁厚 32 ✓ A-A「40」）"
+    },
+    {
+      "id": "m4",
+      "op": "check_mass",
+      "expect_volume_mm3": 682150.016,
+      "vol_tol": 0.01,
+      "note": "+ 座半圆（R37/R43 半圆盘×4）≈ 682150mm³"
+    },
+    {
+      "id": "prR",
+      "op": "plane_offset",
+      "base": "Right",
+      "offset": 36.0,
+      "name": "筋面R",
+      "note": "平行 Right @ x=36（筋中线，MidPlane 32 ⇒ X∈[20,52]）"
+    },
+    {
+      "id": "prpR",
+      "op": "select_plane",
+      "plane": "筋面R"
+    },
+    {
+      "id": "srR1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptrR",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "rlR0a",
+      "op": "line",
+      "x1": -67.5,
+      "y1": -31.0,
+      "x2": -62.5,
+      "y2": -31.0,
+      "note": "筋R0 底边 Y=-31（落在底板内 ⇒ 避开零厚度相切）"
+    },
+    {
+      "id": "rlR0b",
+      "op": "line",
+      "x1": -62.5,
+      "y1": -31.0,
+      "x2": -62.5,
+      "y2": 41.0,
+      "note": "筋R0 后面 Z=67.5"
+    },
+    {
+      "id": "rlR0c",
+      "op": "line",
+      "x1": -62.5,
+      "y1": 41.0,
+      "x2": -67.5,
+      "y2": 41.0,
+      "note": "筋R0 顶边 Y=41（咬进法兰）"
+    },
+    {
+      "id": "rlR0d",
+      "op": "line",
+      "x1": -67.5,
+      "y1": 41.0,
+      "x2": -67.5,
+      "y2": -31.0,
+      "note": "筋R0 前面 Z=62.5"
+    },
+    {
+      "id": "rlR1a",
+      "op": "line",
+      "x1": -137.5,
+      "y1": -31.0,
+      "x2": -132.5,
+      "y2": -31.0,
+      "note": "筋R1 底边 Y=-31（落在底板内 ⇒ 避开零厚度相切）"
+    },
+    {
+      "id": "rlR1b",
+      "op": "line",
+      "x1": -132.5,
+      "y1": -31.0,
+      "x2": -132.5,
+      "y2": 41.0,
+      "note": "筋R1 后面 Z=137.5"
+    },
+    {
+      "id": "rlR1c",
+      "op": "line",
+      "x1": -132.5,
+      "y1": 41.0,
+      "x2": -137.5,
+      "y2": 41.0,
+      "note": "筋R1 顶边 Y=41（咬进法兰）"
+    },
+    {
+      "id": "rlR1d",
+      "op": "line",
+      "x1": -137.5,
+      "y1": 41.0,
+      "x2": -137.5,
+      "y2": -31.0,
+      "note": "筋R1 前面 Z=132.5"
+    },
+    {
+      "id": "srR2",
+      "op": "sketch_end",
+      "name": "箱座加强筋截面R"
+    },
+    {
+      "id": "ckrR",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座加强筋截面R",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "ribR",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 32.0,
+      "name": "箱座加强筋R",
+      "note": "MidPlane 32 ⇒ X∈[20,52]。内腔段 X∈[20,46] 扣掉座占的部分；X∈[46,52] 落在壁内 ⇒ 零增量"
+    },
+    {
+      "id": "prL",
+      "op": "plane_offset",
+      "base": "Right",
+      "offset": 36.0,
+      "name": "筋面L",
+      "note": "平行 Right @ x=-36（筋中线，MidPlane 32 ⇒ X∈[-20,-52]）",
+      "flip": true
+    },
+    {
+      "id": "prpL",
+      "op": "select_plane",
+      "plane": "筋面L"
+    },
+    {
+      "id": "srL1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptrL",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "rlL0a",
+      "op": "line",
+      "x1": -67.5,
+      "y1": -31.0,
+      "x2": -62.5,
+      "y2": -31.0,
+      "note": "筋L0 底边 Y=-31（落在底板内 ⇒ 避开零厚度相切）"
+    },
+    {
+      "id": "rlL0b",
+      "op": "line",
+      "x1": -62.5,
+      "y1": -31.0,
+      "x2": -62.5,
+      "y2": 41.0,
+      "note": "筋L0 后面 Z=67.5"
+    },
+    {
+      "id": "rlL0c",
+      "op": "line",
+      "x1": -62.5,
+      "y1": 41.0,
+      "x2": -67.5,
+      "y2": 41.0,
+      "note": "筋L0 顶边 Y=41（咬进法兰）"
+    },
+    {
+      "id": "rlL0d",
+      "op": "line",
+      "x1": -67.5,
+      "y1": 41.0,
+      "x2": -67.5,
+      "y2": -31.0,
+      "note": "筋L0 前面 Z=62.5"
+    },
+    {
+      "id": "rlL1a",
+      "op": "line",
+      "x1": -137.5,
+      "y1": -31.0,
+      "x2": -132.5,
+      "y2": -31.0,
+      "note": "筋L1 底边 Y=-31（落在底板内 ⇒ 避开零厚度相切）"
+    },
+    {
+      "id": "rlL1b",
+      "op": "line",
+      "x1": -132.5,
+      "y1": -31.0,
+      "x2": -132.5,
+      "y2": 41.0,
+      "note": "筋L1 后面 Z=137.5"
+    },
+    {
+      "id": "rlL1c",
+      "op": "line",
+      "x1": -132.5,
+      "y1": 41.0,
+      "x2": -137.5,
+      "y2": 41.0,
+      "note": "筋L1 顶边 Y=41（咬进法兰）"
+    },
+    {
+      "id": "rlL1d",
+      "op": "line",
+      "x1": -137.5,
+      "y1": 41.0,
+      "x2": -137.5,
+      "y2": -31.0,
+      "note": "筋L1 前面 Z=132.5"
+    },
+    {
+      "id": "srL2",
+      "op": "sketch_end",
+      "name": "箱座加强筋截面L"
+    },
+    {
+      "id": "ckrL",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座加强筋截面L",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "ribL",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 32.0,
+      "name": "箱座加强筋L",
+      "note": "MidPlane 32 ⇒ X∈[-20,-52]。内腔段 X∈[20,46] 扣掉座占的部分；X∈[46,52] 落在壁内 ⇒ 零增量"
+    },
+    {
+      "id": "mR",
+      "op": "check_mass",
+      "expect_volume_mm3": 698103.643,
+      "vol_tol": 0.01,
+      "note": "+ 加强筋 2×5 厚（骑 Z=65, 135 轴线） ≈ +15954mm³ ⇒ 698104mm³"
+    },
+    {
+      "id": "p5",
+      "op": "select_plane",
+      "plane": "Right"
+    },
+    {
+      "id": "s7",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt5",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "arcB0",
+      "op": "arc3p",
+      "p1": [
+        -41.5,
+        40.0
+      ],
+      "p2": [
+        -88.5,
+        40.0
+      ],
+      "p3": [
+        -65.0,
+        16.5
+      ],
+      "note": "半圆 R23.5 @ Z=65（轴心 Y=40）"
+    },
+    {
+      "id": "linB0",
+      "op": "line",
+      "x1": -88.5,
+      "y1": 40.0,
+      "x2": -41.5,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "arcB1",
+      "op": "arc3p",
+      "p1": [
+        -104.0,
+        40.0
+      ],
+      "p2": [
+        -166.0,
+        40.0
+      ],
+      "p3": [
+        -135.0,
+        9.0
+      ],
+      "note": "半圆 R31 @ Z=135（轴心 Y=40）"
+    },
+    {
+      "id": "linB1",
+      "op": "line",
+      "x1": -166.0,
+      "y1": 40.0,
+      "x2": -104.0,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "s8",
+      "op": "sketch_end",
+      "name": "箱座轴承孔截面"
+    },
+    {
+      "id": "ck5",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座轴承孔截面",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "bore",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "箱座轴承孔",
+      "note": "双向贯穿：切穿座凸台 + 两侧外壳壁（Ø47 / Ø62）"
+    },
+    {
+      "id": "pcR",
+      "op": "plane_offset",
+      "base": "Right",
+      "offset": 48.5,
+      "name": "沉孔面R",
+      "note": "平行 Right @ x=48.5（沉孔中线）"
+    },
+    {
+      "id": "pcpR",
+      "op": "select_plane",
+      "plane": "沉孔面R"
+    },
+    {
+      "id": "scR",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptcR",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "arcCR0",
+      "op": "arc3p",
+      "p1": [
+        -37.5,
+        40.0
+      ],
+      "p2": [
+        -92.5,
+        40.0
+      ],
+      "p3": [
+        -65.0,
+        12.5
+      ],
+      "note": "半圆 R27.5 @ Z=65（轴心 Y=40）"
+    },
+    {
+      "id": "linCR0",
+      "op": "line",
+      "x1": -92.5,
+      "y1": 40.0,
+      "x2": -37.5,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "arcCR1",
+      "op": "arc3p",
+      "p1": [
+        -100.0,
+        40.0
+      ],
+      "p2": [
+        -170.0,
+        40.0
+      ],
+      "p3": [
+        -135.0,
+        5.0
+      ],
+      "note": "半圆 R35 @ Z=135（轴心 Y=40）"
+    },
+    {
+      "id": "linCR1",
+      "op": "line",
+      "x1": -170.0,
+      "y1": 40.0,
+      "x2": -100.0,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "scRe",
+      "op": "sketch_end",
+      "name": "箱座沉孔截面R"
+    },
+    {
+      "id": "ckcR",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座沉孔截面R",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "cbcR",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 7.0,
+      "name": "箱座沉孔R",
+      "note": "MidPlane 7 ⇒ X∈[45,52]（Ø55 / Ø70）"
+    },
+    {
+      "id": "pcL",
+      "op": "plane_offset",
+      "base": "Right",
+      "offset": 48.5,
+      "name": "沉孔面L",
+      "note": "平行 Right @ x=-48.5（沉孔中线）",
+      "flip": true
+    },
+    {
+      "id": "pcpL",
+      "op": "select_plane",
+      "plane": "沉孔面L"
+    },
+    {
+      "id": "scL",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptcL",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "arcCL0",
+      "op": "arc3p",
+      "p1": [
+        -37.5,
+        40.0
+      ],
+      "p2": [
+        -92.5,
+        40.0
+      ],
+      "p3": [
+        -65.0,
+        12.5
+      ],
+      "note": "半圆 R27.5 @ Z=65（轴心 Y=40）"
+    },
+    {
+      "id": "linCL0",
+      "op": "line",
+      "x1": -92.5,
+      "y1": 40.0,
+      "x2": -37.5,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "arcCL1",
+      "op": "arc3p",
+      "p1": [
+        -100.0,
+        40.0
+      ],
+      "p2": [
+        -170.0,
+        40.0
+      ],
+      "p3": [
+        -135.0,
+        5.0
+      ],
+      "note": "半圆 R35 @ Z=135（轴心 Y=40）"
+    },
+    {
+      "id": "linCL1",
+      "op": "line",
+      "x1": -170.0,
+      "y1": 40.0,
+      "x2": -100.0,
+      "y2": 40.0,
+      "note": "底径线（闭合轮廓）"
+    },
+    {
+      "id": "scLe",
+      "op": "sketch_end",
+      "name": "箱座沉孔截面L"
+    },
+    {
+      "id": "ckcL",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座沉孔截面L",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "cbcL",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 7.0,
+      "name": "箱座沉孔L",
+      "note": "MidPlane 7 ⇒ X∈[-45,-52]（Ø55 / Ø70）"
+    },
+    {
+      "id": "m5",
+      "op": "check_mass",
+      "expect_volume_mm3": 535683.303,
+      "vol_tol": 0.04,
+      "note": "− 轴承孔/沉孔 ≈ 535683mm³"
+    },
+    {
+      "id": "po7",
+      "op": "plane_offset",
+      "base": "Top",
+      "offset": 38.882000000000005,
+      "name": "法兰孔中面",
+      "note": "平行 Top @ y=38.882"
+    },
+    {
+      "id": "p7",
+      "op": "select_plane",
+      "plane": "法兰孔中面"
+    },
+    {
+      "id": "s9",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt7",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "fh0",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 14.0,
+      "d": 9.0,
+      "note": "法兰螺栓孔 Ø9 @ (x=0, z=-14)"
+    },
+    {
+      "id": "fh1",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": -194.0,
+      "d": 9.0,
+      "note": "法兰螺栓孔 Ø9 @ (x=0, z=194)"
+    },
+    {
+      "id": "fh2",
+      "op": "circle",
+      "cx": 37.0,
+      "cy": -20.0,
+      "d": 9.0,
+      "note": "法兰螺栓孔 Ø9 @ (x=37, z=20)"
+    },
+    {
+      "id": "fh3",
+      "op": "circle",
+      "cx": -37.0,
+      "cy": -20.0,
+      "d": 9.0,
+      "note": "法兰螺栓孔 Ø9 @ (x=-37, z=20)"
+    },
+    {
+      "id": "fh4",
+      "op": "circle",
+      "cx": 37.0,
+      "cy": -178.0,
+      "d": 9.0,
+      "note": "法兰螺栓孔 Ø9 @ (x=37, z=178)"
+    },
+    {
+      "id": "fh5",
+      "op": "circle",
+      "cx": -37.0,
+      "cy": -178.0,
+      "d": 9.0,
+      "note": "法兰螺栓孔 Ø9 @ (x=-37, z=178)"
+    },
+    {
+      "id": "s10",
+      "op": "sketch_end",
+      "name": "箱座法兰孔位"
+    },
+    {
+      "id": "ck7",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座法兰孔位",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "fhc",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 7.764,
+      "name": "箱座法兰孔",
+      "note": "MidPlane 7.764 ⇒ Y∈[35,42.764]（穿法兰入壁 5）"
+    },
+    {
+      "id": "p7b",
+      "op": "select_plane",
+      "plane": "法兰孔中面"
+    },
+    {
+      "id": "s11",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt8",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "fc0",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 14.0,
+      "d": 18.0,
+      "note": "法兰沉孔 Ø18 深 1 @ (x=0, z=-14)"
+    },
+    {
+      "id": "fc1",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": -194.0,
+      "d": 18.0,
+      "note": "法兰沉孔 Ø18 深 1 @ (x=0, z=194)"
+    },
+    {
+      "id": "fc2",
+      "op": "circle",
+      "cx": 37.0,
+      "cy": -20.0,
+      "d": 18.0,
+      "note": "法兰沉孔 Ø18 深 1 @ (x=37, z=20)"
+    },
+    {
+      "id": "fc3",
+      "op": "circle",
+      "cx": -37.0,
+      "cy": -20.0,
+      "d": 18.0,
+      "note": "法兰沉孔 Ø18 深 1 @ (x=-37, z=20)"
+    },
+    {
+      "id": "fc4",
+      "op": "circle",
+      "cx": 37.0,
+      "cy": -178.0,
+      "d": 18.0,
+      "note": "法兰沉孔 Ø18 深 1 @ (x=37, z=178)"
+    },
+    {
+      "id": "fc5",
+      "op": "circle",
+      "cx": -37.0,
+      "cy": -178.0,
+      "d": 18.0,
+      "note": "法兰沉孔 Ø18 深 1 @ (x=-37, z=178)"
+    },
+    {
+      "id": "s12",
+      "op": "sketch_end",
+      "name": "箱座法兰沉孔位"
+    },
+    {
+      "id": "ck8",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座法兰沉孔位",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "fcc",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 2.0,
+      "name": "箱座法兰沉孔",
+      "note": "MidPlane 2 ⇒ 自顶面下 1"
+    },
+    {
+      "id": "poB",
+      "op": "plane_offset",
+      "base": "Top",
+      "offset": 35.0,
+      "name": "底脚孔中面",
+      "note": "平行 Top @ y=-35",
+      "flip": true
+    },
+    {
+      "id": "p9",
+      "op": "select_plane",
+      "plane": "底脚孔中面"
+    },
+    {
+      "id": "s13",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt9",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "bh0",
+      "op": "circle",
+      "cx": 33.7,
+      "cy": -23.0,
+      "d": 9.0,
+      "note": "底脚安装孔 Ø9 @ (x=33.7, z=23)"
+    },
+    {
+      "id": "bh1",
+      "op": "circle",
+      "cx": -33.7,
+      "cy": -23.0,
+      "d": 9.0,
+      "note": "底脚安装孔 Ø9 @ (x=-33.7, z=23)"
+    },
+    {
+      "id": "bh2",
+      "op": "circle",
+      "cx": 33.7,
+      "cy": -157.0,
+      "d": 9.0,
+      "note": "底脚安装孔 Ø9 @ (x=33.7, z=157)"
+    },
+    {
+      "id": "bh3",
+      "op": "circle",
+      "cx": -33.7,
+      "cy": -157.0,
+      "d": 9.0,
+      "note": "底脚安装孔 Ø9 @ (x=-33.7, z=157)"
+    },
+    {
+      "id": "s14",
+      "op": "sketch_end",
+      "name": "箱座底脚孔位"
+    },
+    {
+      "id": "ck9",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座底脚孔位",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "bhc",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 10.0,
+      "name": "箱座底脚孔",
+      "note": "MidPlane 10 ⇒ Y∈[-40,-30]（贯穿底板）"
+    },
+    {
+      "id": "p9b",
+      "op": "select_plane",
+      "plane": "底脚孔中面"
+    },
+    {
+      "id": "s15",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt10",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "bc0",
+      "op": "circle",
+      "cx": 33.7,
+      "cy": -23.0,
+      "d": 18.0,
+      "note": "底脚沉孔 Ø18 深 2 @ (x=33.7, z=23)"
+    },
+    {
+      "id": "bc1",
+      "op": "circle",
+      "cx": -33.7,
+      "cy": -23.0,
+      "d": 18.0,
+      "note": "底脚沉孔 Ø18 深 2 @ (x=-33.7, z=23)"
+    },
+    {
+      "id": "bc2",
+      "op": "circle",
+      "cx": 33.7,
+      "cy": -157.0,
+      "d": 18.0,
+      "note": "底脚沉孔 Ø18 深 2 @ (x=33.7, z=157)"
+    },
+    {
+      "id": "bc3",
+      "op": "circle",
+      "cx": -33.7,
+      "cy": -157.0,
+      "d": 18.0,
+      "note": "底脚沉孔 Ø18 深 2 @ (x=-33.7, z=157)"
+    },
+    {
+      "id": "s16",
+      "op": "sketch_end",
+      "name": "箱座底脚沉孔位"
+    },
+    {
+      "id": "ck10",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座底脚沉孔位",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "bcc",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 4.0,
+      "name": "箱座底脚沉孔",
+      "note": "MidPlane 4 ⇒ 自底面深 2"
+    },
+    {
+      "id": "poO",
+      "op": "plane_offset",
+      "base": "Front",
+      "offset": 2.5,
+      "name": "油标中面",
+      "note": "平行 Front @ z=-2.5",
+      "flip": true
+    },
+    {
+      "id": "pO",
+      "op": "select_plane",
+      "plane": "油标中面"
+    },
+    {
+      "id": "sO1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptO",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定（Front 面 (x,y)=(X,Y)）"
+    },
+    {
+      "id": "oob",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": -13.0,
+      "d": 34.0,
+      "note": "油标凸台 Ø34 @ (x=0, y=-13)（孔心高 27 ✓ 图纸 27）"
+    },
+    {
+      "id": "sO2",
+      "op": "sketch_end",
+      "name": "箱座油标凸台"
+    },
+    {
+      "id": "ckO",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座油标凸台",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "eO",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 5.0,
+      "name": "箱座油标凸台",
+      "note": "MidPlane 5 ⇒ Z∈[-5,0]（向 −Z 外伸）"
+    },
+    {
+      "id": "pOb",
+      "op": "select_plane",
+      "plane": "油标中面"
+    },
+    {
+      "id": "sO3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptO2",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定（这两张草图曾漏，selftest §4 抓出）"
+    },
+    {
+      "id": "ooh",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": -13.0,
+      "d": 24.0,
+      "note": "油标沉孔 Ø24（与凸台同心）"
+    },
+    {
+      "id": "sO4",
+      "op": "sketch_end",
+      "name": "箱座油标沉孔"
+    },
+    {
+      "id": "ckO2",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座油标沉孔",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "oohc",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 5.0,
+      "name": "箱座油标沉孔",
+      "note": "MidPlane 5 ⇒ 自凸台外端面掏 Ø24"
+    },
+    {
+      "id": "pOc",
+      "op": "select_plane",
+      "plane": "油标中面"
+    },
+    {
+      "id": "sO5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptO3",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "ooh2",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": -13.0,
+      "d": 14.0,
+      "note": "油标孔 Ø14（沿 Z 贯穿端壁）"
+    },
+    {
+      "id": "sO6",
+      "op": "sketch_end",
+      "name": "箱座油标孔"
+    },
+    {
+      "id": "ckO3",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座油标孔",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "ooh2c",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "箱座油标孔",
+      "note": "沿 Z 双向贯穿（穿 −Z 端壁）"
+    },
+    {
+      "id": "poD",
+      "op": "plane_offset",
+      "base": "Front",
+      "offset": 182.5,
+      "name": "放油中面",
+      "note": "平行 Front @ z=182.5"
+    },
+    {
+      "id": "pD",
+      "op": "select_plane",
+      "plane": "放油中面"
+    },
+    {
+      "id": "sD1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptD",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "dob",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": -28.0,
+      "d": 17.0,
+      "note": "放油凸台 Ø17 @ (x=0, y=-28)（离底 12）"
+    },
+    {
+      "id": "sD2",
+      "op": "sketch_end",
+      "name": "箱座放油凸台"
+    },
+    {
+      "id": "ckD",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座放油凸台",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "eD",
+      "op": "extrude_boss",
+      "end_cond": "swEndCondMidPlane",
+      "depth": 5.0,
+      "name": "箱座放油凸台",
+      "note": "MidPlane 5 ⇒ Z∈[180,185]"
+    },
+    {
+      "id": "pDb",
+      "op": "select_plane",
+      "plane": "放油中面"
+    },
+    {
+      "id": "sD3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ptD2",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定"
+    },
+    {
+      "id": "doh",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": -28.0,
+      "d": 8.5,
+      "note": "放油孔 M10 → Ø8.5（与凸台同心）"
+    },
+    {
+      "id": "sD4",
+      "op": "sketch_end",
+      "name": "箱座放油孔"
+    },
+    {
+      "id": "ckD2",
+      "op": "check_sketch_constraint",
+      "sketch": "箱座放油孔",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "dohc",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "箱座放油孔",
+      "note": "沿 Z 双向贯穿（穿 +Z 端壁）"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        104.0,
+        82.76400000000001,
+        230.0
+      ],
+      "tol_mm": 0.6,
+      "note": "[104, 82.764, 230]（油标/放油凸台各外伸 5，短于法兰外伸 25 ⇒ 不影响）"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 43.0,
+      "tol": 0.05,
+      "note": "最大圆柱面 = 座外圆 R43"
+    },
+    {
+      "id": "m6",
+      "op": "check_mass",
+      "expect_volume_mm3": 527875.617,
+      "vol_tol": 0.01,
+      "note": "闭体积解析 ≈ 527876mm³（参照 566713）。★ 容差 5% → **1%**（2026-10-04）：v_boss 改数值积分后真机只差 **0.15%**，5% 是拿容差盖解析误差，不是模型精度"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/1-housing_base-104x82.764x230.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "wall_t_mm": 6.0,
+    "bx": 52.0,
+    "lz": 230.0,
+    "bottom_t_mm": 10.0,
+    "body_z_mm": [
+      0.0,
+      180.0
+    ],
+    "axes_z_mm": [
+      65.0,
+      135.0
+    ],
+    "bores": [
+      {
+        "axis_z": 65.0,
+        "r": 23.5,
+        "boss_r": 37.0,
+        "cbore_Ø": 55.0
+      },
+      {
+        "axis_z": 135.0,
+        "r": 31.0,
+        "boss_r": 43.0,
+        "cbore_Ø": 70.0
+      }
+    ],
+    "boss_len_mm": 26.0,
+    "analytic_volume_mm3": 527875.617,
+    "reference_volume_mm3": 566713.269,
+    "analytic_vs_ref_pct": -6.853
+  }
+}

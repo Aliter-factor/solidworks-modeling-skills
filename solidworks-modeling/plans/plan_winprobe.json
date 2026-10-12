@@ -1,0 +1,26 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "翼窗体积差异决定性探针：在真壳上开干净矩形（对比 2×面积×3mm）",
+    "units": "mm",
+    "note": "打开已保存的真壳（s4_shell，未开窗），在 Top 面上开一个 400×300 的干净矩形窗（沿 Y 双贯穿）。若 Δ≈-720000 则壳/切除语义正确、翼窗多边形解析有问题；若 Δ≈-1.0e6 则真壳在窗区沿 Y 的'厚度'大于 3mm。"
+  },
+  "params": {"out": "D:/out"},
+  "steps": [
+    {"id": "open_shell", "op": "open", "path": "D:/out/crh380cl_nose_s4_shell.SLDPRT",
+     "note": "★ 依赖 §142 修复：open 已有实体 ⇒ 推断 has_feature"},
+    {"id": "base", "op": "check_volume_delta", "note": "记基准（expect 省略）"},
+    {"id": "p_top", "op": "select_plane", "plane": "Top"},
+    {"id": "sb", "op": "sketch_begin"},
+    {"id": "rect", "op": "polyline",
+     "points": [[3800.0, -1850.0], [4200.0, -1850.0], [4200.0, -1550.0], [3800.0, -1550.0]],
+     "closed": true,
+     "note": "草图局部 (u,v)=(x,-z)；即 (x∈[3800,4200], z∈[1550,1850])"},
+    {"id": "se", "op": "sketch_end", "name": "PROBE_RECT"},
+    {"id": "cut_rect", "op": "extrude_cut", "profile": "PROBE_RECT",
+     "end_cond": "swEndCondThroughAllBoth", "both_directions": true, "name": "RECT_CUT"},
+    {"id": "v_rect", "op": "check_volume_delta", "expect_mm3": -720000.0, "tol_mm3": 72000.0,
+     "note": "2 壁 × 400×300 × 3mm = 720000"},
+    {"id": "sv", "op": "save_as", "path": "D:/out/winprobe_rect.SLDPRT", "overwrite": true}
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "六角头螺栓 M8x65",
+    "units": "mm",
+    "note": "头部用六边形拉伸+30°倒角；螺纹用装饰螺纹线，不画牙"
+  },
+  "params": {
+    "s": 13.0,
+    "k": 5.3,
+    "L": 65.0,
+    "head_h": 5.3,
+    "d": 8.0
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "hex",
+      "op": "polygon",
+      "n": 6,
+      "r": "{{ params.s/2/cos(pi/6) }}"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end"
+    },
+    {
+      "id": "h1",
+      "op": "extrude_boss",
+      "depth": "{{ params.k }}",
+      "name": "Head"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cd",
+      "op": "circle",
+      "d": "{{ params.d }}"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end"
+    },
+    {
+      "id": "h2",
+      "op": "extrude_boss",
+      "depth": "{{ params.L }}",
+      "end_cond": "swEndCondBlind",
+      "reverse_dir": false,
+      "name": "Shank"
+    },
+    {
+      "id": "v1",
+      "op": "check_feature_count",
+      "min": 3
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "D:\\out\\bolt.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "schema": "yoyo.swnames/1",
+  "primary": "cn",
+  "note": "特征/草图/基准轴自动名的唯一权威表。中英双向。cn 侧模板来自 SW2024 中文界面地面真值 —— 由 C:/学习软件/一级减速器 36 件 + 5-螺钉M3x22 实扫得到，不是猜的。",
+  "source_proof": {
+    "scan": "assets/reducer/reference.json（36 件真实零件）",
+    "single": "assets/review/ref_screw_m3x22.json（5-螺钉M3x22 特征链 26 项）",
+    "observed_cn": [
+      "草图1", "草图9", "草图13", "旋转2", "切除-拉伸1", "凸台-拉伸3",
+      "倒角2", "螺纹线1"
+    ],
+    "observed_types": [
+      "ProfileFeature", "BaseBody", "Cut", "Revolution", "Extrusion", "Boss",
+      "Chamfer", "Fillet", "SweepThread", "HoleWzd", "MirrorPattern", "CirPattern",
+      "Rib", "Shell", "Blend", "RevCut", "Sweep", "ICE"
+    ]
+  },
+  "languages": {
+    "chinese-simplified": "cn",
+    "chinese-traditional": "cn",
+    "english": "en",
+    "german": "de",
+    "french": "fr",
+    "spanish": "es",
+    "italian": "it",
+    "japanese": "ja",
+    "korean": "ko",
+    "portuguese": "pt",
+    "russian": "ru",
+    "czech": "cs",
+    "polish": "pl",
+    "turkish": "tr",
+    "hungarian": "hu"
+  },
+  "lang_label": {
+    "cn": "中文",
+    "en": "English"
+  },
+  "type_to_kind": {
+    "ProfileFeature": "sketch",
+    "Sketch": "sketch",
+    "Extrusion": "extrude_boss",
+    "Boss": "extrude_boss",
+    "Cut": "extrude_cut",
+    "RevCut": "revolve_cut",
+    "Revolution": "revolve_boss",
+    "Fillet": "fillet",
+    "Chamfer": "chamfer",
+    "Shell": "shell",
+    "CirPattern": "circular_pattern",
+    "LPattern": "linear_pattern",
+    "MirrorPattern": "mirror",
+    "Sweep": "sweep",
+    "SweepThread": "thread",
+    "HoleWzd": "hole_wizard",
+    "Rib": "rib",
+    "Blend": "blend",
+    "RefAxis": "axis",
+    "Axis": "axis",
+    "RefPlane": "plane",
+    "BaseBody": "body"
+  },
+  "kinds": {
+    "sketch": {
+      "cn": "草图{n}",
+      "en": "Sketch{n}",
+      "desc": "草图（类型名 ProfileFeature，不是 Sketch）"
+    },
+    "extrude_boss": {
+      "cn": "凸台-拉伸{n}",
+      "en": "Boss-Extrude{n}",
+      "desc": "拉伸凸台"
+    },
+    "extrude_cut": {
+      "cn": "切除-拉伸{n}",
+      "en": "Cut-Extrude{n}",
+      "desc": "拉伸切除。注意 GetTypeName2 可能回 ICE"
+    },
+    "revolve_boss": {
+      "cn": "旋转{n}",
+      "en": "Revolve{n}",
+      "desc": "旋转凸台"
+    },
+    "revolve_cut": {
+      "cn": "旋转切除{n}",
+      "en": "Cut-Revolve{n}",
+      "desc": "旋转切除（类型名 RevCut）"
+    },
+    "fillet": {
+      "cn": "圆角{n}",
+      "en": "Fillet{n}"
+    },
+    "chamfer": {
+      "cn": "倒角{n}",
+      "en": "Chamfer{n}"
+    },
+    "shell": {
+      "cn": "抽壳{n}",
+      "en": "Shell{n}"
+    },
+    "circular_pattern": {
+      "cn": "圆周阵列{n}",
+      "en": "CirPattern{n}"
+    },
+    "linear_pattern": {
+      "cn": "线性阵列{n}",
+      "en": "LPattern{n}"
+    },
+    "mirror": {
+      "cn": "镜像{n}",
+      "en": "Mirror{n}"
+    },
+    "sweep": {
+      "cn": "扫描{n}",
+      "en": "Sweep{n}"
+    },
+    "thread": {
+      "cn": "螺纹线{n}",
+      "en": "Thread{n}",
+      "desc": "★ 需求 5：真实螺纹线（SweepThread），不是装饰螺纹线"
+    },
+    "hole_wizard": {
+      "cn": "异型孔向导{n}",
+      "en": "HoleWzd{n}"
+    },
+    "rib": {
+      "cn": "筋{n}",
+      "en": "Rib{n}"
+    },
+    "blend": {
+      "cn": "放样{n}",
+      "en": "Loft{n}"
+    },
+    "axis": {
+      "cn": "基准轴{n}",
+      "en": "Axis{n}",
+      "desc": "参考基准轴（类型名 RefAxis）"
+    },
+    "plane": {
+      "cn": "基准面{n}",
+      "en": "Plane{n}"
+    },
+    "body": {
+      "cn": "实体{n}",
+      "en": "Body{n}",
+      "desc": "导入/注入的实体"
+    }
+  },
+  "default_planes": {
+    "front": {
+      "cn": "前视基准面",
+      "en": "Front Plane",
+      "aliases": ["Front", "前视", "前视基准面", "Front Plane"]
+    },
+    "top": {
+      "cn": "上视基准面",
+      "en": "Top Plane",
+      "aliases": ["Top", "上视", "上视基准面", "Top Plane"]
+    },
+    "right": {
+      "cn": "右视基准面",
+      "en": "Right Plane",
+      "aliases": ["Right", "右视", "右视基准面", "Right Plane"]
+    },
+    "origin": {
+      "cn": "原点",
+      "en": "Origin",
+      "aliases": ["Origin", "原点"]
+    }
+  },
+  "never_rename": {
+    "FavoriteFolder": "收藏",
+    "HistoryFolder": "历史记录",
+    "SelectionSetFolder": "选择集",
+    "SensorFolder": "传感器",
+    "DocsFolder": "设计活页夹",
+    "DetailCabinet": "注解",
+    "InkMarkupFolder": "标注",
+    "EnvFolder": "光源与相机",
+    "SolidBodyFolder": "实体",
+    "SurfaceBodyFolder": "曲面实体",
+    "CommentsFolder": "备注",
+    "EqnFolder": "方程式",
+    "MaterialFolder": "材质（名字随材质变，别动）",
+    "ConfigTableFolder": "Tables",
+    "OriginProfileFeature": "原点",
+    "History": "历史记录",
+    "Sensor": "传感器"
+  }
+}

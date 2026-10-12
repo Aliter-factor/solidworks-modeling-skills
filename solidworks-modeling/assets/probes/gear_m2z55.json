@@ -1,0 +1,131 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 gear_m2z55：减速器大齿轮 m=2 z=55（参照件 33-齿轮-m=2,z=55.SLDPRT 的真实结构）。渐开线齿廓一次成形 → 齿圈 Ø94-Ø114 × 26 → 两面各挖 8.5 深环形凹槽（留辐板 9）→ 轮毂 Ø48 贯穿 → 中心孔 Ø32 走智能尺寸 + 完全定义 → 键槽 10×3.3（GB/T 1096 对 Ø32 轴，键 10x8）。期望 da=114 / df=105 / df 来自渐开线，不是画的圆。",
+    "units": "mm"
+  },
+  "params": {
+    "m": 2,
+    "z": 55,
+    "b": 26,
+    "bore": 32,
+    "rim_id": 94,
+    "hub_od": 48,
+    "recess": 8.5
+  },
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p1", "op": "select_plane", "plane": "Front" },
+    { "id": "s1", "op": "sketch_begin" },
+
+    {
+      "id": "gear",
+      "op": "gear_profile",
+      "mn": "{{ params.m }}",
+      "z": "{{ params.z }}",
+      "mode": "polyline",
+      "n_flank": 6,
+      "n_root": 2,
+      "n_tip": 3,
+      "note": "★ 显式给取样点数，让图元数确定（z=55 → 716 点 / 715 段），后面才对得上账。bore 不在这里画，避免把孔和齿廓放同一张草图。"
+    },
+    { "id": "zf0", "op": "zoom_fit" },
+    { "id": "shot_gear", "op": "screenshot", "path": "{{ params.out }}/probe_gear_m2z55_open.bmp" },
+    { "id": "s2", "op": "sketch_end", "name": "齿廓" },
+    {
+      "id": "cksk1",
+      "op": "check_sketch",
+      "sketch": "齿廓",
+      "note": "★ 必须放在 sketch_end **之后**：check_sketch 只能按名字走 FeatureByName 读已闭合的草图，草图还开着的时候它拿不到名字、也没有 last_sketch。期望 715 图元 / 1 个轮廓 —— 齿廓必须是**一个**闭合轮廓。"
+    },
+    { "id": "boss", "op": "extrude_boss", "depth": "{{ params.b }}", "name": "齿圈体" },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [114, 114, 26],
+      "tol": 0.15,
+      "note": "★ da=114 由渐开线采样得到：z=55 时没有一个齿正落在 X/Y 轴上，所以实测 113.99 / 113.95 而不是整 114 —— 参照件也是 113.976 / 113.973，同一现象。"
+    },
+
+    { "id": "p2", "op": "select_plane", "plane": "Front" },
+    { "id": "s3", "op": "sketch_begin" },
+    {
+      "id": "bore",
+      "op": "circle",
+      "cx": 0,
+      "cy": 0,
+      "d": "{{ params.bore }}"
+    },
+    {
+      "id": "dm",
+      "op": "smart_dim",
+      "allow_sealed": true,
+      "segment": 0,
+      "value": "{{ params.bore }}",
+      "as": "diameter",
+      "anchor": true,
+      "note": "★ 尺寸标注已于 2026-10-02 封存（见 assets/probes/_sealed/README.md）。本条探针的**主题是渐开线齿廓**，中心孔这一条尺寸只是顺带（圆 + 直径，是最简单的那种，不会触发模态框）。显式放行以保住齿廓回归。"
+    },
+    { "id": "cc1", "op": "check_sketch_constraint", "expect": "FullyConstrained" },
+    { "id": "zf1", "op": "zoom_fit" },
+    { "id": "shot_bore", "op": "screenshot", "path": "{{ params.out }}/probe_gear_m2z55_bore_open.bmp" },
+    { "id": "s4", "op": "sketch_end", "name": "中心孔" },
+    { "id": "cut1", "op": "extrude_cut", "end_cond": "swEndCondThroughAll", "name": "中心孔" },
+
+    { "id": "p3", "op": "select_plane", "plane": "Front" },
+    { "id": "s5", "op": "sketch_begin" },
+    { "id": "r1", "op": "circle", "cx": 0, "cy": 0, "d": "{{ params.hub_od }}" },
+    { "id": "r2", "op": "circle", "cx": 0, "cy": 0, "d": "{{ params.rim_id }}" },
+    { "id": "s6", "op": "sketch_end", "name": "凹槽近面" },
+    {
+      "id": "cut2",
+      "op": "extrude_cut",
+      "depth": "{{ params.recess }}",
+      "end_cond": "swEndCondBlind",
+      "name": "凹槽1",
+      "note": "环形凹槽 = 2 个**嵌套**轮廓（Ø48 与 Ø94），这是正常的，不是「拼不成轮廓」。盲切**不给方向**，让方向备选自己试 —— 平面对/反都不怕。"
+    },
+
+    { "id": "po", "op": "plane_offset", "base": "Front", "offset": "{{ params.b }}", "name": "背面" },
+    { "id": "p4", "op": "select_plane", "plane": "背面" },
+    { "id": "s7", "op": "sketch_begin" },
+    { "id": "r3", "op": "circle", "cx": 0, "cy": 0, "d": "{{ params.hub_od }}" },
+    { "id": "r4", "op": "circle", "cx": 0, "cy": 0, "d": "{{ params.rim_id }}" },
+    { "id": "s8", "op": "sketch_end", "name": "凹槽远面" },
+    {
+      "id": "cut3",
+      "op": "extrude_cut",
+      "depth": "{{ params.recess }}",
+      "end_cond": "swEndCondBlind",
+      "name": "凹槽2",
+      "note": "背面凹槽：平面在 Z=26，法向朝外，方向对不对也交给备选试。"
+    },
+
+    { "id": "p5", "op": "select_plane", "plane": "Front" },
+    { "id": "s9", "op": "sketch_begin" },
+    { "id": "kw", "op": "keyway_rect", "bore": "{{ params.bore }}", "spec": "10x3.3" },
+    { "id": "s10", "op": "sketch_end", "name": "键槽" },
+    { "id": "cut4", "op": "extrude_cut", "end_cond": "swEndCondThroughAll", "name": "键槽" },
+
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 47.0,
+      "tol": 0.01,
+      "note": "★ 最大圆柱面半径 = 齿圈内径 Ø94/2 = 47，这正是**两个环形凹槽挖出来的**面。挖浅/挖深/挖错位置这一步就会响。"
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 136.56,
+      "tol": 0.02,
+      "note": "本剖面算出 136555mm³ ⇒ 136.56g（密度 1000）。参照件是 134.37g，差 −1.6%，全部是它的倒角（轮毂/齿圈内缘/孔口 2×45° + 110 条齿棱倒角）——本探针不倒角，故意留着对照。"
+    },
+    { "id": "bb2", "op": "check_bbox", "expect": [114, 114, 26], "tol": 0.15 },
+    { "id": "fc", "op": "check_feature_count", "min": 5 },
+    { "id": "zf2", "op": "zoom_fit" },
+    { "id": "shot", "op": "screenshot", "path": "{{ params.out }}/probe_gear_m2z55.bmp" },
+    { "id": "diag", "op": "check_diagnostics", "fail_on": "error" },
+    { "id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_gear_m2z55.SLDPRT", "overwrite": true }
+  ]
+}

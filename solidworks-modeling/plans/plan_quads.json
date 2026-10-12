@@ -1,0 +1,225 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "矩形四象限拆分",
+    "units": "mm"
+  },
+  "params": {
+    "out": "D:/out"
+  },
+  "steps": [
+    {
+      "id": "open_shell",
+      "op": "open",
+      "path": "D:/out/crh380cl_nose_s4_shell.SLDPRT"
+    },
+    {
+      "id": "base",
+      "op": "check_volume_delta"
+    },
+    {
+      "id": "p0",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb0",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl0",
+      "op": "polyline",
+      "points": [
+        [
+          3800,
+          -1700
+        ],
+        [
+          4000,
+          -1700
+        ],
+        [
+          4000,
+          -1550
+        ],
+        [
+          3800,
+          -1550
+        ]
+      ]
+    },
+    {
+      "id": "se0",
+      "op": "sketch_end",
+      "name": "QA"
+    },
+    {
+      "id": "cut0",
+      "op": "extrude_cut",
+      "profile": "QA",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "QCUTA"
+    },
+    {
+      "id": "d0",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "quad A 3800-4000 z1550-1700"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl1",
+      "op": "polyline",
+      "points": [
+        [
+          4000,
+          -1700
+        ],
+        [
+          4200,
+          -1700
+        ],
+        [
+          4200,
+          -1550
+        ],
+        [
+          4000,
+          -1550
+        ]
+      ]
+    },
+    {
+      "id": "se1",
+      "op": "sketch_end",
+      "name": "QB"
+    },
+    {
+      "id": "cut1",
+      "op": "extrude_cut",
+      "profile": "QB",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "QCUTB"
+    },
+    {
+      "id": "d1",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "quad B 4000-4200 z1550-1700"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb2",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl2",
+      "op": "polyline",
+      "points": [
+        [
+          3800,
+          -1850
+        ],
+        [
+          4000,
+          -1850
+        ],
+        [
+          4000,
+          -1700
+        ],
+        [
+          3800,
+          -1700
+        ]
+      ]
+    },
+    {
+      "id": "se2",
+      "op": "sketch_end",
+      "name": "QC"
+    },
+    {
+      "id": "cut2",
+      "op": "extrude_cut",
+      "profile": "QC",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "QCUTC"
+    },
+    {
+      "id": "d2",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "quad C 3800-4000 z1700-1850"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl3",
+      "op": "polyline",
+      "points": [
+        [
+          4000,
+          -1850
+        ],
+        [
+          4200,
+          -1850
+        ],
+        [
+          4200,
+          -1700
+        ],
+        [
+          4000,
+          -1700
+        ]
+      ]
+    },
+    {
+      "id": "se3",
+      "op": "sketch_end",
+      "name": "QD"
+    },
+    {
+      "id": "cut3",
+      "op": "extrude_cut",
+      "profile": "QD",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "QCUTD"
+    },
+    {
+      "id": "d3",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "quad D 4000-4200 z1700-1850"
+    }
+  ]
+}

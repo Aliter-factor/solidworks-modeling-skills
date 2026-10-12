@@ -1,0 +1,27 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 smart_dim_line：① as=radius 的半径语义（R15 的圆标出来还是 Ø30，不是 Ø15）② 直线分支的自动放置（中点+法向偏移）—— 用**构造中心线**测，它不参与轮廓，所以拉伸结果只由圆决定（包围盒 30×30×8）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p1", "op": "select_plane", "plane": "Front" },
+    { "id": "s1", "op": "sketch_begin" },
+    { "id": "c1", "op": "circle", "cx": 0, "cy": 0, "r": 15 },
+    { "id": "dm0", "op": "smart_dim", "segment": 0, "value": 15, "as": "radius" },
+    { "id": "cl", "op": "centerline", "x1": -25, "y1": 25, "x2": 25, "y2": 25 },
+    { "id": "dm1", "op": "smart_dim", "segment": 1, "value": 50, "as": "length" },
+    { "id": "cc", "op": "check_sketch_constraint", "expect": "UnderConstrained" },
+    { "id": "zf0", "op": "zoom_fit" },
+    { "id": "shot_open", "op": "screenshot", "path": "{{ params.out }}/probe_smart_dim_line_open.bmp" },
+    { "id": "s2", "op": "sketch_end", "name": "MixedSk" },
+    { "id": "e1", "op": "extrude_boss", "depth": 8, "name": "Pad" },
+    { "id": "bb", "op": "check_bbox", "expect": [30, 30, 8], "tol": 0.05 },
+    { "id": "ld", "op": "list_dimensions" },
+    { "id": "zf", "op": "zoom_fit" },
+    { "id": "shot", "op": "screenshot", "path": "{{ params.out }}/probe_smart_dim_line.bmp" },
+    { "id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_smart_dim_line.SLDPRT", "overwrite": true }
+  ]
+}

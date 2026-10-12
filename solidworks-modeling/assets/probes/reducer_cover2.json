@@ -1,0 +1,138 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "端盖2（cover2，闷盖半剖面回转）",
+    "units": "mm",
+    "note": "尺寸来自 reducer.params.json::parts.cover2，不硬编码",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 7.0,
+      "y2": 0.0
+    },
+    {
+      "id": "prof",
+      "op": "polyline",
+      "points": [
+        [
+          0.0,
+          15.5
+        ],
+        [
+          0.0,
+          27.0
+        ],
+        [
+          3.0,
+          27.0
+        ],
+        [
+          3.0,
+          23.5
+        ],
+        [
+          7.0,
+          23.5
+        ],
+        [
+          7.0,
+          0.0
+        ],
+        [
+          3.0,
+          0.0
+        ],
+        [
+          3.0,
+          15.5
+        ]
+      ],
+      "close": true,
+      "note": "法兰 Ø54/孔 Ø31/3 + 实心凸台 Ø47/4"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "端盖2半剖面"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch_constraint",
+      "sketch": "端盖2半剖面",
+      "expect_min_dims": 0,
+      "note": "★ 尺寸标注已封存 ⇒ 不校验尺寸条数，只记录约束状态；几何正确性由 check_bbox / check_mass 兜"
+    },
+    {
+      "id": "rev",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "端盖2"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        7.0,
+        54.0,
+        54.0
+      ],
+      "tol": 0.05,
+      "note": "与参照件 22-端盖2.SLDPRT 的包围盒一致（[7, 54, 54]）"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 27.0,
+      "tol": 0.01
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 11.5461,
+      "tol": 0.02,
+      "note": "π/4(Df²−di²)tf + π/4·Ds²·ts —— 孔与凸台对不对，靠这条兜底"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/22-cover-54x31x7.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "Df": 54.0,
+    "di": 31.0,
+    "tf": 3.0,
+    "Ds": 47.0,
+    "ts": 4.0,
+    "L": 7.0,
+    "ri": 15.5,
+    "rs": 23.5,
+    "ro": 27.0,
+    "analytic_volume_mm3": 11546.138400105887
+  }
+}

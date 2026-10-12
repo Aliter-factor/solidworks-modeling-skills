@@ -1,0 +1,113 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 rib：L 形支座加强筋",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "w",
+      "op": "rect_corner",
+      "x1": -20,
+      "y1": 0,
+      "x2": 0,
+      "y2": 30
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "WallSk"
+    },
+    {
+      "id": "ew",
+      "op": "extrude_boss",
+      "depth": 30,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Wall"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "b",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 0,
+      "x2": 20,
+      "y2": 5
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "BaseSk"
+    },
+    {
+      "id": "eb",
+      "op": "extrude_boss",
+      "depth": 30,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Base"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ln",
+      "op": "line",
+      "x1": 0,
+      "y1": 25,
+      "x2": 15,
+      "y2": 5
+    },
+    {
+      "id": "s6",
+      "op": "sketch_end",
+      "name": "RibSk"
+    },
+    {
+      "id": "rb",
+      "op": "rib",
+      "sketch": "RibSk",
+      "thickness": 6,
+      "both_sides": true,
+      "name": "Rib1"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_rib.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

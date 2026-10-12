@@ -1,0 +1,70 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 sk_mirror：草图镜像（自动取中心线，镜像后拉伸）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": 0,
+      "y1": -30,
+      "x2": 0,
+      "y2": 30
+    },
+    {
+      "id": "r",
+      "op": "rect_corner",
+      "x1": 3,
+      "y1": -6,
+      "x2": 20,
+      "y2": 6
+    },
+    {
+      "id": "m",
+      "op": "sk_mirror"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "MirrorSk"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 10,
+      "end_cond": "swEndCondMidPlane",
+      "name": "MirrorBody"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_sk_mirror.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

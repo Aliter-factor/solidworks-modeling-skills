@@ -1,0 +1,115 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 naming_cn：语言检测 → 自动名（草图1/凸台-拉伸1）→ 模拟英文界面残留 Sketch1 → normalize_names 统一回中文 → 改名后模型完好（包围盒/体积不变）+ 尺寸仍可驱动",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "lang0",
+      "op": "check_language",
+      "expect": "cn"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 0,
+      "x2": 40,
+      "y2": 30
+    },
+    {
+      "id": "fd",
+      "op": "fully_define",
+      "allow_sealed": true,
+      "note": "★ 尺寸标注已于 2026-10-02 封存（见 assets/probes/_sealed/README.md）；本条探针的**主题是语言/命名**，fully_define 只是它的前置动作（先在草图里造出尺寸，好验改名后尺寸仍可驱动）。小样本矩形不会触发 SW 的模态确认框，故显式放行。"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [40, 30, 10],
+      "tol": 0.05
+    },
+    {
+      "id": "m0",
+      "op": "check_mass"
+    },
+    {
+      "id": "rn",
+      "op": "set_feature_name",
+      "feature": "草图1",
+      "new_name": "Sketch1"
+    },
+    {
+      "id": "norm",
+      "op": "normalize_names",
+      "primary": "cn"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [40, 30, 10],
+      "tol": 0.05
+    },
+    {
+      "id": "m1",
+      "op": "check_mass"
+    },
+    {
+      "id": "ld",
+      "op": "list_dimensions"
+    },
+    {
+      "id": "sd",
+      "op": "set_dimension",
+      "sketch": "草图1",
+      "index": 0,
+      "value": 60
+    },
+    {
+      "id": "bb2",
+      "op": "check_bbox",
+      "expect": [60, 30, 10],
+      "tol": 0.05
+    },
+    {
+      "id": "lang1",
+      "op": "check_language",
+      "expect": "cn"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_naming_cn.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

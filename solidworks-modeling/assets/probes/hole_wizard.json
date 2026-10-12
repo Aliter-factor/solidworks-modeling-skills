@@ -1,0 +1,111 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 hole_wizard：国标螺栓过孔（孔位点选在实体面上，一次两个孔，完全贯穿）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r",
+      "op": "rect_center",
+      "w": 60,
+      "h": 40
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "PlateSk"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 15,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Plate"
+    },
+    {
+      "id": "f",
+      "op": "select_face",
+      "point": [
+        0,
+        20,
+        0
+      ],
+      "type": "FACE"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt",
+      "op": "point",
+      "points": [
+        [
+          -15,
+          0
+        ],
+        [
+          15,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "HolePosSk"
+    },
+    {
+      "id": "hw",
+      "op": "hole_wizard",
+      "points": [
+        [
+          -15,
+          20,
+          0
+        ],
+        [
+          15,
+          20,
+          0
+        ]
+      ],
+      "standard": "swStandardGB",
+      "fastener": "swStandardGBScrewClearances",
+      "size": "M8",
+      "end_type": "swEndCondThroughAll",
+      "name": "Hole1",
+      "generic": "swWzdHole"
+    },
+    {
+      "id": "v",
+      "op": "check_bbox"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_hole_wizard.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

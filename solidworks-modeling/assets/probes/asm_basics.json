@@ -1,0 +1,36 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 装配体基础：new_assembly → 插两个组件 → 固定/浮动 → 组件数校验 → 体检 → 存 .SLDASM",
+    "units": "mm",
+    "note": "覆盖 6 个装配体 op（new_assembly / insert_component / fix_component / float_component / check_component_count / inspect_assembly）。**先建一个盒子并存盘**，再插它两次 —— 这样探针不依赖外部零件文件，在任何机器上都能跑。★ 第一个插入的组件默认被固定（SolidWorks 行为），所以 fix_component 对它报 already_ok 而不是失败。"
+  },
+  "params": {},
+  "steps": [
+    {"id": "np", "op": "new_part"},
+    {"id": "pl", "op": "select_plane", "plane": "Front"},
+    {"id": "s1", "op": "sketch_begin"},
+    {"id": "r1", "op": "rect_corner", "x1": 0, "y1": 0, "x2": 40, "y2": 30},
+    {"id": "s2", "op": "sketch_end", "name": "AsmBoxSk"},
+    {"id": "e1", "op": "extrude_boss", "depth": 10, "name": "AsmBox"},
+    {"id": "bb", "op": "check_bbox", "expect": [40, 30, 10], "tol_mm": 0.05},
+    {"id": "sv0", "op": "save_as", "path": "{{ params.out }}/probe_asm_box.SLDPRT",
+     "overwrite": true},
+
+    {"id": "na", "op": "new_assembly"},
+    {"id": "c1", "op": "insert_component", "path": "{{ params.out }}/probe_asm_box.SLDPRT",
+     "x": 0, "y": 0, "z": 0, "name": "地基"},
+    {"id": "c2", "op": "insert_component", "path": "{{ params.out }}/probe_asm_box.SLDPRT",
+     "x": 0, "y": 0, "z": 40, "name": "上块",
+     "note": "放到 z=40 ⇒ 两件之间留 30mm 间隙（XYZ 是**相对零件包围盒中心**的，不是相对原点 ⇒ 地基占 z∈[-5,5]、上块占 z∈[35,45]；两件都按同一规则偏移，**相对间隙不变**）。间隙是故意的：配合前一眼能看出两件是分开的。"},
+    {"id": "cc", "op": "check_component_count", "expect": 2},
+    {"id": "fk", "op": "fix_component", "components": ["地基"],
+     "note": "★ 这里故意写**基名** `地基` —— 组件在 SolidWorks 里的真名是 `地基-1`（带实例号后缀），本 op 会解析成真名。地基已默认固定 ⇒ 报 already_ok；这里要验的是**不会因此失败**。"},
+    {"id": "fl", "op": "float_component", "components": ["上块"],
+     "note": "第二件默认是浮动的 ⇒ 同样报 already_ok（幂等）。"},
+    {"id": "ia", "op": "inspect_assembly", "tree": true,
+     "note": "把组件表 + 完整特征树打出来 —— 这是本探针最有价值的一步。"},
+    {"id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_asm_basics.SLDASM",
+     "overwrite": true}
+  ]
+}

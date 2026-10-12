@@ -1,0 +1,1649 @@
+{
+  "schema": "yoyo.swrefscan/1",
+  "dir": "C:\\学习软件\\一级减速器",
+  "scanned": 36,
+  "elapsed_s": 178.4,
+  "items": [
+    {
+      "name": "1-箱座",
+      "file": "1-箱座.SLDPRT",
+      "size_kb": 726.8,
+      "title": "1-箱座.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        105.908,
+        82.764,
+        230.0
+      ],
+      "volume_mm3": 566713.3,
+      "mass_g": 566.71,
+      "com_mm": [
+        0.0,
+        -4.08,
+        91.81
+      ],
+      "bodies": 1,
+      "features": 69,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 5,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 20,
+        "Extrusion": 1,
+        "Shell": 1,
+        "Cut": 6,
+        "Boss": 6,
+        "Blend": 1,
+        "Rib": 2,
+        "MirrorPattern": 2,
+        "HoleWzd": 6,
+        "CirPattern": 1,
+        "Fillet": 3
+      },
+      "errors": []
+    },
+    {
+      "name": "10-通气塞",
+      "file": "10-通气塞.SLDPRT",
+      "size_kb": 879.9,
+      "title": "10-通气塞.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        35.0,
+        23.0,
+        23.0
+      ],
+      "volume_mm3": 6712.6,
+      "mass_g": 6.71,
+      "com_mm": [
+        0.28,
+        -0.0,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 28,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 4,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 3,
+        "Revolution": 1,
+        "SweepThread": 1,
+        "Cut": 2,
+        "CirPattern": 1,
+        "Fillet": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "11-螺母 M10",
+      "file": "11-螺母 M10.SLDPRT",
+      "size_kb": 428.1,
+      "title": "11-螺母 M10.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        18.841,
+        15.389,
+        9.127
+      ],
+      "volume_mm3": 970.7,
+      "mass_g": 0.97,
+      "com_mm": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 25,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 2,
+        "Extrusion": 1,
+        "Cut": 1,
+        "MirrorPattern": 1,
+        "Chamfer": 1,
+        "SweepThread": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "12-箱盖",
+      "file": "12-箱盖.SLDPRT",
+      "size_kb": 543.3,
+      "title": "12-箱盖.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        230.0,
+        70.112,
+        104.019
+      ],
+      "volume_mm3": 355625.3,
+      "mass_g": 355.63,
+      "com_mm": [
+        12.25,
+        27.29,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 54,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 7,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 15,
+        "Extrusion": 1,
+        "Shell": 1,
+        "Boss": 3,
+        "Blend": 1,
+        "Cut": 4,
+        "Rib": 2,
+        "MirrorPattern": 1,
+        "HoleWzd": 2,
+        "Fillet": 2
+      },
+      "errors": []
+    },
+    {
+      "name": "13-六角头螺栓 M8x65",
+      "file": "13-六角头螺栓 M8x65.SLDPRT",
+      "size_kb": 457.2,
+      "title": "13-六角头螺栓 M8x65.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        19.588,
+        16.0,
+        70.6
+      ],
+      "volume_mm3": 4370.7,
+      "mass_g": 4.37,
+      "com_mm": [
+        -0.0,
+        0.0,
+        27.48
+      ],
+      "bodies": 1,
+      "features": 26,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 3,
+        "Extrusion": 1,
+        "Cut": 1,
+        "Boss": 1,
+        "Chamfer": 1,
+        "SweepThread": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "14-弹簧垫圈 8-伸缩",
+      "file": "14-弹簧垫圈 8-伸缩.SLDPRT",
+      "size_kb": 140.2,
+      "title": "14-弹簧垫圈 8-伸缩.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        12.284,
+        4.984,
+        14.206
+      ],
+      "volume_mm3": 106.3,
+      "mass_g": 0.11,
+      "com_mm": [
+        -0.32,
+        2.56,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 23,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 3,
+        "Sweep": 1,
+        "Cut": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "14-弹簧垫圈 8-压缩",
+      "file": "14-弹簧垫圈 8-压缩.SLDPRT",
+      "size_kb": 108.9,
+      "title": "14-弹簧垫圈 8-压缩.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        13.288,
+        13.286,
+        2.05
+      ],
+      "volume_mm3": 148.1,
+      "mass_g": 0.15,
+      "com_mm": [
+        -0.0,
+        -0.19,
+        1.02
+      ],
+      "bodies": 1,
+      "features": 22,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 2,
+        "Extrusion": 1,
+        "Cut": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "15-螺母 M8-10-2",
+      "file": "15-螺母 M8-10-2.SLDPRT",
+      "size_kb": 401.4,
+      "title": "15-螺母 M8-10-2.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        15.246,
+        12.453,
+        7.506
+      ],
+      "volume_mm3": 513.5,
+      "mass_g": 0.51,
+      "com_mm": [
+        -1.47,
+        2.12,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 25,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 2,
+        "Extrusion": 1,
+        "Cut": 1,
+        "MirrorPattern": 1,
+        "Chamfer": 1,
+        "SweepThread": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "16-螺塞",
+      "file": "16-螺塞.SLDPRT",
+      "size_kb": 302.3,
+      "title": "16-螺塞.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        17.78,
+        14.0,
+        15.0
+      ],
+      "volume_mm3": 1659.8,
+      "mass_g": 1.66,
+      "com_mm": [
+        0.0,
+        1.5,
+        -16.27
+      ],
+      "bodies": 1,
+      "features": 25,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 3,
+        "Revolution": 1,
+        "Boss": 1,
+        "Cut": 1,
+        "SweepThread": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "17-平垫圈 10",
+      "file": "17-平垫圈 10.SLDPRT",
+      "size_kb": 93.9,
+      "title": "17-平垫圈 10.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        22.0,
+        22.0,
+        1.5
+      ],
+      "volume_mm3": 428.3,
+      "mass_g": 0.43,
+      "com_mm": [
+        0.0,
+        -0.0,
+        0.75
+      ],
+      "bodies": 1,
+      "features": 22,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 2,
+        "Extrusion": 1,
+        "Cut": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "18-密封圈",
+      "file": "18-密封圈.SLDPRT",
+      "size_kb": 96.6,
+      "title": "18-密封圈.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        46.0,
+        46.0,
+        4.0
+      ],
+      "volume_mm3": 3820.2,
+      "mass_g": 3.82,
+      "com_mm": [
+        -0.0,
+        0.38,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Extrusion": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "19-端盖1",
+      "file": "19-端盖1.SLDPRT",
+      "size_kb": 164.0,
+      "title": "19-端盖1.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        16.0,
+        68.0,
+        68.0
+      ],
+      "volume_mm3": 24360.5,
+      "mass_g": 24.36,
+      "com_mm": [
+        -4.63,
+        0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 19,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "2-垫片1",
+      "file": "2-垫片1.SLDPRT",
+      "size_kb": 102.5,
+      "title": "2-垫片1.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        34.0,
+        34.0,
+        1.0
+      ],
+      "volume_mm3": 716.3,
+      "mass_g": 0.72,
+      "com_mm": [
+        0.0,
+        -0.0,
+        0.5
+      ],
+      "bodies": 1,
+      "features": 22,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 2,
+        "Extrusion": 1,
+        "Cut": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "20-轴",
+      "file": "20-轴.SLDPRT",
+      "size_kb": 213.6,
+      "title": "20-轴.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        144.0,
+        38.0,
+        38.0
+      ],
+      "volume_mm3": 97573.1,
+      "mass_g": 97.57,
+      "com_mm": [
+        43.49,
+        -0.19,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 25,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 5,
+        "OriginProfileFeature": 1,
+        "ProfileFeature": 3,
+        "Revolution": 1,
+        "Cut": 2
+      },
+      "errors": []
+    },
+    {
+      "name": "21-调整环1",
+      "file": "21-调整环1.SLDPRT",
+      "size_kb": 95.3,
+      "title": "21-调整环1.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        47.0,
+        3.0,
+        47.0
+      ],
+      "volume_mm3": 1979.2,
+      "mass_g": 1.98,
+      "com_mm": [
+        -0.0,
+        -0.15,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "22-端盖2",
+      "file": "22-端盖2.SLDPRT",
+      "size_kb": 97.4,
+      "title": "22-端盖2.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        7.0,
+        54.0,
+        54.0
+      ],
+      "volume_mm3": 11546.1,
+      "mass_g": 11.55,
+      "com_mm": [
+        0.6,
+        -0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "23-齿轮轴",
+      "file": "23-齿轮轴.SLDPRT",
+      "size_kb": 560.6,
+      "title": "23-齿轮轴.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        158.241,
+        33.794,
+        33.922
+      ],
+      "volume_mm3": 55551.0,
+      "mass_g": 55.55,
+      "com_mm": [
+        1.11,
+        -0.06,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 34,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 5,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 5,
+        "Revolution": 1,
+        "Cut": 2,
+        "SweepThread": 1,
+        "Fillet": 4,
+        "CirPattern": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "24-深沟球轴承-6204",
+      "file": "24-深沟球轴承-6204.SLDPRT",
+      "size_kb": 1555.9,
+      "title": "24-深沟球轴承-6204.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        14.0,
+        47.0,
+        47.0
+      ],
+      "volume_mm3": 13851.1,
+      "mass_g": 13.85,
+      "com_mm": [
+        -0.0,
+        -0.0,
+        0.0
+      ],
+      "bodies": 20,
+      "features": 37,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "BaseBody": 20
+      },
+      "errors": []
+    },
+    {
+      "name": "25-挡油环",
+      "file": "25-挡油环.SLDPRT",
+      "size_kb": 107.7,
+      "title": "25-挡油环.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        6.0,
+        44.0,
+        44.0
+      ],
+      "volume_mm3": 3845.1,
+      "mass_g": 3.85,
+      "com_mm": [
+        0.82,
+        0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "26-A型圆形销",
+      "file": "26-A型圆形销.SLDPRT",
+      "size_kb": 153.6,
+      "title": "26-A型圆形销.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        19.0,
+        4.0,
+        4.0
+      ],
+      "volume_mm3": 232.6,
+      "mass_g": 0.23,
+      "com_mm": [
+        3.79,
+        0.0,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "27-六角头螺栓 M8x25",
+      "file": "27-六角头螺栓 M8x25.SLDPRT",
+      "size_kb": 513.0,
+      "title": "27-六角头螺栓 M8x25.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        19.588,
+        16.0,
+        30.6
+      ],
+      "volume_mm3": 2360.1,
+      "mass_g": 2.36,
+      "com_mm": [
+        -0.0,
+        0.0,
+        9.91
+      ],
+      "bodies": 1,
+      "features": 26,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 3,
+        "Extrusion": 1,
+        "Cut": 1,
+        "Boss": 1,
+        "Chamfer": 1,
+        "SweepThread": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "28-端盖3",
+      "file": "28-端盖3.SLDPRT",
+      "size_kb": 140.7,
+      "title": "28-端盖3.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        16.0,
+        53.0,
+        53.0
+      ],
+      "volume_mm3": 17210.3,
+      "mass_g": 17.21,
+      "com_mm": [
+        -4.93,
+        0.0,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 19,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "29-密封圈",
+      "file": "29-密封圈.SLDPRT",
+      "size_kb": 97.9,
+      "title": "29-密封圈.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        33.0,
+        33.0,
+        4.0
+      ],
+      "volume_mm3": 2164.6,
+      "mass_g": 2.16,
+      "com_mm": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Extrusion": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "3-反光片",
+      "file": "3-反光片.SLDPRT",
+      "size_kb": 150.6,
+      "title": "3-反光片.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        4.125,
+        34.0,
+        34.0
+      ],
+      "volume_mm3": 1762.7,
+      "mass_g": 1.76,
+      "com_mm": [
+        14.1,
+        0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 27,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 4,
+        "OriginProfileFeature": 1,
+        "ProfileFeature": 4,
+        "Revolution": 1,
+        "RevCut": 1,
+        "CirPattern": 2,
+        "Cut": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "30-深沟球轴承-6206",
+      "file": "30-深沟球轴承-6206.SLDPRT",
+      "size_kb": 1443.8,
+      "title": "30-深沟球轴承-6206.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        16.0,
+        62.0,
+        62.0
+      ],
+      "volume_mm3": 23915.1,
+      "mass_g": 23.92,
+      "com_mm": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "bodies": 20,
+      "features": 37,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "BaseBody": 20
+      },
+      "errors": []
+    },
+    {
+      "name": "31-端盖4",
+      "file": "31-端盖4.SLDPRT",
+      "size_kb": 95.1,
+      "title": "31-端盖4.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        7.0,
+        68.0,
+        68.0
+      ],
+      "volume_mm3": 17080.8,
+      "mass_g": 17.08,
+      "com_mm": [
+        -11.58,
+        -4.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "32-调整环2",
+      "file": "32-调整环2.SLDPRT",
+      "size_kb": 92.5,
+      "title": "32-调整环2.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        62.0,
+        3.0,
+        62.0
+      ],
+      "volume_mm3": 2686.1,
+      "mass_g": 2.69,
+      "com_mm": [
+        160.88,
+        1.5,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "33-齿轮-m=2,z=55",
+      "file": "33-齿轮-m=2,z=55.SLDPRT",
+      "size_kb": 591.0,
+      "title": "33-齿轮-m=2,z=55.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        113.976,
+        113.973,
+        26.0
+      ],
+      "volume_mm3": 134366.9,
+      "mass_g": 134.37,
+      "com_mm": [
+        0.04,
+        0.18,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 31,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 5,
+        "Extrusion": 1,
+        "Cut": 3,
+        "Chamfer": 3,
+        "MirrorPattern": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "34-套筒",
+      "file": "34-套筒.SLDPRT",
+      "size_kb": 104.1,
+      "title": "34-套筒.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        13.0,
+        37.0,
+        37.0
+      ],
+      "volume_mm3": 4788.6,
+      "mass_g": 4.79,
+      "com_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "bodies": 1,
+      "features": 20,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Revolution": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "35-平键.10x8x22",
+      "file": "35-平键.10x8x22.SLDPRT",
+      "size_kb": 126.4,
+      "title": "35-平键.10x8x22.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        22.0,
+        10.0,
+        8.0
+      ],
+      "volume_mm3": 1574.7,
+      "mass_g": 1.57,
+      "com_mm": [
+        -29.23,
+        -0.51,
+        4.0
+      ],
+      "bodies": 1,
+      "features": 22,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 1,
+        "Extrusion": 1,
+        "Chamfer": 2
+      },
+      "errors": []
+    },
+    {
+      "name": "4-油面透视片",
+      "file": "4-油面透视片.SLDPRT",
+      "size_kb": 225.1,
+      "title": "4-油面透视片.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        34.0,
+        34.0,
+        1.0
+      ],
+      "volume_mm3": 870.2,
+      "mass_g": 0.84,
+      "com_mm": [
+        -0.0,
+        -0.0,
+        0.5
+      ],
+      "bodies": 1,
+      "features": 22,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 2,
+        "Extrusion": 1,
+        "Cut": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "5-螺钉M3x22",
+      "file": "5-螺钉M3x22.SLDPRT",
+      "size_kb": 2146.0,
+      "title": "5-螺钉M3x22.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        24.908,
+        6.006,
+        6.006
+      ],
+      "volume_mm3": 191.7,
+      "mass_g": 0.19,
+      "com_mm": [
+        -4.72,
+        10.36,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 26,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 3,
+        "Revolution": 1,
+        "Cut": 1,
+        "Boss": 1,
+        "Chamfer": 1,
+        "SweepThread": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "6-小盖",
+      "file": "6-小盖.SLDPRT",
+      "size_kb": 123.8,
+      "title": "6-小盖.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        7.0,
+        34.0,
+        34.0
+      ],
+      "volume_mm3": 4806.4,
+      "mass_g": 4.81,
+      "com_mm": [
+        -7.36,
+        -0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 22,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ProfileFeature": 2,
+        "Revolution": 1,
+        "RevCut": 1,
+        "CirPattern": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "7-垫片2",
+      "file": "7-垫片2.SLDPRT",
+      "size_kb": 82.3,
+      "title": "7-垫片2.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        46.0,
+        46.0,
+        2.0
+      ],
+      "volume_mm3": 2587.0,
+      "mass_g": 2.59,
+      "com_mm": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 19,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ProfileFeature": 1,
+        "Extrusion": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "8-窥视孔盖",
+      "file": "8-窥视孔盖.SLDPRT",
+      "size_kb": 84.5,
+      "title": "8-窥视孔盖.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        46.0,
+        46.0,
+        3.0
+      ],
+      "volume_mm3": 5947.4,
+      "mass_g": 5.95,
+      "com_mm": [
+        -0.0,
+        -0.0,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 19,
+      "feat_types": {
+        "CommentsFolder": 1,
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "SurfaceBodyFolder": 1,
+        "SolidBodyFolder": 1,
+        "EnvFolder": 1,
+        "InkMarkupFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ProfileFeature": 1,
+        "Extrusion": 1
+      },
+      "errors": []
+    },
+    {
+      "name": "9-螺钉M3x10",
+      "file": "9-螺钉M3x10.SLDPRT",
+      "size_kb": 634.8,
+      "title": "9-螺钉M3x10.SLDPRT",
+      "configs": [
+        "默认"
+      ],
+      "bbox_mm": [
+        12.908,
+        6.006,
+        6.006
+      ],
+      "volume_mm3": 108.8,
+      "mass_g": 0.11,
+      "com_mm": [
+        -10.3,
+        10.36,
+        0.0
+      ],
+      "bodies": 1,
+      "features": 26,
+      "feat_types": {
+        "FavoriteFolder": 1,
+        "HistoryFolder": 1,
+        "SelectionSetFolder": 1,
+        "SensorFolder": 1,
+        "DocsFolder": 1,
+        "DetailCabinet": 1,
+        "InkMarkupFolder": 1,
+        "EnvFolder": 1,
+        "SolidBodyFolder": 1,
+        "SurfaceBodyFolder": 1,
+        "CommentsFolder": 1,
+        "EqnFolder": 1,
+        "MaterialFolder": 1,
+        "RefPlane": 3,
+        "OriginProfileFeature": 1,
+        "ConfigTableFolder": 1,
+        "ProfileFeature": 3,
+        "Revolution": 1,
+        "Cut": 1,
+        "Boss": 1,
+        "Chamfer": 1,
+        "SweepThread": 1
+      },
+      "errors": []
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 dims：Ø30 圆盘标注（圆的沿 X 尺寸=直径）→ set_dimension 改到 Ø40 → 包围盒 30→40，另含 list_dimensions / check_mass / 自定义属性 / zoom_fit",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "cx": 0,
+      "cy": 0,
+      "r": 15
+    },
+    {
+      "id": "dm",
+      "op": "dimension",
+      "segment": 0,
+      "value": 30,
+      "axis": "auto"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "DiscSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "name": "Disc"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [
+        30,
+        30,
+        10
+      ],
+      "tol": 0.05
+    },
+    {
+      "id": "ld",
+      "op": "list_dimensions"
+    },
+    {
+      "id": "sd",
+      "op": "set_dimension",
+      "sketch": "DiscSk",
+      "index": 0,
+      "value": 40
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [
+        40,
+        40,
+        10
+      ],
+      "tol": 0.05
+    },
+    {
+      "id": "mass",
+      "op": "check_mass"
+    },
+    {
+      "id": "scp",
+      "op": "set_custom_property",
+      "name": "代号",
+      "value": "TEST-01"
+    },
+    {
+      "id": "zf",
+      "op": "zoom_fit"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_dims.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

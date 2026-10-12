@@ -1,0 +1,56 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 material：指定材料",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r",
+      "op": "rect_center",
+      "w": 20,
+      "h": 20
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BaseSk"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 5,
+      "name": "Body1"
+    },
+    {
+      "id": "m",
+      "op": "material",
+      "name": "普通碳钢"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_material.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

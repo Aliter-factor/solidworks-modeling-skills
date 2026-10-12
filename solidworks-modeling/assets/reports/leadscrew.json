@@ -1,0 +1,341 @@
+{
+  "schema": "yoyo.swplan/1",
+  "steps": 23,
+  "executed": 23,
+  "failed": null,
+  "log": [
+    {
+      "id": "n",
+      "op": "new_part",
+      "params": {},
+      "ok": true,
+      "seconds": 1.876,
+      "result": {
+        "title": "零件6"
+      }
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "params": {
+        "plane": "Front"
+      },
+      "ok": true,
+      "seconds": 0.053,
+      "result": {
+        "selected": "Front"
+      }
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin",
+      "params": {},
+      "ok": true,
+      "seconds": 0.073,
+      "result": {}
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "params": {
+        "d": "{{ params.dj }}"
+      },
+      "ok": true,
+      "seconds": 0.015,
+      "result": {
+        "r": 9.0
+      }
+    },
+    {
+      "id": "e1",
+      "op": "sketch_end",
+      "params": {},
+      "ok": true,
+      "seconds": 0.961,
+      "result": {
+        "sketches": 19,
+        "sketch": "草图1",
+        "contours": 1
+      }
+    },
+    {
+      "id": "x1",
+      "op": "extrude_boss",
+      "params": {
+        "depth": "{{ params.Lthread + 2 * params.Lj }}",
+        "end_cond": "swEndCondMidPlane",
+        "name": "ShaftBody"
+      },
+      "ok": true,
+      "seconds": 0.413,
+      "result": {
+        "feature": "ShaftBody",
+        "depth": 280.0,
+        "variant": "主方案",
+        "notes": null
+      }
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "params": {
+        "plane": "Front"
+      },
+      "ok": true,
+      "seconds": 0.529,
+      "result": {
+        "selected": "Front"
+      }
+    },
+    {
+      "id": "rp",
+      "op": "ref_plane",
+      "params": {
+        "offset": "{{ params.Lthread / 2 }}",
+        "flip": true,
+        "name": "螺纹起点面"
+      },
+      "ok": true,
+      "seconds": 3.24,
+      "result": {
+        "plane": "螺纹起点面",
+        "offset": 100.0
+      }
+    },
+    {
+      "id": "s2",
+      "op": "sketch_begin",
+      "params": {},
+      "ok": true,
+      "seconds": 0.255,
+      "result": {}
+    },
+    {
+      "id": "c2",
+      "op": "circle",
+      "params": {
+        "d": "{{ params.d }}"
+      },
+      "ok": true,
+      "seconds": 0.015,
+      "result": {
+        "r": 12.0
+      }
+    },
+    {
+      "id": "e2",
+      "op": "sketch_end",
+      "params": {},
+      "ok": true,
+      "seconds": 1.751,
+      "result": {
+        "sketches": 22,
+        "sketch": "草图2",
+        "contours": 1
+      }
+    },
+    {
+      "id": "h1",
+      "op": "helix",
+      "params": {
+        "pitch": "{{ params.P }}",
+        "height": "{{ params.Lthread }}",
+        "name": "螺纹线"
+      },
+      "ok": true,
+      "seconds": 3.535,
+      "result": {
+        "helix": "螺纹线",
+        "pitch": 5.0,
+        "height": 200.0,
+        "revolution": 0.0
+      }
+    },
+    {
+      "id": "x2",
+      "op": "extrude_boss",
+      "params": {
+        "depth": "{{ params.Lthread }}",
+        "end_cond": "swEndCondBlind",
+        "name": "ThreadBlank"
+      },
+      "ok": true,
+      "seconds": 0.375,
+      "result": {
+        "feature": "ThreadBlank",
+        "depth": 200.0,
+        "variant": "主方案",
+        "notes": null
+      }
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "params": {
+        "plane": "上视基准面"
+      },
+      "ok": true,
+      "seconds": 0.026,
+      "result": {
+        "selected": "上视基准面"
+      }
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin",
+      "params": {},
+      "ok": true,
+      "seconds": 0.206,
+      "result": {}
+    },
+    {
+      "id": "pf",
+      "op": "polyline",
+      "params": {
+        "points": [
+          [
+            13.0,
+            98.41506350946109
+          ],
+          [
+            12.0,
+            98.41506350946109
+          ],
+          [
+            9.5,
+            99.08493649053891
+          ],
+          [
+            9.5,
+            100.91506350946109
+          ],
+          [
+            12.0,
+            101.58493649053891
+          ],
+          [
+            13.0,
+            101.58493649053891
+          ]
+        ],
+        "close": true
+      },
+      "ok": true,
+      "seconds": 0.021,
+      "result": {
+        "points": 6,
+        "segments": 6,
+        "closed": true
+      }
+    },
+    {
+      "id": "e3",
+      "op": "sketch_end",
+      "params": {},
+      "ok": true,
+      "seconds": 1.863,
+      "result": {
+        "sketches": 25,
+        "sketch": "草图3",
+        "contours": 1
+      }
+    },
+    {
+      "id": "ks",
+      "op": "check_sketch",
+      "params": {},
+      "ok": true,
+      "seconds": 0.397,
+      "result": {
+        "sketch": "草图3",
+        "segments": 6,
+        "contours": 1,
+        "types": {
+          "LINE": 6
+        },
+        "verdict": "单个闭合轮廓，正常。"
+      }
+    },
+    {
+      "id": "sw1",
+      "op": "cut_swept",
+      "params": {
+        "name": "螺纹"
+      },
+      "ok": true,
+      "seconds": 5.578,
+      "result": {
+        "feature": "螺纹",
+        "profile": "草图3",
+        "path": "螺纹线",
+        "variant": "标准 mark 轮廓1/路径4",
+        "notes": null
+      }
+    },
+    {
+      "id": "rb",
+      "op": "rebuild",
+      "params": {},
+      "ok": true,
+      "seconds": 0.142,
+      "result": {
+        "rebuilt": true
+      }
+    },
+    {
+      "id": "v1",
+      "op": "check_bbox",
+      "params": {
+        "expect": [
+          "{{ params.d }}",
+          "{{ params.d }}",
+          "{{ params.Lthread + 2 * params.Lj }}"
+        ],
+        "tol": 0.6
+      },
+      "ok": true,
+      "seconds": 0.04,
+      "result": {
+        "size_mm": [
+          24.0,
+          24.0,
+          280.0
+        ],
+        "box_m": [
+          -0.012000000000000004,
+          -0.012000000000000004,
+          -0.14,
+          0.012,
+          0.012,
+          0.14
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "op": "check_feature_count",
+      "params": {
+        "min": 4
+      },
+      "ok": true,
+      "seconds": 0.987,
+      "result": {
+        "feature_count": 26,
+        "ok": true
+      }
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "params": {
+        "path": "D:\\out\\leadscrew.SLDPRT"
+      },
+      "ok": true,
+      "seconds": 1.327,
+      "result": {
+        "saved": "D:\\out\\leadscrew.SLDPRT"
+      }
+    }
+  ],
+  "gear_diagnostics": null
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 sk_offset：草图等距（圆向外等距成环）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "d": 20
+    },
+    {
+      "id": "of",
+      "op": "sk_offset",
+      "dist": 5
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "OffsetSk"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 5,
+      "name": "Ring"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_sk_offset.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

@@ -1,0 +1,455 @@
+{
+ "schema": "yoyo.swplan/1",
+ "meta": {
+  "name": "半联轴器 v7（圆柱毛坯方案，按用户对图纠偏重建）",
+  "units": "mm",
+  "note": "v7 结构判定（用户纠偏后重读图纸）：毛坯=整体圆柱Ø50×78；叉口34H8沿X向（耳朵在3/9点方位，板厚8=(50-34)/2，板外侧面=圆柱面，俯视A-A实为水平剖切，视图竖直方向=横向X）；键槽10JS9在12点方位夹在两耳之间（槽底35.30-16=19.3，黄框剖面上下壁9mm连续无槽佐证键槽不在12/6壁上）；R6=板边Y±13到圆柱轮廓的过渡（圆心Z=48、|Y|=19，半圆缺口Z42..48）；R13耳=板端圆耳（耳孔心Z=65=78-13）；R8=叉口左端面(Z=40)与叉口顶/底(Y=±13)圆角，被r16腔开口修缘；Ø13H7沿X贯两板（右视面草图实测映射 u→−Z、v→±Y——2026-10-04 探针:Front凸台+Right面u=70凸台⇒Z跨度85,坑表旧注\"u↔Z\"未钉符号致e5切空气四方案全灭）；Ø10沿X只穿一壁（黄框剖面仅一带缺口）。外廓切除一把刀：外矩形+R6缺口×2−R13耳，草图坐标(u,v)=(Z,−Y)，u向若镜像会被bbox抓住。数值积分(D:/out/_train/coupling/vol_v7.py,0.2mm网格)期望链：153152.6→−32169.9(腔)→−1425.2(键槽)→−33592.0(叉口)→−26058(外廓)→+317(R8)→−2057(Ø13)→−702(Ø10)=57440.54（真机钉值,数值CSG偏差0.07%）。v6教训：①块先建后切，腔才真正贯通Z40（顺序缺陷多840mm³实体塞）②矩形块方案过渡区多方形角材料且耳板呈平板，与图纸圆柱面不符（用户指出『应该是一体的、耳朵是圆形切面出来的』）③R8被腔开口裁剪属正常形态（全尺寸R8球心落在r16腔开口内，几何上不可能）。近似声明：键槽长40=腔深（图纸无长度标注）；未注倒角C1未建；Ø10只穿一壁按黄框剖面判读。"
+ },
+ "params": {
+  "out": "D:/out"
+ },
+ "steps": [
+  {
+   "id": "n",
+   "op": "new_part"
+  },
+  {
+   "id": "p1",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s1",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c1",
+   "op": "circle",
+   "cx": 0,
+   "cy": 0,
+   "d": 50
+  },
+  {
+   "id": "s2",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e1",
+   "op": "extrude_boss",
+   "depth": 78,
+   "end_cond": "swEndCondBlind",
+   "name": "圆柱毛坯Ø50x78"
+  },
+  {
+   "id": "m1",
+   "op": "check_mass",
+   "expect_volume_mm3": 153152.64,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "p2",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s3",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c2",
+   "op": "circle",
+   "cx": 0,
+   "cy": 0,
+   "d": 32
+  },
+  {
+   "id": "s4",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e2",
+   "op": "extrude_cut",
+   "depth": 40,
+   "end_cond": "swEndCondBlind",
+   "reverse_dir": true,
+   "name": "Ø32H8腔深40"
+  },
+  {
+   "id": "m2",
+   "op": "check_mass",
+   "expect_volume_mm3": 120982.73,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "p3",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s5",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "k1",
+   "op": "line",
+   "x1": -5,
+   "y1": 14,
+   "x2": 5,
+   "y2": 14
+  },
+  {
+   "id": "k2",
+   "op": "line",
+   "x1": 5,
+   "y1": 14,
+   "x2": 5,
+   "y2": 19.3
+  },
+  {
+   "id": "k3",
+   "op": "line",
+   "x1": 5,
+   "y1": 19.3,
+   "x2": -5,
+   "y2": 19.3
+  },
+  {
+   "id": "k4",
+   "op": "line",
+   "x1": -5,
+   "y1": 19.3,
+   "x2": -5,
+   "y2": 14
+  },
+  {
+   "id": "s6",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e3",
+   "op": "extrude_cut",
+   "depth": 40,
+   "end_cond": "swEndCondBlind",
+   "reverse_dir": true,
+   "name": "键槽10JS9深3.3(12点方位)"
+  },
+  {
+   "id": "m3",
+   "op": "check_mass",
+   "expect_volume_mm3": 119556.98,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "pf1",
+   "op": "plane_offset",
+   "base": "Front",
+   "offset": 78,
+   "name": "右端面"
+  },
+  {
+   "id": "p4",
+   "op": "select_plane",
+   "plane": "右端面"
+  },
+  {
+   "id": "s7",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "r1",
+   "op": "rect_center",
+   "cx": 0,
+   "cy": 0,
+   "w": 34,
+   "h": 26
+  },
+  {
+   "id": "s8",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e4",
+   "op": "extrude_cut",
+   "depth": 38,
+   "end_cond": "swEndCondBlind",
+   "name": "叉口34H8x26深38"
+  },
+  {
+   "id": "m4",
+   "op": "check_mass",
+   "expect_volume_mm3": 85964.98,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "p5",
+   "op": "select_plane",
+   "plane": "Right"
+  },
+  {
+   "id": "s9",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "o1",
+   "op": "line",
+   "x1": -48,
+   "y1": -30,
+   "x2": -85,
+   "y2": -30
+  },
+  {
+   "id": "o2",
+   "op": "line",
+   "x1": -85,
+   "y1": -30,
+   "x2": -85,
+   "y2": 30
+  },
+  {
+   "id": "o3",
+   "op": "line",
+   "x1": -85,
+   "y1": 30,
+   "x2": -48,
+   "y2": 30
+  },
+  {
+   "id": "o4",
+   "op": "line",
+   "x1": -48,
+   "y1": 30,
+   "x2": -48,
+   "y2": 25
+  },
+  {
+   "id": "o5",
+   "op": "arc3p",
+   "p1": [
+    -48,
+    25
+   ],
+   "p2": [
+    -48,
+    13
+   ],
+   "p3": [
+    -42,
+    19
+   ]
+  },
+  {
+   "id": "o6",
+   "op": "line",
+   "x1": -48,
+   "y1": 13,
+   "x2": -65,
+   "y2": 13
+  },
+  {
+   "id": "o7",
+   "op": "arc3p",
+   "p1": [
+    -65,
+    13
+   ],
+   "p2": [
+    -65,
+    -13
+   ],
+   "p3": [
+    -78,
+    0
+   ]
+  },
+  {
+   "id": "o8",
+   "op": "line",
+   "x1": -65,
+   "y1": -13,
+   "x2": -48,
+   "y2": -13
+  },
+  {
+   "id": "o9",
+   "op": "arc3p",
+   "p1": [
+    -48,
+    -13
+   ],
+   "p2": [
+    -48,
+    -25
+   ],
+   "p3": [
+    -42,
+    -19
+   ]
+  },
+  {
+   "id": "o10",
+   "op": "line",
+   "x1": -48,
+   "y1": -25,
+   "x2": -48,
+   "y2": -30
+  },
+  {
+   "id": "s10",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e5",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondThroughAll",
+   "both_directions": true,
+   "name": "外廓切除(R6缺口+板侧+R13耳)"
+  },
+  {
+   "id": "m5",
+   "op": "check_mass",
+   "expect_volume_mm3": 59902.42,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "f1",
+   "op": "fillet",
+   "r": 8,
+   "edges": [
+    [
+     13,
+     13,
+     40
+    ],
+    [
+     -13,
+     13,
+     40
+    ],
+    [
+     13,
+     -13,
+     40
+    ],
+    [
+     -13,
+     -13,
+     40
+    ]
+   ],
+   "tol": 2,
+   "propagate": false,
+   "material": "add",
+   "name": "R8叉口底圆角"
+  },
+  {
+   "id": "m6",
+   "op": "check_mass",
+   "expect_volume_mm3": 60219.44,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "p6",
+   "op": "select_plane",
+   "plane": "Right"
+  },
+  {
+   "id": "s11",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c3",
+   "op": "circle",
+   "cx": -65,
+   "cy": 0,
+   "d": 13
+  },
+  {
+   "id": "s12",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e6",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondThroughAll",
+   "both_directions": true,
+   "name": "Ø13H7耳孔贯两板"
+  },
+  {
+   "id": "m7",
+   "op": "check_mass",
+   "expect_volume_mm3": 58153.01,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "pf2",
+   "op": "plane_offset",
+   "base": "Right",
+   "offset": 26,
+   "name": "Ø10入口面"
+  },
+  {
+   "id": "p7",
+   "op": "select_plane",
+   "plane": "Ø10入口面"
+  },
+  {
+   "id": "s13",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c4",
+   "op": "circle",
+   "cx": -13,
+   "cy": 0,
+   "d": 10
+  },
+  {
+   "id": "s14",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e7",
+   "op": "extrude_cut",
+   "depth": 12,
+   "end_cond": "swEndCondBlind",
+   "name": "Ø10孔穿一壁"
+  },
+  {
+   "id": "m8",
+   "op": "check_mass",
+   "expect_volume_mm3": 57440.54,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "v1",
+   "op": "check_bbox",
+   "expect": [
+    50,
+    50,
+    78
+   ]
+  },
+  {
+   "id": "v2",
+   "op": "check_cyl_radius",
+   "expect_max": 25,
+   "tol": 0.02
+  },
+  {
+   "id": "v3",
+   "op": "check_mass",
+   "expect_volume_mm3": 57440.54,
+   "vol_tol": 0.002
+  },
+  {
+   "id": "v4",
+   "op": "check_diagnostics"
+  },
+  {
+   "id": "sv",
+   "op": "save_as",
+   "path": "D:/out/coupling_half.SLDPRT",
+   "overwrite": true
+  }
+ ]
+}

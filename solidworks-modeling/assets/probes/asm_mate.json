@@ -1,0 +1,133 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 装配体配合（第一条）：同款盒子两件 → add_mate(重合) → 配合数校验 → 体检",
+    "units": "mm",
+    "note": "覆盖 add_mate / check_mate_count 的**可达部分**。★★ 只建**一条**配合：真机实测（2026-10-03，5 个变体全灭）**同一文档里第二条 CreateMate 必然静默失效** —— 返回 feature 对象、err=None、GetErrorCode=0，但特征树不长节点、配合数不涨；换类型（distance/parallel）/ ForceRebuild3 / sleep / 清选择集都救不回来。那条边界由 `asm_mate2.json`（XFAIL）单独钉住，本探针只保证**做得到的那部分**绿。★★ 两条坐标口径：① `insert_component` 的 XYZ 是**相对零件包围盒中心**的（零件占 x∈[0,40] y∈[0,30] z∈[0,10]，传 z=0 落在 z∈[-5,5]），不是相对原点；② 配合取点写在**装配体全局坐标**里，且 `align` 必须用 `anti_aligned`（法线相反时`aligned` 会把组件**翻转 + 自旋**）。★★ 取点判据是**枚举面 + GetClosestPointOn**，与当前视图无关 —— `SelectByID2` 的相机射线只能选朝向相机的面（§96）。"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "np",
+      "op": "new_part"
+    },
+    {
+      "id": "pl",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 0,
+      "x2": 40,
+      "y2": 30
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "MateBoxSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "name": "MateBox"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        40,
+        30,
+        10
+      ],
+      "tol_mm": 0.05,
+      "note": "先确认零件本体的包围盒 —— 下面所有取点坐标都是在这个坐标系里推出来的。"
+    },
+    {
+      "id": "sv0",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_asm_mate_box.SLDPRT",
+      "overwrite": true
+    },
+    {
+      "id": "na",
+      "op": "new_assembly"
+    },
+    {
+      "id": "c1",
+      "op": "insert_component",
+      "path": "{{ params.out }}/probe_asm_mate_box.SLDPRT",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "name": "地基",
+      "note": "包围盒中心对齐 (0,0,0) ⇒ 实体占 x∈[-20,20] y∈[-15,15] z∈[-5,5]。第一个插入的组件默认被固定。"
+    },
+    {
+      "id": "c2",
+      "op": "insert_component",
+      "path": "{{ params.out }}/probe_asm_mate_box.SLDPRT",
+      "x": 100,
+      "y": 0,
+      "z": 10,
+      "name": "上块",
+      "note": "中心对齐 (100,0,10) ⇒ 实体占 x∈[80,120] y∈[-15,15] **z∈[5,15]**。★ 这个位置是**特意算出来**的：z 方向与地基**刚好贴合**（上块底面 z=5 ≡ 地基顶面 z=5）、x 方向**刚好相隔 60**（80−20=60）。⇒ 两条配合都已满足，**不需要任何组件移动** ⇒ 取点坐标不会被前一条配合带跑。★ x 方向故意偏 100 而不是 0：这样距离配合是**非零**值(60)，不会和「重合」混为一谈（distance=0 测不出东西）。"
+    },
+    {
+      "id": "cc",
+      "op": "check_component_count",
+      "expect": 2
+    },
+    {
+      "id": "m1",
+      "op": "add_mate",
+      "kind": "coincident",
+      "entities": [
+        {
+          "type": "FACE",
+          "point": [
+            0,
+            0,
+            5
+          ]
+        },
+        {
+          "type": "FACE",
+          "point": [
+            100,
+            0,
+            5
+          ]
+        }
+      ],
+      "align": "anti_aligned",
+      "name": "底上重合",
+      "note": "① 地基**上表面** z=+5，取面心 (0,0,5)；② 上块**下表面** z=5，取面心 (100,0,5)。★ x=0 处只有地基、x=100 处只有上块 ⇒ 两个取点**不会互相抢面**。★★ `align` 写 **anti_aligned**：地基上表面法线 +Z、上块下表面法线 −Z 是**相反**的，若强制 `aligned`（同向）求解器会把上块**翻 180°** 并把剩的 2 个转动自由度**随机填**（真机实测翻成 [31.559,-30.322,-5,80,12.712,5]）⇒ 后续取点全部作废。★★ 取点走的是**枚举面 + IFace2.GetClosestPointOn + IEntity.Select4**（与视角无关）：旧的 `SelectByID2` 相机射线**只能选朝向相机的面** —— 默认等轴测视图下上块的 −X 面与 +Y 面**恒选不中**（§96）。返回值里的 `picked` 会写明「哪个组件的哪个面、距点几毫米」，是本步的主要证据。"
+    },
+    {
+      "id": "mc",
+      "op": "check_mate_count",
+      "expect": 1,
+      "note": "★ 配合数**按结构数**（「配合」文件夹的直接子节点）⇒ 不依赖类型名白名单。实际 0 ⇒ 配合没建上（`CreateMate` 静默无操作），用 inspect_assembly 把特征树打出来看。★★ 本探针只建**一条**配合：真机实测**同一文档里第二条 `CreateMate` 必然静默失效**（返回 feature、`err=None`、`GetErrorCode=0`，但新特征=[]、配合数不涨；换类型 / ForceRebuild3 / sleep / 清选择集都救不回来 —— 5 个变体全灭，见 `asm_mate2.json` 与坑表 §96）。"
+    },
+    {
+      "id": "ia",
+      "op": "inspect_assembly",
+      "tree": true,
+      "note": "★ 取证步：组件表 + **完整**特征树（含「配合」文件夹的子特征）。应当看到 `MateGroup` 下面挂着 `MateCoincident`，且两个组件位置没被改（地基 x∈[-20,20]、上块 x∈[80,120]）—— 这验证了 `align=anti_aligned` 零位移、以及新取面路径没有误选到别的组件的面。"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_asm_mate.SLDASM",
+      "overwrite": true
+    }
+  ]
+}

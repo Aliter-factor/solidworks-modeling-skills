@@ -1,0 +1,68 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 dim_auto_shaft：**尺寸链标注**（不是每个尺寸都标）—— 阶梯轴半剖面的图纸标法。手画两级半剖面（6 条轮廓线 + 1 条中心线），revolve 成实体后，dim_auto(chain=auto) 会**自己重进草图**并反推尺寸链：总长 50（只标一次）+ 台阶定位 20 + 各段半径 10/15（即 Ø20/Ø30）。中间的段长（30/5/…）是派生量，**一条都不标** —— 逐段累加会 Σ=总长 而过定义，SW 会静默拒标（老实现 op 报 6 条、模型里只剩 1 条）。闸门 expect_min_dims=4 卡住「至少标上了这套链」，list_dimensions 核对实际尺寸条目。",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p1", "op": "select_plane", "plane": "Front" },
+    { "id": "s1", "op": "sketch_begin" },
+
+    { "id": "l1", "op": "line", "x1": 0, "y1": 0, "x2": 0, "y2": 10, "note": "左端面（竖）" },
+    { "id": "l2", "op": "line", "x1": 0, "y1": 10, "x2": 30, "y2": 10, "note": "Ø20 段母线（到轴距 10）" },
+    { "id": "l3", "op": "line", "x1": 30, "y1": 10, "x2": 30, "y2": 15, "note": "台阶（竖）" },
+    { "id": "l4", "op": "line", "x1": 30, "y1": 15, "x2": 50, "y2": 15, "note": "Ø30 段母线（到轴距 15）" },
+    { "id": "l5", "op": "line", "x1": 50, "y1": 15, "x2": 50, "y2": 0, "note": "右端面（竖）" },
+    { "id": "l6", "op": "line", "x1": 50, "y1": 0, "x2": 0, "y2": 0, "note": "闭合边（就在轴上，到轴距 0 ⇒ 无尺寸可标）" },
+    { "id": "cl", "op": "centerline", "x1": 0, "y1": 0, "x2": 50, "y2": 0, "note": "回转轴（构造几何，dim_auto 会跳过它自己）" },
+
+    { "id": "se", "op": "sketch_end", "name": "半剖面" },
+    { "id": "rev", "op": "revolve_boss", "name": "轴体", "angle": 360,
+      "note": "★ 先转成实体有两个好处：① 圆柱面出来之后 dim_auto 才能判「母线 / 端面」；② 旋转完特征树是「半剖面 → 轴体」，此时已退出 AddToDB，图元可正常选择。" },
+
+    {
+      "id": "da",
+      "op": "dim_auto",
+      "chain": "auto",
+      "note": "★ 不给任何白名单 —— 尺寸链由 op 从几何反推（op 自己会先重进草图）。期望：总长 50 + 台阶定位 20 + 半径 10/15（d_mm 20/30）。"
+    },
+
+    { "id": "zf0", "op": "zoom_fit" },
+    { "id": "shot_open", "op": "screenshot", "path": "{{ params.out }}/probe_dim_auto_shaft_open.bmp", "width": 1800, "height": 560 },
+
+    { "id": "s2", "op": "sketch_end" },
+    {
+      "id": "cc",
+      "op": "check_sketch_constraint",
+      "sketch": "半剖面",
+      "expect_min_dims": 4,
+      "note": "★ 闸门：尺寸链至少 4 条（总长 + 台阶定位 + 2 个半径）。少于 4 说明链式求解没落地。★★ 必须在 `sketch_end` **之后**读（草图开着时尺寸枚举只回 1 个 —— 见坑 §63）。"
+    },
+    { "id": "ld", "op": "list_dimensions" },
+    { "id": "cksk", "op": "check_sketch", "sketch": "半剖面" },
+
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [50, 30, 30],
+      "tol": 0.05,
+      "note": "轮廓照样闭合、几何没被尺寸改坏。"
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 23.5619,
+      "tol": 0.01,
+      "note": "π/4×(20²×30) + π/4×(30²×20) = 23561.94 mm³ ⇒ 23.5619 g。★ 顺带证明「到轴距」标的是**半径**：若被当直径标成 10=Ø10，这一段会变细，质量立刻对不上。"
+    },
+    { "id": "cyl", "op": "check_cyl_radius", "expect_max": 15.0, "tol": 0.01 },
+
+    { "id": "zf", "op": "zoom_fit" },
+    { "id": "zfb", "op": "zoom_fit" },
+    { "id": "shot", "op": "screenshot", "path": "{{ params.out }}/probe_dim_auto_shaft.bmp", "width": 1800, "height": 560 },
+    { "id": "diag", "op": "check_diagnostics", "fail_on": "error" },
+    { "id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_dim_auto_shaft.SLDPRT", "overwrite": true }
+  ]
+}

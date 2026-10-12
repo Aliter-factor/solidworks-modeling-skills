@@ -1,0 +1,165 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "垫片2（gasket2，板+方窗+4孔 一次拉伸）",
+    "units": "mm",
+    "note": "规格来自 reducer.params.json::parts.gasket2（source=measured，sw_inspect + sw_faces + 端面面积反解）；**不硬编码**",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front",
+      "note": "板面 = XY（**Front**，法向 Z）"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": -23.0,
+      "y1": 0.0,
+      "x2": 23.0,
+      "y2": 0.0,
+      "note": "X 向对称中心线（构造线）"
+    },
+    {
+      "id": "cl2",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": -23.0,
+      "x2": 0.0,
+      "y2": 23.0,
+      "note": "Y 向对称中心线（构造线）"
+    },
+    {
+      "id": "out",
+      "op": "rect_corner",
+      "x1": -23.0,
+      "y1": -23.0,
+      "x2": 23.0,
+      "y2": 23.0,
+      "note": "板外形 46×46"
+    },
+    {
+      "id": "win",
+      "op": "rect_corner",
+      "x1": -14.0,
+      "y1": -14.0,
+      "x2": 14.0,
+      "y2": 14.0,
+      "note": "中央方窗 28×28（**端面面积反解**所得，非猜测）"
+    },
+    {
+      "id": "h0",
+      "op": "circle",
+      "cx": -18.0,
+      "cy": 18.0,
+      "d": 3.5,
+      "note": "角孔 Ø3.5 @ (-18,18)"
+    },
+    {
+      "id": "h1",
+      "op": "circle",
+      "cx": 18.0,
+      "cy": 18.0,
+      "d": 3.5,
+      "note": "角孔 Ø3.5 @ (18,18)"
+    },
+    {
+      "id": "h2",
+      "op": "circle",
+      "cx": -18.0,
+      "cy": -18.0,
+      "d": 3.5,
+      "note": "角孔 Ø3.5 @ (-18,-18)"
+    },
+    {
+      "id": "h3",
+      "op": "circle",
+      "cx": 18.0,
+      "cy": -18.0,
+      "d": 3.5,
+      "note": "角孔 Ø3.5 @ (18,-18)"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "垫片2截面"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch_constraint",
+      "sketch": "垫片2截面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态（本图 7 个轮廓）"
+    },
+    {
+      "id": "ex",
+      "op": "extrude_boss",
+      "depth": 2.0,
+      "end_cond": "swEndCondMidPlane",
+      "name": "垫片2",
+      "note": "**7 个轮廓一次拉伸**（外框+方窗+4 孔），与参照件做法一致"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        46.0,
+        46.0,
+        2.0
+      ],
+      "tol": 0.02,
+      "note": "板外形 46×46×2"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_count": 4,
+      "expect_max": 1.75,
+      "tol": 0.01,
+      "note": "**4 个 Ø3.5 通孔** —— 孔数+孔径一起钉住（只看 bbox 抓不到）"
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 2.587,
+      "tol": 0.02,
+      "note": "(L·W − 窗² − 4·π/4·d²)·t = 2587.0310mm³（参照 2587.03）"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/7-gasket2-46x46x2.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "L": 46.0,
+    "W": 46.0,
+    "t": 2.0,
+    "window": 28.0,
+    "hole_d": 3.5,
+    "hole_pitch": [
+      18.0,
+      18.0
+    ],
+    "n_holes": 4,
+    "analytic_volume_mm3": 2587.031,
+    "reference_volume_mm3": 2587.03
+  }
+}

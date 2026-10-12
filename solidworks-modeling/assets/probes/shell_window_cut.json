@@ -1,0 +1,64 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "S5 换路剪裁：曲面加厚成实体壳 + 贯穿挖洞（风挡口），判据 = 体积减少量逐位吻合",
+    "units": "mm",
+    "note": [
+      "背景：曲面剪裁 S12（IFeatureManager.PreTrimSurface）在本机 SW2024 下走不通 ——",
+      "  Pre 会清空选择集、之后任何坐标拾取都失效（见 references/30-pitfalls.md §135④）。",
+      "换路：**先 thicken 成实体壳，再用 extrude_cut 挖洞**。实体侧的选择语义已完全掌握，",
+      "  多一步但确定能走 —— 这就是本探针要锁住的东西。",
+      "",
+      "几何与手算：",
+      "  ① Front 平面 60×40 矩形 → 曲面拉伸 40 ⇒ 方管 X±30 Y±20 Z[0,40]，面积 8000mm²；",
+      "  ② thicken side1 3mm ⇒ 实体壳 **25440mm³**（S0 的回归基准，逐位重现）；",
+      "  ③ Right 平面画 r=10 圆、圆心草图 (-20,0) ⇒ 全局 (Y=0, Z=+20)（管长正中）；",
+      "     「完全贯穿-两者」沿 X 挖穿**两侧壁** ⇒ 去掉 2×π·10²·3 = 1884.9556mm³，",
+      "     剩 **23555.0444mm³**。圆柱轴 ∥ 板法向 ⇒ 去掉量 = πr²t **精确**，不是近似。",
+      "",
+      "★ 圆心为什么写 (-20,0)（2026-10-11 真机标定，_diag/exp_window4.py）：",
+      "  `ISketch.ModelToSketchTransform` 实测**三个基准面的轴映射**——",
+      "    Front: +u→+X  +v→+Y  +n→+Z",
+      "    Top:   +u→+X  +v→-Z  +n→+Y",
+      "    Right: +u→-Z  +v→+Y  +n→+X",
+      "  ⇒ Right 平面上草图 u 对应**全局 -Z**；要 Z=+20 就得写 u=-20。",
+      "  ★★ **别用 `ISketchPoint.X/Y/Z` 去标定** —— 它回的是**草图局部**坐标，",
+      "     三个平面读数一模一样（诊断 3 实测），会把「平面不同」误判成「映射相同」。",
+      "",
+      "★ 本探针顺带锁住的另两条约定：",
+      "  · `surface_extrude` 的 `both_directions` **被忽略**（主方案恒 Sd=True 单向前）",
+      "    ⇒ 曲面**只朝草图平面的一侧长**，圆心/站位必须按实际那一侧算；",
+      "  · `check_bbox` 的 `tol` 是**比例**不是 mm（齿轮上曾松了 100 倍）⇒ 这里一律用 `tol_mm`。"
+    ]
+  },
+  "params": {},
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p", "op": "select_plane", "plane": "Front" },
+    { "id": "sb", "op": "sketch_begin" },
+    { "id": "r", "op": "rect_center", "cx": 0, "cy": 0, "w": 60, "h": 40 },
+    { "id": "se", "op": "sketch_end", "name": "TubeSk" },
+    { "id": "sx", "op": "surface_extrude", "profile": "TubeSk", "depth": 40, "name": "Tube1" },
+    { "id": "bb1", "op": "check_bbox", "expect": [60, 40, 40], "tol_mm": 0.05 },
+    { "id": "b1", "op": "check_body", "expect_sheet": 1, "expect_solid": 0, "expect_area_mm2": 8000 },
+    { "id": "f0", "op": "check_faces", "surfaces": true },
+
+    { "id": "tk", "op": "thicken", "targets": ["Tube1"], "thickness": 3, "direction": "side1", "name": "Wall" },
+    { "id": "b2", "op": "check_body", "expect_sheet": 0, "expect_solid": 1 },
+    { "id": "m1", "op": "check_mass", "expect_volume_mm3": 25440, "vol_tol": 1.0 },
+    { "id": "f1", "op": "check_faces", "surfaces": false },
+
+    { "id": "p2", "op": "select_plane", "plane": "Right" },
+    { "id": "sb2", "op": "sketch_begin" },
+    { "id": "c1", "op": "circle", "cx": -20, "cy": 0, "r": 10 },
+    { "id": "se2", "op": "sketch_end", "name": "WinSk" },
+    { "id": "cut", "op": "extrude_cut", "profile": "WinSk",
+      "end_cond": "swEndCondThroughAllBoth", "both_directions": true, "name": "WinCut" },
+
+    { "id": "m2", "op": "check_mass", "expect_volume_mm3": 23555.0444, "vol_tol": 1.0 },
+    { "id": "f2", "op": "check_faces", "surfaces": false },
+    { "id": "bb2", "op": "check_bbox", "expect": [66, 46, 40], "tol_mm": 0.05 },
+    { "id": "zf", "op": "zoom_fit" },
+    { "id": "shot", "op": "screenshot", "path": "{{ params.out }}/probe_shell_window_cut.bmp" }
+  ]
+}

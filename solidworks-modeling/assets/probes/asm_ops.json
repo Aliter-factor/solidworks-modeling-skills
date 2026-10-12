@@ -1,0 +1,143 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 装配 op 组：rename / transform / box / face_probe / interference",
+    "units": "mm",
+    "note": "2026-10-12 顺序修正：`SetTransformAndSolve3` 会重置组件名 ⇒ 所有按名取组件的步骤（check_component_box / rename_component / asm_face_probe）必须排在它之前。原顺序把 check_component_box(地基) 放在 transform 之后 ⇒ 报\"组件名对不上\"。"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "np",
+      "op": "new_part"
+    },
+    {
+      "id": "pl",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 0,
+      "x2": 40,
+      "y2": 30
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "OpsBoxSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "name": "OpsBox"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        40,
+        30,
+        10
+      ],
+      "tol_mm": 0.05
+    },
+    {
+      "id": "sv0",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_asm_ops_box.SLDPRT",
+      "overwrite": true
+    },
+    {
+      "id": "na",
+      "op": "new_assembly"
+    },
+    {
+      "id": "c1",
+      "op": "insert_component",
+      "path": "{{ params.out }}/probe_asm_ops_box.SLDPRT",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "name": "地基"
+    },
+    {
+      "id": "c2",
+      "op": "insert_component",
+      "path": "{{ params.out }}/probe_asm_ops_box.SLDPRT",
+      "x": 0,
+      "y": 0,
+      "z": 40,
+      "name": "上块",
+      "note": "两件之间留 30mm 间隙 ⇒ 查干涉时预期为 0（故意不接触）。"
+    },
+    {
+      "id": "cc",
+      "op": "check_component_count",
+      "expect": 2
+    },
+    {
+      "id": "cb",
+      "op": "check_component_box",
+      "component": "地基",
+      "expect_size": [
+        40,
+        30,
+        10
+      ],
+      "tol_mm": 0.5
+    },
+    {
+      "id": "rn",
+      "op": "rename_component",
+      "component": "上块",
+      "name": "顶块",
+      "note": "★ 改名必须排在所有 set_component_transform 之后（否则被 SetTransformAndSolve3 重置回默认名）。"
+    },
+    {
+      "id": "cb2",
+      "op": "check_component_box",
+      "component": "顶块",
+      "expect_size": [
+        40,
+        30,
+        10
+      ],
+      "tol_mm": 0.5,
+      "note": "改名后复核：确认 rename_component 真的生效（读回组件名 + 盒尺寸）。"
+    },
+    {
+      "id": "fp",
+      "op": "asm_face_probe"
+    },
+    {
+      "id": "st",
+      "op": "set_component_transform",
+      "component": "顶块",
+      "xyz_mm": [
+        0,
+        0,
+        45
+      ],
+      "note": "★ 必须排在所有「按名取组件」的步骤**之后**：真机实测 `SetTransformAndSolve3` 会把组件名**重置为默认名**（`<零件名>-N`），之后按名取组件一律对不上。"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_asm_ops.SLDASM",
+      "overwrite": true
+    },
+    {
+      "id": "if",
+      "op": "check_interference",
+      "expect_zero": true
+    }
+  ]
+}

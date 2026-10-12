@@ -1,0 +1,17 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {"name": "切掉 x>4100 看断面（右视图=YZ 截面）", "units": "mm"},
+  "params": {"out": "D:/out"},
+  "steps": [
+    {"id": "open_shell", "op": "open", "path": "D:/out/crh380cl_nose_s4_shell.SLDPRT"},
+    {"id": "base", "op": "check_volume_delta"},
+    {"id": "p", "op": "select_plane", "plane": "Top"},
+    {"id": "sb", "op": "sketch_begin"},
+    {"id": "pl", "op": "polyline", "points": [[4100,-3500],[9200,-3500],[9200,500],[4100,500]]},
+    {"id": "se", "op": "sketch_end", "name": "SECCUT_SK"},
+    {"id": "cut", "op": "extrude_cut", "profile": "SECCUT_SK", "end_cond": "swEndCondThroughAllBoth", "both_directions": true, "name": "SECCUT"},
+    {"id": "vb", "op": "check_body"},
+    {"id": "d", "op": "check_volume_delta", "expect_mm3": -1000000.0, "tol_mm3": 9.0e9},
+    {"id": "sv", "op": "save_as", "path": "D:/out/sec4100.SLDPRT", "overwrite": true}
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 sketch_constraint：矩形锚在原点 → 基线欠约束且 0 尺寸 → fully_define → 完全定义 → 拉伸包围盒不变（自动尺寸没挪动几何）→ set_dimension 改 60 生效（真参数化）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 0,
+      "x2": 40,
+      "y2": 30
+    },
+    {
+      "id": "cc0",
+      "op": "check_sketch_constraint",
+      "expect": "UnderConstrained"
+    },
+    {
+      "id": "fd",
+      "op": "fully_define"
+    },
+    {
+      "id": "cc1",
+      "op": "check_sketch_constraint",
+      "expect": "FullyConstrained"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "Rect40"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "name": "Plate"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [40, 30, 10],
+      "tol": 0.05
+    },
+    {
+      "id": "ld",
+      "op": "list_dimensions"
+    },
+    {
+      "id": "sd",
+      "op": "set_dimension",
+      "sketch": "Rect40",
+      "index": 0,
+      "value": 60
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [60, 30, 10],
+      "tol": 0.05
+    },
+    {
+      "id": "cc2",
+      "op": "check_sketch_constraint",
+      "sketch": "Rect40",
+      "expect": "FullyConstrained"
+    },
+    {
+      "id": "mass",
+      "op": "check_mass"
+    },
+    {
+      "id": "zf",
+      "op": "zoom_fit"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_sketch_constraint.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

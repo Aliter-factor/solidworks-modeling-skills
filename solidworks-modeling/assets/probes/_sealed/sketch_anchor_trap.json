@@ -1,0 +1,69 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 sketch_anchor_trap：矩形**不碰原点**时 fully_define 会返回 Success 但没干完 —— 锁住这个已知边界（require:false 只报告，状态仍是 UnderConstrained）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 100,
+      "x2": 40,
+      "y2": 130
+    },
+    {
+      "id": "fd",
+      "op": "fully_define",
+      "require": false
+    },
+    {
+      "id": "cc1",
+      "op": "check_sketch_constraint",
+      "expect": "UnderConstrained"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "Float40x30"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "name": "FloatPlate"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [40, 30, 10],
+      "tol": 0.05
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_sketch_anchor_trap.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

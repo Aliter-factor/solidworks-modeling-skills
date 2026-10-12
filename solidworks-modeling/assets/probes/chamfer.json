@@ -1,0 +1,84 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 chamfer：方块前两条长棱倒 3×45°（角度-距离型；等距型 16 实测不去料）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": -20,
+      "y1": 0,
+      "x2": 20,
+      "y2": 30
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BoxSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 20,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Box"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [40, 30, 20],
+      "tol": 0.05
+    },
+    {
+      "id": "c1",
+      "op": "chamfer",
+      "dist": 3,
+      "angle": 45,
+      "edges": [
+        [0, 30, 10],
+        [0, 0, 10]
+      ],
+      "tol": 5,
+      "name": "Chamfer1"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [40, 30, 20],
+      "tol": 0.05
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_mass_g": 23.64,
+      "tol": 0.01
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_chamfer.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

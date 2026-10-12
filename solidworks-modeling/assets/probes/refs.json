@@ -1,0 +1,73 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 refs：偏移基准面 Off25 上拉伸 + 两平面建基准轴 Axis1",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "po",
+      "op": "plane_offset",
+      "base": "Front",
+      "offset": 25,
+      "name": "Off25"
+    },
+    {
+      "id": "sp",
+      "op": "select_plane",
+      "plane": "Off25"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": -10,
+      "y1": -10,
+      "x2": 10,
+      "y2": 10
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "PadSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "name": "Pad"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [20, 20, 10],
+      "tol": 0.05
+    },
+    {
+      "id": "ax",
+      "op": "axis_from_planes",
+      "plane1": "Top",
+      "plane2": "Right",
+      "name": "Axis1"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_refs.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

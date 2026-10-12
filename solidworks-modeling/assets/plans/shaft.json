@@ -1,0 +1,122 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "阶梯轴（旋转）",
+    "units": "mm"
+  },
+  "params": {
+    "segments": [
+      {
+        "d": 20,
+        "l": 30
+      },
+      {
+        "d": 30,
+        "l": 50
+      },
+      {
+        "d": 20,
+        "l": 30
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ax",
+      "op": "centerline",
+      "x1": 0,
+      "y1": 0,
+      "x2": 0,
+      "y2": 130
+    },
+    {
+      "id": "l1",
+      "op": "line",
+      "x1": 0,
+      "y1": 10,
+      "x2": 30,
+      "y2": 10
+    },
+    {
+      "id": "l2",
+      "op": "line",
+      "x1": 30,
+      "y1": 15,
+      "x2": 80,
+      "y2": 15
+    },
+    {
+      "id": "l3",
+      "op": "line",
+      "x1": 80,
+      "y1": 10,
+      "x2": 110,
+      "y2": 10
+    },
+    {
+      "id": "l4",
+      "op": "line",
+      "x1": 110,
+      "y1": 10,
+      "x2": 110,
+      "y2": 0
+    },
+    {
+      "id": "l5",
+      "op": "line",
+      "x1": 110,
+      "y1": 0,
+      "x2": 0,
+      "y2": 0
+    },
+    {
+      "id": "l6",
+      "op": "line",
+      "x1": 30,
+      "y1": 10,
+      "x2": 30,
+      "y2": 15
+    },
+    {
+      "id": "l7",
+      "op": "line",
+      "x1": 80,
+      "y1": 15,
+      "x2": 80,
+      "y2": 10
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end"
+    },
+    {
+      "id": "rv",
+      "op": "revolve_boss",
+      "angle": 360
+    },
+    {
+      "id": "v1",
+      "op": "check_feature_count",
+      "min": 2
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "D:\\out\\shaft.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

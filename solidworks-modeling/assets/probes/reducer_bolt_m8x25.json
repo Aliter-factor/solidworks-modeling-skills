@@ -1,0 +1,173 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "螺栓 M8×25（bolt_m8x25，六角头 + 圆杆）",
+    "units": "mm",
+    "note": "规格来自 reducer.params.json::parts.bolt_m8x25（source=gb，唯一权威表 assets/gb_standard.json）；**不硬编码**。刻意不建螺纹与端部倒角（见代码头注）",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": -13.0,
+      "y1": 0.0,
+      "x2": 13.0,
+      "y2": 0.0,
+      "note": "构造线过原点（锚定用，不参与轮廓）"
+    },
+    {
+      "id": "hx",
+      "op": "polyline",
+      "points": [
+        [
+          13.0,
+          0.0
+        ],
+        [
+          6.5,
+          11.25833
+        ],
+        [
+          -6.5,
+          11.25833
+        ],
+        [
+          -13.0,
+          0.0
+        ],
+        [
+          -6.5,
+          -11.25833
+        ],
+        [
+          6.5,
+          -11.25833
+        ]
+      ],
+      "close": true,
+      "note": "六角头 对边宽 s=13（GB/T 5782）"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "螺栓 M8×25头截面"
+    },
+    {
+      "id": "ck1",
+      "op": "check_sketch_constraint",
+      "sketch": "螺栓 M8×25头截面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "ex1",
+      "op": "extrude_boss",
+      "profile": "螺栓 M8×25头截面",
+      "depth": 5.3,
+      "name": "螺栓 M8×25头",
+      "note": "头高 k=5.3（Z 0→5.3）"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cd",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 8.0,
+      "note": "杆 Ø8（GB 公称；**光杆，未建外螺纹**）"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "螺栓 M8×25杆截面"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "螺栓 M8×25杆截面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "ex2",
+      "op": "extrude_boss",
+      "profile": "螺栓 M8×25杆截面",
+      "depth": 25.0,
+      "merge": true,
+      "name": "螺栓 M8×25杆",
+      "note": "杆长 L=25（Z 0→25），与头重叠段自动 merge"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        26.0,
+        22.516660498395403,
+        25.0
+      ],
+      "tol": 0.02,
+      "note": "正六边形（顶点朝 X）⇒ 包围盒 [26, 22.5167, 25]"
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 3.3173,
+      "tol": 0.02,
+      "note": "(3√3/2)s²·k + π/4·d²·(L−k)   ← 六角只占 0→k = 3317.3269mm³ —— **不与参照件比**（含螺纹件 mass_props 不可信，§83）"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/27-bolt_m8x25-13x8x25.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "kind": "hex_bolt",
+    "s": 13.0,
+    "d": 8.0,
+    "thickness": 25.0,
+    "gb": {
+      "spec": "M8",
+      "s": 13.0,
+      "k": 5.3,
+      "d": 8.0,
+      "e": 14.38,
+      "pitch": 1.25
+    },
+    "analytic_volume_mm3": 3317.3268669206677,
+    "reference_bbox_mm": [
+      19.588,
+      16.0,
+      30.6
+    ]
+  }
+}

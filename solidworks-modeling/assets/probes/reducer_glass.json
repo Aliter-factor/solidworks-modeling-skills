@@ -1,0 +1,198 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "油面透视片（glass，环回转 + 2×Ø4 孔圆周阵列）",
+    "units": "mm",
+    "note": "规格来自 reducer.params.json::parts.glass._measured_faces.solved（sw_profile 判非纯回转体时留下的偏心特征表），不硬编码",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 1.0,
+      "y2": 0.0
+    },
+    {
+      "id": "prof",
+      "op": "polyline",
+      "points": [
+        [
+          0.0,
+          2.0
+        ],
+        [
+          1.0,
+          2.0
+        ],
+        [
+          1.0,
+          17.0
+        ],
+        [
+          0.0,
+          17.0
+        ]
+      ],
+      "close": true,
+      "note": "圆环半剖面（Ø34/Ø4 × 1）"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "油面透视片半剖面"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch_constraint",
+      "sketch": "油面透视片半剖面",
+      "expect_min_dims": 0,
+      "note": "★ 尺寸标注已封存 ⇒ 不校验尺寸条数；几何由 check_bbox / check_mass 兜"
+    },
+    {
+      "id": "rev",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "油面透视片"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        1.0,
+        34.0,
+        34.0
+      ],
+      "tol": 0.05,
+      "note": "与参照件 4-油面透视片.SLDPRT 的包围盒一致（[1, 34, 34]）"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 17.0,
+      "tol": 0.01
+    },
+    {
+      "id": "m0",
+      "op": "check_mass",
+      "expect_mass_g": 0.8954,
+      "tol": 0.02,
+      "note": "π/4(OD²−ID²)t = 895.354mm³ —— 未打孔的环"
+    },
+    {
+      "id": "ax",
+      "op": "axis_from_planes",
+      "plane1": "Front",
+      "plane2": "Top",
+      "name": "Axis1",
+      "note": "阵列轴 = 回转轴 = 全局 X（Front ∩ Top）"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Right",
+      "note": "孔位草图开在 Right 基准面（法向 = X）上 —— 平面骑在 1mm 厚的环中间"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin",
+      "reset": true
+    },
+    {
+      "id": "cl2",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 17.0,
+      "y2": 0.0
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "cx": 12.0,
+      "cy": 0.0,
+      "d": 4.0,
+      "note": "Ø4 种子孔，距原点 12（分布圆 Ø24）"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "油面透视片孔位"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "油面透视片孔位",
+      "expect_min_dims": 0,
+      "note": "★ 尺寸标注已封存 ⇒ 只记录约束状态；孔对不对由打孔后的 check_mass 兜"
+    },
+    {
+      "id": "cut",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "油面透视片孔",
+      "note": "双向贯穿 —— 草图平面骑在材料中间，单向穿不透 1mm 的环"
+    },
+    {
+      "id": "cp",
+      "op": "circular_pattern",
+      "target": "油面透视片孔",
+      "axis": "Axis1",
+      "count": 2,
+      "angle": 360,
+      "name": "油面透视片孔阵",
+      "note": "整圈 2 个孔（**含原始那个**）。轴名**写死** `Axis1` 是安全的：`axis_from_planes` 会找到新建的 RefAxis 并**真的改名**成它（探针 circular_pattern 已真机验证）；万一改名失败，`circular_pattern` 会报「选不中阵列轴」并提示真名，仍可诊断。★ 不用 `{{ vars.ax.axis }}` 取真名 —— 那会让**离线求值失败**，而「计划能离线校验」是 yoyo.swplan/1 的核心约定"
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_mass_g": 0.8702,
+      "tol": 0.02,
+      "note": "895.354 − 2×π/4·4²·1 = 870.221mm³ —— 环错+孔补回来会互相抵消，所以必须**两次都测**"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/4-glass-34x4x1.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "OD": 34.0,
+    "ID": 4.0,
+    "t": 1.0,
+    "ri": 2.0,
+    "ro": 17.0,
+    "holes": {
+      "n": 2,
+      "d": 4.0,
+      "pitch_d": 24.0,
+      "pitch_r": 12.0
+    },
+    "ring_volume_mm3": 895.3539062730911,
+    "holed_volume_mm3": 870.2211650443727,
+    "reference_volume_mm3": 870.2
+  }
+}

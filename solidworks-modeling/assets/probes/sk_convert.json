@@ -1,0 +1,92 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 sk_convert：转换实体引用",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "d": 40
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BaseSk"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 10,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Base"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cv",
+      "op": "sk_convert",
+      "chain": true,
+      "select": [
+        {
+          "type": "EDGE",
+          "point": [
+            20,
+            0,
+            5
+          ]
+        },
+        {
+          "type": "EDGE",
+          "point": [
+            20,
+            0,
+            -5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "ConvSk"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_sk_convert.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

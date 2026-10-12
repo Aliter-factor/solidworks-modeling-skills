@@ -1,0 +1,201 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "平键 10x8x22（GB/T 1096 A型）",
+    "units": "mm",
+    "note": "参数来自 reducer.params.json::parts.key_10x8x22，不硬编码",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {
+    "b": 10.0,
+    "h": 8.0,
+    "L": 22.0,
+    "chamfer": 0.5,
+    "r": 5.0,
+    "xa": 12.0,
+    "mass_g": 1.5745
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "l1",
+      "op": "line",
+      "x1": 0.0,
+      "y1": "{{ params.r }}",
+      "x2": "{{ params.xa }}",
+      "y2": "{{ params.r }}"
+    },
+    {
+      "id": "a1",
+      "op": "arc3p",
+      "p1": [
+        "{{ params.xa }}",
+        "{{ params.r }}"
+      ],
+      "p2": [
+        "{{ params.xa }}",
+        "{{ -params.r }}"
+      ],
+      "p3": [
+        "{{ params.xa + params.r }}",
+        0
+      ]
+    },
+    {
+      "id": "l2",
+      "op": "line",
+      "x1": "{{ params.xa }}",
+      "y1": "{{ -params.r }}",
+      "x2": 0.0,
+      "y2": "{{ -params.r }}"
+    },
+    {
+      "id": "a2",
+      "op": "arc3p",
+      "p1": [
+        0.0,
+        "{{ -params.r }}"
+      ],
+      "p2": [
+        0.0,
+        "{{ params.r }}"
+      ],
+      "p3": [
+        "{{ -params.r }}",
+        0
+      ]
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "KeySk"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch_constraint",
+      "sketch": "KeySk",
+      "expect_min_dims": 0,
+      "note": "★ 尺寸标注已封存 ⇒ 本闸门**不再校验尺寸条数**，只记录草图约束状态。几何正确性由后面的 check_bbox / check_mass 兜（那两条才是真判据）。"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": "{{ params.h }}",
+      "name": "KeyBody"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [
+        "{{ params.L }}",
+        "{{ params.b }}",
+        "{{ params.h }}"
+      ],
+      "tol": 0.05
+    },
+    {
+      "id": "c1",
+      "op": "chamfer",
+      "dist": "{{ params.chamfer }}",
+      "angle": 45,
+      "edges": [
+        [
+          6.0,
+          5.0,
+          8.0
+        ],
+        [
+          6.0,
+          -5.0,
+          8.0
+        ],
+        [
+          12.0,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          0.0,
+          8.0
+        ]
+      ],
+      "tol": 3.0,
+      "name": "ChamferTop"
+    },
+    {
+      "id": "c2",
+      "op": "chamfer",
+      "dist": "{{ params.chamfer }}",
+      "angle": 45,
+      "edges": [
+        [
+          6.0,
+          5.0,
+          0.0
+        ],
+        [
+          6.0,
+          -5.0,
+          0.0
+        ],
+        [
+          12.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "tol": 3.0,
+      "name": "ChamferBot"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [
+        "{{ params.L }}",
+        "{{ params.b }}",
+        "{{ params.h }}"
+      ],
+      "tol": 0.05
+    },
+    {
+      "id": "ms",
+      "op": "check_mass",
+      "expect_mass_g": "{{ params.mass_g }}",
+      "tol": 0.02
+    },
+    {
+      "id": "dg",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/35-key.{{ params.L }}x{{ params.b }}x{{ params.h }}.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "r": 5.0,
+    "xa": 12.0,
+    "solid_volume_mm3": 1588.3185307179588
+  }
+}

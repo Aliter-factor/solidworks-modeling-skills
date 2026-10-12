@@ -1,0 +1,3194 @@
+{
+ "schema": "yoyo.reducer/1",
+ "meta": {
+  "name": "一级圆柱直齿轮减速器",
+  "project": "北京建筑大学机电学院 SolidWorks 建模大赛",
+  "generated": "2026-10-01",
+  "authority": "图纸 > 参照件实测 > 国标校核",
+  "note": [
+   "★ 这是全项目的**唯一数据源**。35 份零件计划、装配计划、图纸计划都从这里引用，",
+   "  实现「改一个数、全套重放」。任何零件尺寸不允许在自己的计划里硬编码。",
+   "★ 数值来源分三档，逐字段标 source：",
+   "  drawing  = 图纸上直接读到的标注（最权威）",
+   "  measured = 从参照件 SLDPRT 实测倒推（sw_refscan / sw_inspect / sw_faces）",
+   "  derived  = 由上面两类按公式算出来的（可交叉校核，见 checks）",
+   "  gb       = 国标查表（assets/gb_standard.json），只做校核不代表图纸口径",
+   "★ 口径冲突时以 drawing 为准；drawing 没有则用 measured；两者都没有才用 gb。"
+  ],
+  "gear_train": {
+   "_why": "**齿轮副的唯一真源**。两齿轮的 m 必须相同，否则中心距对不上、装不进去、啮合不上 —— 而这种错**单看任一个零件都正常**，只有装配/对账时才暴露。\n  ★ m 只写在这里一处；任何齿轮件都不许自带 m 字段，生成时从本段读。\n  ★★ 2026-10-02 **方案 A：齿廓变位消除根切**（用户决策，取代上一轮的「改齿数」）：\n     ① 参照件 z₁=15 原样复刻**会根切**（z_min = 2h_a*/sin²α = 17.098）；\n     ② 上一轮试过「改齿数 z₁=18/z₂=52」，但齿轮轴齿部会从 Ø34 撑到 **Ø40**，偏离图纸；\n     ③ 用户提议「改模数」—— **无效**：根切判据里根本没有 m（详见 `undercut_fix`）。\n     ⇒ 最终：**m、z、a 三项全部保持图纸原值，只加变位系数**：\n        x₁ = **+0.2** ≥ x_min = 0.1227 ⇒ 不根切；x₂ = **−0.2**（x₁+x₂ = 0 ⇒ 高度变位 ⇒ **中心距 70 精确不变**）。\n        （高度变位不产生中心距变动量 y ⇒ 箱体/轴承座/端盖全部不受影响。）",
+   "module": 2.0,
+   "alpha_n_deg": 20.0,
+   "beta_deg": 0.0,
+   "x1": 0.2,
+   "x2": -0.2,
+   "pinion": {
+    "z": 15,
+    "d": 30.0,
+    "da": 34.8,
+    "part": "gear_shaft",
+    "ref": "23-齿轮轴.SLDPRT",
+    "note": "小齿轮与**齿轮轴一体**。★ z₁=**15 回到图纸原值**（图纸右上参数表写明 m=2.0 / z=15 / α=20°），用 **x₁=+0.2** 消除根切。\n    da₁ = m(z+2h_a*+2x) = 2×(15+2+0.4) = **34.8**（图纸 34，差 +0.8 来自变位）；\n    df₁ = m(z−2h_a*−2c*+2x) = 2×(15−2.5+0.4) = **25.8**（图纸 25，同差）。",
+    "x": 0.2,
+    "df": 25.8,
+    "b": 34.0
+   },
+   "wheel": {
+    "z": 55,
+    "d": 110.0,
+    "da": 113.2,
+    "part": "wheel",
+    "ref": "33-齿轮-m=2,z=55.SLDPRT",
+    "note": "★ z₂=**55 回到参照件/图纸原值**（不再用上一轮的 52）。x₂=−0.2 与 x₁ 配成**高度变位**（x₁+x₂=0）⇒ 中心距 70 精确不变。\n    da₂ = m(z+2h_a*+2x) = 2×(55+2−0.4) = **113.2**（参照件 114）；\n    df₂ = m(z−2h_a*−2c*+2x) = 2×(55−2.5−0.4) = **104.2**（参照件 105）。\n    ★ 负变位不根切：x_min₂ = h_a* − z₂·sin²20°/2 = 1 − 3.217 = **−2.217**，−0.2 远在其内。",
+    "x": -0.2,
+    "df": 104.2,
+    "b": 26.0
+   },
+   "center_distance": 70.0,
+   "center_distance_formula": "a = m·(z₁+z₂)/2 + y·m。★ 高度变位 x₁+x₂=0 ⇒ 中心距变动系数 y=0 ⇒ a = 2×(15+55)/2 = 70（与变位前逐位相同）",
+   "center_distance_tol": 0.08,
+   "center_distance_ref": "箱体两轴承座中心距 70±0.08（用户给定硬约束）",
+   "meshing_checks": [
+    "① 两轮 m 相同 —— m 只从本段读，零件上不许自带（自检 C12）",
+    "② a = m(z₁+z₂)/2 = 2×70/2 = **70**（高度变位 y=0），落在箱体中心距 70±0.08 内（自检 C12）",
+    "③ 齿顶圆 da₂ = m(z₂+2h_a*+2x₂) = 113.2 必须 < 2a = 140（装得进两轴之间）",
+    "④ ★ **变位不根切**：x₁ = +0.2 ≥ x_min = h_a* − z₁·sin²20°/2 = **0.1227**（自检 C12 硬判）",
+    "⑤ 顶隙 = a − (da₂/2 + df₁/2) = 70 − (56.6 + 12.9) = 0.500 = 2c* ✔；反向 (da₁/2 + df₂/2) 亦为 0.500 ✔",
+    "⑥ 齿顶厚 sa₁ = 1.116 ≥ 0.25m = 0.5 ✔（正变位加厚齿顶）；负变位侧 sa₂ = 1.615 ✔ —— 两侧都远未变尖",
+    "⑦ 重合度 ε_α = 1.581 ≥ 1.2 ✔（变位后仍在可用区间）",
+    "⑧ 齿宽：齿轮轴按图纸齿部实体 **34**、大齿轮按参照件实测 **26**（小齿轮略宽防边缘接触，是常规做法；「b ≤ 10m」经验规则在此不适用）",
+    "⑨ ★ **装配相位**：大齿轮须偏移半个齿距 180/z₂ = **3.2727°**，否则齿对齿顶死（装配对账阶段验）"
+   ],
+   "z_min_20deg": 18,
+   "z_min_exact": 17.0973,
+   "z_min_note": "★ 真值 = 2h_a*/sin²α = 2/sin²20° = **17.0973**；「18」是**最小整数齿数**（z 只能取整）。\n    ★★ 这个式子里**没有模数 m** —— 所以「改模数消除根切」在原理上不成立（用户 2026-10-02 提议，已论证否决，见 `undercut_fix`）。",
+   "x_min_20deg": {
+    "formula": "x_min = h_a* − z·sin²α/2",
+    "z1": 0.1227,
+    "z2": -2.2169
+   },
+   "undercut_fix": {
+    "chosen": "A 齿廓变位 —— m / z / a 三项全保持图纸原值，只加 x₁=+0.2 / x₂=−0.2",
+    "rejected": [
+     "B 改齿数 z₁=18 / z₂=52（不变位）：标准齿廓最简，但齿轮轴齿部 Ø34→Ø40（+6mm）明显偏离图纸",
+     "C 改模数 m=1.75 / z₁=18 / z₂=62：直径最贴图纸（da₁=35 vs 34），但模数降为第二系列、原齿宽超 10m 上限、需换整套齿轮刀具"
+    ],
+    "why_A": "唯一「不动零件基本规格」的改法：**只动刀位不动刀具**，m=2 的滚刀继续用 ⇒ 加工成本最低；\n    齿轮轴上除齿部外的所有尺寸（Ø20m6 轴承位 / Ø18 越程槽 / 1:20 锥 / M14 / 键槽）一字不动。\n    ★ 代码侧零改动：`gear_profile` op 本来就带 `x` 变位系数参数（默认 0，此前一直没用上）。\n    ★ 高度变位（x₁+x₂=0）不产生中心距变动量 y ⇒ **箱体一个尺寸都不用改**。"
+   },
+   "ratio": 3.6667,
+   "face_width": 34.0,
+   "face_width_note": "★ 齿轮轴齿部实体长 = **图纸 34**（含两端 30° 齿顶倒锥；其中齿顶直段 28.226）。\n    ★ 大齿轮齿宽按参照件实测 **26**（见 `wheel.b`）—— 两轮齿宽不同是常规做法（小齿轮略宽防边缘接触）。\n    ⚠ 经验规则「b ≤ 10m = 20」在此**不适用**：图纸 34、参照件齿根段 33.422 都远超它，以图纸/参照件为准。",
+   "redesign_2026_10_02": {
+    "reason": "用户反馈：参照件（m=2, z₁=15, z₂=55）**建了没啮合上**；随后拿到齿轮轴正式图纸（右上参数表 m=2 / z=15 / α=20°），确认 z=15 是原始设计值而非抄错",
+    "root_cause": "z₁=15 < z_min=17.0973 ⇒ **小齿轮根切**。\n     ★★ 根切判据 z_min = 2h_a*/sin²α **只含齿数与压力角，不含模数**\n     ⇒ 用户 2026-10-02 提议的「改模数」在**原理上**解决不了根切。\n     ★ 但在中心距 a=70 锁死的前提下 m(z₁+z₂)=140 ⇒ 改模数必然连齿数一起改（间接才有用）。\n     ★★ 本轮取舍：**一个基本规格都不动，只加变位**（方案 A，见 gear_train.undercut_fix）。",
+    "old": {
+     "m": 2.0,
+     "z1": 15,
+     "z2": 55,
+     "b": 26.0,
+     "da1": 34.0,
+     "da2": 114.0,
+     "df1": 25.0,
+     "df2": 105.0,
+     "a": 70.0,
+     "i": 3.6667,
+     "undercut": true,
+     "note": "★ 图纸/参照件原值（不变位）—— 小齿轮根切"
+    },
+    "interim_morning_2026_10_02": {
+     "m": 2.0,
+     "z1": 18,
+     "z2": 52,
+     "b": 20.0,
+     "da1": 40.0,
+     "da2": 108.0,
+     "df1": 31.0,
+     "df2": 99.0,
+     "a": 70.0,
+     "i": 2.8889,
+     "undercut": false,
+     "note": "★ 上一轮的「改齿数」方案 —— **已被方案 A 取代**。其大齿轮成品（z=52, 100.736g, 42 步全绿）随之作废。"
+    },
+    "new": {
+     "m": 2.0,
+     "z1": 15,
+     "z2": 55,
+     "x1": 0.2,
+     "x2": -0.2,
+     "b_pinion": 34.0,
+     "b_wheel": 26.0,
+     "da1": 34.8,
+     "da2": 113.2,
+     "df1": 25.8,
+     "df2": 104.2,
+     "a": 70.0,
+     "i": 3.6667,
+     "undercut": false,
+     "epsilon_alpha": 1.581,
+     "sa1": 1.116,
+     "sa2": 1.615,
+     "note": "★ 变位方案 A：m/z/a 与图纸逐位相同，只有齿顶齿根各外移 0.8mm"
+    },
+    "why_this_pair": "① **m / z₁ / z₂ 三项全部保持图纸原值**（2 / 15 / 55）—— 三方案里唯一不碰零件基本规格的；\n② 高度变位 x₁+x₂=0 ⇒ **中心距 70 精确不变** ⇒ 箱体/轴承座/端盖全部不受影响；\n③ **不用换刀具**（m=2 滚刀照用，只挪刀位）⇒ 加工成本最低；\n④ 齿轮轴除齿部外的所有尺寸一字不动（Ø20m6 / Ø18 / 1:20 锥 / M14 / 键槽）；\n⑤ 传动比 i 回到 **3.6667**，与图纸/参照件完全一致。",
+    "known_side_effects": [
+     "★ **齿顶/齿根圆各外移 0.8mm**：齿轮轴 da₁ 34→34.8 / df₁ 25→25.8；大齿轮 da₂ 114→**113.2** / df₂ 105→**104.2**",
+     "★ 齿顶厚与重合度已重算：sa₁=1.116、sa₂=1.615（均 ≫ 0.25m=0.5，无变尖风险）；ε_α=1.581（≥1.2 ✔）",
+     "★ **大齿轮要重做**（z=52 的成品作废）：z 回 55、齿顶 108→113.2、齿根 99→104.2、凹槽外径 88→93.2、齿宽 20→26、凹槽深 6→8.5",
+     "★ **齿轮轴要重做**：齿部按 da₁=34.8 / df₁=25.8，且段表同时对齐图纸 11 段",
+     "★ 两个件的 `expect_mass_g` 全部作废，必须 `--calibrate` 真机重标定"
+    ],
+    "remaining_risk": "★ **相位**：「没啮合上」的第二个隐形原因 —— 两轮啮合必须**齿对槽**，若两轮齿廓都从「一个齿中心线」开始（都在 +X）就是齿对齿顶死。\n  ⇒ 装配时大齿轮须**偏移半个齿距** `180/z₂ = 180/55 = **3.2727°**`（z 从 52 回到 55 后此值也跟着变）。\n  ★ 这是**每个零件单独看都合格、装一起才炸**的错，几何判据查不出来，只有装配对账能发现。"
+   }
+  }
+ },
+ "drive": {
+  "_desc": "传动参数 —— 全套几何的种子。z1+z2=70 齿、m=2 决定了中心距 70。",
+  "type": "单级圆柱直齿轮减速器",
+  "m": {
+   "v": 2.0,
+   "source": "drawing",
+   "note": "齿轮轴/齿轮标题栏"
+  },
+  "alpha_deg": {
+   "v": 20.0,
+   "source": "drawing",
+   "note": "压力角"
+  },
+  "z1": {
+   "v": 15,
+   "source": "drawing",
+   "note": "★ **齿轮轴图纸右上参数表**（用户 2026-10-02 提供）：m=2.0 / z=15 / α=20°。★ z1=15 < z_min=17.098 ⇒ 不变位必根切；本轮用 **x₁=+0.2** 消除，m/z/a 三项全部保持图纸原值（见 meta.gear_train.undercut_fix）"
+  },
+  "z2": {
+   "v": 55,
+   "source": "drawing",
+   "note": "★ 回到图纸/参照件原值 —— 参照件文件名 `33-齿轮-m=2,z=55.SLDPRT` 即直接证据。z₁+z₂=70 ⇒ a=70；配 x₂=−0.2 与 x₁ 组成**高度变位**"
+  },
+  "a": {
+   "v": 70.0,
+   "source": "drawing",
+   "tol": 0.08,
+   "note": "a = m(z₁+z₂)/2 + y·m。★ 高度变位（x₁+x₂=0）⇒ 中心距变动系数 y=0 ⇒ a = 2×70/2 = **70**，与图纸/箱体 70±0.08 逐位一致（这正是选变位、而不改模数/齿数的理由）"
+  },
+  "h": {
+   "v": 80.0,
+   "source": "drawing",
+   "tol": 0.1,
+   "note": "中心高（两轴心线均在此高度，剖分面过轴心）"
+  },
+  "i": {
+   "v": 2.8889,
+   "source": "derived",
+   "note": "★ 传动比 i = z₂/z₁ = 52/18 = 2.8889（原参照件 55/15 = 3.6667 ⇒ **传动比变了**）"
+  }
+ },
+ "box": {
+  "_desc": "箱体外形。source=drawing 的三个数来自装配图三视图。",
+  "L": {
+   "v": 230.0,
+   "source": "drawing",
+   "note": "长"
+  },
+  "W": {
+   "v": 104.0,
+   "source": "drawing",
+   "note": "宽"
+  },
+  "H": {
+   "v": 172.0,
+   "source": "drawing",
+   "note": "高（= 箱座 + 箱盖 + 通气塞凸出约 19）"
+  },
+  "base_L": {
+   "v": 180.0,
+   "source": "drawing",
+   "note": "底座板长"
+  },
+  "material": {
+   "v": "HT150",
+   "source": "drawing",
+   "note": "表1"
+  },
+  "_split": {
+   "base_H": {
+    "v": 82.764,
+    "source": "measured",
+    "note": "箱座实测高（≈ 中心高 80 + 剖分法兰 2.76）"
+   },
+   "cover_H": {
+    "v": 70.112,
+    "source": "measured",
+    "note": "箱盖实测高"
+   },
+   "sum_H": {
+    "v": 152.876,
+    "source": "derived",
+    "note": "箱座 + 箱盖；172 − 152.876 = 19.12 即通气塞凸出（待图纸确认）"
+   }
+  }
+ },
+ "shafts": {
+  "_desc": "两根轴。journal = 装轴承的轴颈直径；必须等于所用轴承内径（见 checks C5）。",
+  "output": {
+   "no": 20,
+   "name": "轴",
+   "qty": 1,
+   "material": "45",
+   "L": {
+    "v": 144.0,
+    "source": "measured",
+    "note": "包围盒 144×38×38 = Σl(140) + 2×端倒角(2)"
+   },
+   "d_max": {
+    "v": 38.0,
+    "source": "measured"
+   },
+   "journal": {
+    "v": 30.0,
+    "source": "measured",
+    "note": "装 6206（内径 30）"
+   },
+   "bearing": "6206",
+   "end_chamfer": {
+    "v": 2.0,
+    "source": "measured",
+    "note": "两端各 2×45°，向外扩 ⇒ 总长 = Σl + 2ec"
+   },
+   "segments": [
+    {
+     "d": 30.0,
+     "l": 30.0,
+     "name": "轴承位(6206)"
+    },
+    {
+     "d": 32.0,
+     "l": 26.0,
+     "name": "齿轮位(与大齿轮孔/宽一致)"
+    },
+    {
+     "d": 38.0,
+     "l": 13.0,
+     "name": "轴肩"
+    },
+    {
+     "d": 27.0,
+     "l": 2.0,
+     "name": "越程槽"
+    },
+    {
+     "d": 30.0,
+     "l": 14.0,
+     "name": "轴承位2(6206)"
+    },
+    {
+     "d": 28.0,
+     "l": 24.0,
+     "name": "挡油环位"
+    },
+    {
+     "d": 27.32,
+     "l": 1.5,
+     "name": "锥过渡(45°)"
+    },
+    {
+     "d": 24.317,
+     "l": 29.5,
+     "name": "输出端(键8x7)"
+    }
+   ],
+   "segments_source": "measured（sw_faces.py 读 20-轴.SLDPRT 的圆柱面台阶表；Σl=140）"
+  },
+  "gear": {
+   "no": 23,
+   "name": "齿轮轴",
+   "qty": 1,
+   "material": "45",
+   "L": {
+    "v": 158.0,
+    "source": "measured",
+    "note": "包围盒 158.241；实测含齿顶采样误差"
+   },
+   "journal": {
+    "v": 20.0,
+    "source": "measured",
+    "note": "两端装 6204（内径 20）"
+   },
+   "bearing": "6204",
+   "gear_part": "pinion"
+  }
+ },
+ "bearings": {
+  "_desc": "深沟球轴承。尺寸取自 assets/gb_standard.json（GB/T 276），与图纸标注一致。",
+  "6204": {
+   "d": 20.0,
+   "D": 47.0,
+   "B": 14.0,
+   "source": "gb",
+   "note": "装齿轮轴；实测包围盒 14×47×47 ✔"
+  },
+  "6206": {
+   "d": 30.0,
+   "D": 62.0,
+   "B": 16.0,
+   "source": "gb",
+   "note": "装输出轴；实测包围盒 16×62×62 ✔"
+  }
+ },
+ "gears": {
+  "pinion": {
+   "no": 23,
+   "name": "齿轮轴齿部",
+   "kind": "gear_on_shaft",
+   "m": {
+    "v": 2.0,
+    "source": "derived"
+   },
+   "z": {
+    "v": 15,
+    "source": "derived",
+    "note": "镜像自 meta.gear_train.pinion.z"
+   },
+   "source": "drawing",
+   "da": {
+    "v": 34.8,
+    "source": "derived",
+    "note": "镜像自 gear_train（= m(z+2h_a*+2x) = 34.8）"
+   },
+   "b": {
+    "v": 34.0,
+    "source": "derived",
+    "note": "镜像自 gear_train.pinion.b（图纸齿部实体 34）"
+   }
+  },
+  "wheel": {
+   "no": 33,
+   "name": "齿轮",
+   "kind": "gear",
+   "m": {
+    "v": 2.0,
+    "source": "derived"
+   },
+   "z": {
+    "v": 55,
+    "source": "derived",
+    "note": "镜像自 meta.gear_train.wheel.z"
+   },
+   "source": "drawing",
+   "da": {
+    "v": 113.2,
+    "source": "derived",
+    "note": "镜像自 gear_train（= m(z+2h_a*+2x) = 113.2）"
+   },
+   "b": {
+    "v": 26.0,
+    "source": "derived",
+    "note": "镜像自 gear_train.wheel.b（参照件实测 26）"
+   },
+   "bore": {
+    "v": 20.0,
+    "source": "measured",
+    "note": "内孔 Ø20（与输出轴配合）",
+    "_conflict": "⚠ 与本表并列的 `parts.wheel.bore` = **32** 不一致（这里 20）。零件实际按 `parts.wheel.bore` 建（孔 Ø32 + 键槽 10×3.3）。本字段存疑，已登记待核。"
+   },
+   "keyway": {
+    "v": "10x3.3",
+    "source": "measured",
+    "note": "内孔键槽 10×3.3"
+   },
+   "material": {
+    "v": "45",
+    "source": "drawing"
+   }
+  },
+  "_legacy_note": "★★ **本表是 `meta.gear_train` 的派生镜像，不是真源**（2026-10-02 澄清）。\n   历史教训：齿轮参数在这里和 `meta.gear_train` **各存了一份**，重新设计时\n   本表没跟着改 ⇒ 校核 C4 拿陈旧 da 去比对，**报出假 FAIL**（「da1=40 vs 34」）。\n   现已把 C3 / C4 / R:wheel 一律改为读 `meta.gear_train`。\n   本表只保留 wheel 独有的 bore / keyway / material 等字段供别处引用。",
+  "_derived_from": "meta.gear_train"
+ },
+ "covers": {
+  "_desc": "端盖 4 件。判据：外径必须大于所配轴承外径（见 checks C6）。",
+  "cover1": {
+   "no": 19,
+   "name": "端盖1",
+   "D": {
+    "v": 68.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 16.0,
+    "source": "measured"
+   },
+   "bearing": "6206"
+  },
+  "cover2": {
+   "no": 22,
+   "name": "端盖2",
+   "D": {
+    "v": 54.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 7.0,
+    "source": "measured"
+   },
+   "bearing": "6204"
+  },
+  "cover3": {
+   "no": 28,
+   "name": "端盖3",
+   "D": {
+    "v": 53.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 16.0,
+    "source": "measured"
+   },
+   "bearing": "6204"
+  },
+  "cover4": {
+   "no": 31,
+   "name": "端盖4",
+   "D": {
+    "v": 68.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 7.0,
+    "source": "measured"
+   },
+   "bearing": "6206"
+  }
+ },
+ "parts": {
+  "_desc": "逐件参数。status: modeled=已有计划生成器；todo=待参数化。ref=参照件文件名。",
+  "key_10x8x22": {
+   "no": 35,
+   "name": "平键",
+   "qty": 1,
+   "material": "45",
+   "gb": "GB/T 1096 A型（圆头）",
+   "kind": "key_a",
+   "status": "modeled",
+   "ref": "35-平键.10x8x22.SLDPRT",
+   "b": {
+    "v": 10.0,
+    "source": "drawing",
+    "note": "键宽 b"
+   },
+   "h": {
+    "v": 8.0,
+    "source": "drawing",
+    "note": "键高 h"
+   },
+   "L": {
+    "v": 22.0,
+    "source": "drawing",
+    "note": "键长 L"
+   },
+   "chamfer": {
+    "v": 0.5,
+    "source": "measured",
+    "note": "0.5×45°；由体积反推（1574.73 = 1588.35 − 13.6）"
+   },
+   "_verify": {
+    "profile": "跑道形（两端 R=b/2 半圆）—— 由草图实测确认：外轮廓 R5 半圆 + 两条 12 长直边",
+    "sketch_segments": 10,
+    "sketch_contours": 2,
+    "contours_note": "参照件草图里还画了一个 R4.5 的内层轮廓（22×9），但拉伸**只选了外轮廓** ⇒ 实体是实心跑道形。我们不复现那个多余轮廓。",
+    "body_volume_mm3": 1574.73,
+    "solid_area_x8": 1588.35
+   }
+  },
+  "taper_pin_4x18": {
+   "no": 26,
+   "name": "圆锥销 φ4×18",
+   "qty": 2,
+   "material": "45",
+   "gb": "GB/T 117",
+   "kind": "taper_pin",
+   "status": "todo",
+   "ref": "26-A型圆形销.SLDPRT",
+   "d_small": {
+    "v": 4.0,
+    "source": "drawing"
+   },
+   "L": {
+    "v": 19.0,
+    "source": "gb",
+    "note": "参照件实测总长 19（含两端倒角）"
+   },
+   "taper": {
+    "v": "1:50",
+    "source": "gb"
+   },
+   "d": {
+    "v": 4.0,
+    "source": "gb",
+    "note": "参照件实测恒定 Ø4（GB/T 119.1 圆柱销）"
+   },
+   "_measured_faces": {
+    "note": "⚠⚠ 图纸写「圆锥销 φ4×18」（GB/T 117，锥度 1:50），但参照件实测 bbox [19,4,4] 是**恒定 Ø4 的圆柱销**（型面只有一条 r=2.0 母线 + 两端球冠 R4.25），文件名叫**「26-A型圆形销」= GB/T 119.1 圆柱销**。⇒ 图纸与参照件矛盾，**已登记为 Q12 待用户裁决**；当前按参照件（圆柱销）建，保证装配对得上。",
+    "solved": {
+     "kind": "cyl_pin",
+     "as_drawn": "GB/T 117 圆锥销 φ4×18（锥度 1:50）",
+     "as_reference": "GB/T 119.1 A 型圆柱销 Ø4×19",
+     "conflict": "图纸=圆锥 / 参照件=圆柱，**待用户裁决**",
+     "reference_bbox_mm": [
+      19.0,
+      4.0,
+      4.0
+     ],
+     "reference_volume_mm3": 232.61
+    },
+    "profile_source": "_diag/ref9c/26-A型圆形销.profile.json（真机实测）",
+    "pappus_vs_mass_props": "232.6078 vs 232.609 mm³（0.0005%）"
+   },
+   "D": {
+    "v": 4.0,
+    "source": "measured",
+    "note": "参照件实测恒定 Ø4.0（两端球冠不超此径；图纸 φ4 一致）"
+   },
+   "profile": {
+    "L": 19.0,
+    "polyline": [
+     [
+      0.5,
+      2.0
+     ],
+     [
+      18.5,
+      2.0
+     ]
+    ],
+    "polyline_close": false,
+    "arcs": [
+     {
+      "p1": [
+       18.5,
+       2.0
+      ],
+      "p2": [
+       19.0,
+       0.0
+      ],
+      "p3": [
+       18.8731,
+       1.0308
+      ],
+      "radius": 4.25,
+      "center": [
+       14.75,
+       0.0
+      ],
+      "note": "右端球冠：Ø4 与球面 R4.25 相切（冠高 0.5）"
+     },
+     {
+      "p1": [
+       0.0,
+       0.0
+      ],
+      "p2": [
+       0.5,
+       2.0
+      ],
+      "p3": [
+       0.1269,
+       1.0308
+      ],
+      "radius": 4.25,
+      "center": [
+       4.25,
+       0.0
+      ],
+      "note": "左端球冠：同上（镜像）"
+     }
+    ],
+    "n_elements": 3,
+    "pappus_volume_mm3": 232.6078,
+    "reference_volume_mm3": 232.609,
+    "revolvable": true,
+    "axis": "X",
+    "axis_center_mm": [
+     0.0,
+     0.0
+    ],
+    "closed": true,
+    "closed_via_axis": true,
+    "source": "sw_profile.py 从参照件面的边界圆重建：母线 Ø4×18 + 两端球冠 R4.25；两端点都落在轴线上 ⇒ 靠中心线收口（closed_via_axis）"
+   },
+   "_simplified": {
+    "taper_vs_cylindrical": {
+     "status": "简化（按**参照件**建 = 圆柱销 Ø4×19；图纸要的是圆锥销 GB/T 117，两者矛盾）",
+     "detail": "见 Q12。型面已按参照件落库：母线 Ø4×18 + 两端球冠 R4.25。",
+     "open_question": "Q12"
+    }
+   }
+  },
+  "_ring_family_note": "环形件族（简单圆环，无倒角）：2026-10-02 用 sw_faces.py 读参照件的圆柱面反推内孔，5 件全部与解析式 π/4(D²−d²)t 吻合到 0.002% —— 是**真圆环**，由 _ring_plan 统一生成。",
+  "spacer": {
+   "no": 34,
+   "name": "套筒",
+   "qty": 1,
+   "material": "15",
+   "kind": "ring",
+   "status": "modeled",
+   "ref": "34-套筒.SLDPRT",
+   "D": {
+    "v": 37.0,
+    "source": "measured"
+   },
+   "bore": {
+    "v": 30.0,
+    "source": "measured",
+    "note": "= 轴颈 / 6206 内径"
+   },
+   "t": {
+    "v": 13.0,
+    "source": "measured"
+   }
+  },
+  "oil_sling": {
+   "no": 25,
+   "name": "挡油环",
+   "qty": 1,
+   "material": "Q235",
+   "kind": "ring_stepped",
+   "status": "modeled",
+   "ref": "25-挡油环.SLDPRT",
+   "D": {
+    "v": 44.0,
+    "source": "measured",
+    "note": "仅前 3mm 是 Ø44"
+   },
+   "t": {
+    "v": 6.0,
+    "source": "measured"
+   },
+   "_measured_faces": {
+    "note": "已解（2026-10-02）：非简单圆环 = 台阶环 Ø44(前3mm) + Ø20.3 + 2 个锥面（Ø30/Ø28）。sw_faces.stairway 拼不出闭合轮廓（非单调）⇒ 改用 sw_profile 从面边界圆重建，Pappus 3845.0974 对上参照 3845.1（0.0001%）。已进「型面驱动族」。",
+    "cyl": [
+     [
+      44.0,
+      3.0
+     ],
+     [
+      20.3,
+      3.0
+     ]
+    ],
+    "cones": 2,
+    "built": {
+     "version": "1.4.11",
+     "builder": "sw_reducer._profile_plan",
+     "steps": 13,
+     "measured_volume_mm3": 3845.0974,
+     "reference_mm3": 3845.1,
+     "delta_pct": 0.0001,
+     "artifact": "25-oil_sling-44x6.SLDPRT"
+    }
+   },
+   "profile": {
+    "L": 6.0,
+    "polyline": [
+     [
+      3.0,
+      12.0
+     ],
+     [
+      6.0,
+      14.0
+     ],
+     [
+      6.0,
+      22.0
+     ],
+     [
+      3.0,
+      22.0
+     ],
+     [
+      3.0,
+      15.0
+     ],
+     [
+      0.0,
+      13.0
+     ],
+     [
+      0.0,
+      10.15
+     ],
+     [
+      3.0,
+      10.15
+     ]
+    ],
+    "polyline_close": true,
+    "arcs": [],
+    "n_elements": 8,
+    "pappus_volume_mm3": 3845.0974,
+    "reference_volume_mm3": 3845.1,
+    "revolvable": true,
+    "axis": "X",
+    "source": "sw_profile.py 从参照件面边界圆重建（台阶环 + 两个锥面）"
+   },
+   "L": {
+    "v": 6.0,
+    "source": "measured"
+   }
+  },
+  "ring_adj1": {
+   "no": 21,
+   "name": "调整环1",
+   "qty": 1,
+   "material": "Q235",
+   "kind": "ring",
+   "status": "modeled",
+   "ref": "21-调整环1.SLDPRT",
+   "D": {
+    "v": 47.0,
+    "source": "measured",
+    "note": "= 6204 外径"
+   },
+   "bore": {
+    "v": 37.0,
+    "source": "measured",
+    "note": "= 套筒外径"
+   },
+   "t": {
+    "v": 3.0,
+    "source": "measured"
+   }
+  },
+  "ring_adj2": {
+   "no": 32,
+   "name": "调整环2",
+   "qty": 1,
+   "material": "Q235",
+   "kind": "ring",
+   "status": "modeled",
+   "ref": "32-调整环2.SLDPRT",
+   "D": {
+    "v": 62.0,
+    "source": "measured",
+    "note": "= 6206 外径"
+   },
+   "bore": {
+    "v": 52.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 3.0,
+    "source": "measured"
+   }
+  },
+  "gasket1": {
+   "no": 2,
+   "name": "垫片1",
+   "qty": 2,
+   "material": "毛毡",
+   "kind": "ring_stepped",
+   "status": "modeled",
+   "ref": "2-垫片1.SLDPRT",
+   "D": {
+    "v": 34.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 1.0,
+    "source": "measured"
+   },
+   "_measured_faces": {
+    "note": "已解并**已建模**（v1.4.11）：圆环 Ø34/Ø14 ×1 厚 + 3×Ø4 偏心通孔（分布圆 Ø24，pitch_r=12）。解析 π(17²−7²)·1 − 3·π·2²·1 = **716.28**；真机实测 **716.2831**（参照 716.3，差 0.0024%），23/23 步通过。sw_profile 判 revolvable=False（偏心特征）⇒ 走**带孔盘族**（环回转 + 特征级圆周阵列 circular_pattern），见 pitfalls §82。",
+    "cyl": [
+     [
+      34.0,
+      1.0
+     ],
+     [
+      14.0,
+      1.0
+     ],
+     [
+      4.0,
+      3.0
+     ]
+    ],
+    "solved": {
+     "outer_d": 34.0,
+     "inner_d": 14.0,
+     "thickness": 1.0,
+     "holes": {
+      "n": 3,
+      "d": 4.0,
+      "pitch_d": 24.0
+     },
+     "volume_check_mm3": 716.28,
+     "reference_mm3": 716.3
+    },
+    "built": {
+     "version": "1.4.11",
+     "builder": "sw_reducer._disc_holes_plan",
+     "steps": 23,
+     "measured_volume_mm3": 716.2831,
+     "reference_mm3": 716.3,
+     "delta_pct": 0.0024,
+     "artifact": "2-gasket1-34x14x1.SLDPRT"
+    }
+   }
+  },
+  "gasket2": {
+   "no": 7,
+   "name": "垫片2",
+   "qty": 1,
+   "material": "石棉橡胶纸",
+   "kind": "plate",
+   "status": "modeled",
+   "ref": "7-垫片2.SLDPRT",
+   "L": {
+    "v": 46.0,
+    "source": "measured",
+    "note": "板外形 X（参照件 bbox）"
+   },
+   "t": {
+    "v": 2.0,
+    "source": "measured",
+    "note": "板厚（拉伸 2，两端面 Z=±1）"
+   },
+   "_measured_faces": {
+    "note": "★ **已解（2026-10-02）**：46×46×2 矩形板 + 中央 **28×28 方孔** + 四角 **4×Ø3.5** 通孔（圆心 ±18,±18，轴 Z）。方孔尺寸由**端面面积反解**（不是猜的）：46²−1293.5155−4·π/4·3.5² = 784 = 28²。体积复核 (46²−28²−4·π/4·3.5²)×2 = **2587.03** = 参照件实测 2587.03，逐位吻合 ✔",
+    "solved": {
+     "kind": "plate_with_window",
+     "plate": {
+      "L": 46.0,
+      "W": 46.0,
+      "t": 2.0
+     },
+     "window": {
+      "side": 28.0,
+      "shape": "square",
+      "center": [
+       0.0,
+       0.0
+      ]
+     },
+     "holes": {
+      "n": 4,
+      "d": 3.5,
+      "centers": [
+       [
+        18.0,
+        18.0
+       ],
+       [
+        18.0,
+        -18.0
+       ],
+       [
+        -18.0,
+        18.0
+       ],
+       [
+        -18.0,
+        -18.0
+       ]
+      ]
+     },
+     "sketch_contours": 6,
+     "evidence": [
+      "sw_inspect: 草图 20 图元(构造 8)/6 轮廓/凸台-拉伸 depth=2",
+      "sw_faces --axis 2: 4 级圆柱 Ø3.500 贯穿，圆心 (±18,±18)",
+      "端面面积 1293.5155 ⇒ 方孔 784 = 28×28",
+      "体积 2587.03 vs 参照 2587.03"
+     ],
+     "reference_bbox_mm": [
+      46.0,
+      46.0,
+      2.0
+     ],
+     "reference_volume_mm3": 2587.03,
+     "analytic_volume_mm3": 2587.031,
+     "from": "sw_inspect + sw_faces + 端面面积反解（**无图纸**，照参照件建）",
+     "built": {
+      "version": "1.4.17",
+      "builder": "sw_reducer._plate_plan",
+      "steps": 19,
+      "measured_volume_mm3": 2587.031,
+      "analytic_volume_mm3": 2587.031,
+      "delta_pct": 0.0,
+      "bbox_mm": [
+       46.0,
+       46.0,
+       2.0
+      ],
+      "cylinders": "4 × Ø3.5",
+      "artifact": "7-gasket2-46x46x2.SLDPRT"
+     }
+    }
+   },
+   "W": {
+    "v": 46.0,
+    "source": "measured",
+    "note": "板外形 Y"
+   },
+   "window": {
+    "v": 28.0,
+    "source": "measured",
+    "note": "中央方孔边长（由端面面积反解：784 = 28²）"
+   },
+   "hole_d": {
+    "v": 3.5,
+    "source": "measured",
+    "note": "四角圆孔直径"
+   },
+   "hole_pitch_x": {
+    "v": 18.0,
+    "source": "measured",
+    "note": "圆心 ±X"
+   },
+   "hole_pitch_y": {
+    "v": 18.0,
+    "source": "measured",
+    "note": "圆心 ±Y"
+   },
+   "n_holes": {
+    "v": 4,
+    "source": "measured",
+    "note": "四角各一"
+   }
+  },
+  "seal1": {
+   "no": 18,
+   "name": "密封圈",
+   "qty": 1,
+   "material": "毛毡",
+   "kind": "ring",
+   "status": "modeled",
+   "ref": "18-密封圈.SLDPRT",
+   "D": {
+    "v": 46.0,
+    "source": "measured"
+   },
+   "bore": {
+    "v": 30.0,
+    "source": "measured",
+    "note": "= 轴颈"
+   },
+   "t": {
+    "v": 4.0,
+    "source": "measured"
+   }
+  },
+  "seal2": {
+   "no": 29,
+   "name": "密封圈2",
+   "qty": 1,
+   "material": "毛毡",
+   "kind": "ring",
+   "status": "modeled",
+   "ref": "29-密封圈.SLDPRT",
+   "D": {
+    "v": 33.0,
+    "source": "measured"
+   },
+   "bore": {
+    "v": 20.0,
+    "source": "measured",
+    "note": "= 齿轮轴小端"
+   },
+   "t": {
+    "v": 4.0,
+    "source": "measured"
+   }
+  },
+  "cover_eye": {
+   "no": 8,
+   "name": "窥视孔盖",
+   "qty": 1,
+   "material": "Q235",
+   "kind": "plate",
+   "status": "modeled",
+   "ref": "8-窥视孔盖.SLDPRT",
+   "L": {
+    "v": 46.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 3.0,
+    "source": "measured"
+   },
+   "W": {
+    "v": 46.0,
+    "source": "measured"
+   },
+   "window_shape": "circle",
+   "window_d": {
+    "v": 11.0,
+    "source": "measured",
+    "note": "★ **端面面积反解**（不是猜）：46²−1982.48−4·π/4·3.5² = 95.0332 ⇒ π/4·d²=95.0332 ⇒ d=11.0000。参照件中央是**圆孔**，而 7-垫片2 是方窗 28×28 —— 两件同构但开口形状不同"
+   },
+   "hole_d": {
+    "v": 3.5,
+    "source": "measured"
+   },
+   "hole_pitch_x": {
+    "v": 18.0,
+    "source": "measured",
+    "note": "孔心 X=±18（sw_faces 直接读出）"
+   },
+   "hole_pitch_y": {
+    "v": 18.0,
+    "source": "measured",
+    "note": "孔心 Y=±18"
+   },
+   "n_holes": 4,
+   "_measured_faces": {
+    "note": "已解并**已建模**（v1.4.18）：**板类族第二个成员**（7-垫片2 是方窗，本件是圆孔 ⇒ 族按 `window_shape` 泛化，没有复制第二个族）。结构：46×46×3 矩形板 + 中央 Ø11 通孔 + 4×Ø3.5 通孔（孔心 ±18,±18），6 个轮廓**一次拉伸**。",
+    "solved": {
+     "kind": "plate_with_round_window",
+     "sketch": {
+      "contours": 6,
+      "entities": 13,
+      "construction": 4,
+      "types": {
+       "ARC": 5,
+       "LINE": 8
+      },
+      "note": "5 弧 = Ø11 圆 + 4×Ø3.5 圆；8 线 = 外框 4 + 中心线 4"
+     },
+     "measured": {
+      "cylinders": [
+       {
+        "d": 11.0,
+        "center": [
+         0.0,
+         0.0
+        ],
+        "len": 3.0,
+        "through": true
+       },
+       {
+        "d": 3.5,
+        "center": [
+         -18.0,
+         18.0
+        ],
+        "len": 3.0,
+        "through": true
+       },
+       {
+        "d": 3.5,
+        "center": [
+         18.0,
+         18.0
+        ],
+        "len": 3.0,
+        "through": true
+       },
+       {
+        "d": 3.5,
+        "center": [
+         18.0,
+         -18.0
+        ],
+        "len": 3.0,
+        "through": true
+       },
+       {
+        "d": 3.5,
+        "center": [
+         -18.0,
+         -18.0
+        ],
+        "len": 3.0,
+        "through": true
+       }
+      ],
+      "planes_z": [
+       -1.5,
+       1.5
+      ],
+      "end_face_area_mm2": 1982.48,
+      "from": "8-窥视孔盖.SLDPRT：sw_inspect 草图1 6 轮廓 / 拉伸 3.0；sw_faces --axis 2 读出 5 级圆柱（Ø11@原点 + 4×Ø3.5@±18）与 端面面积 1982.48；bbox [46,46,3]、V=5947.45"
+     },
+     "window_derivation": "46² − 1982.48 − 4·π/4·3.5² = 95.0332 = π/4·11² ⇒ 中央开口 Ø11.000（**反解**，非目测）",
+     "reference_bbox_mm": [
+      46.0,
+      46.0,
+      3.0
+     ],
+     "reference_volume_mm3": 5947.45,
+     "analytic_volume_mm3": 5947.4469,
+     "built": {
+      "version": "1.4.18",
+      "builder": "sw_reducer._plate_plan",
+      "steps": 19,
+      "measured_volume_mm3": 5947.4469,
+      "analytic_volume_mm3": 5947.4469,
+      "reference_volume_mm3": 5947.45,
+      "delta_pct": 0.0001,
+      "bbox_mm": [
+       46.0,
+       46.0,
+       3.0
+      ],
+      "cylinders": "5 个（4×Ø3.5 角孔 + 1×Ø11 中央孔），rmax=5.5",
+      "artifact": "8-cover_eye-46x46x3.SLDPRT"
+     }
+    }
+   }
+  },
+  "cap_small": {
+   "no": 6,
+   "name": "小盖",
+   "qty": 1,
+   "material": "HT150",
+   "kind": "disc",
+   "status": "todo",
+   "ref": "6-小盖.SLDPRT",
+   "D": {
+    "v": 34.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 7.0,
+    "source": "measured"
+   }
+  },
+  "reflector": {
+   "no": 3,
+   "name": "反光片",
+   "qty": 1,
+   "material": "L4",
+   "kind": "disc",
+   "status": "todo",
+   "ref": "3-反光片.SLDPRT",
+   "D": {
+    "v": 34.0,
+    "source": "measured"
+   },
+   "_measured_faces": {
+    "note": "已解（2026-10-02）：**平盘 Ø34 + 球冠反光面**（2 张 `sphere` 面，sw_profile 报「面类型 sphere 未支持」）+ 偏心孔。同油面透视片，但**多一个球冠** ⇒ 需先补 sphere→型面圆弧的支持，再走「回转 + 孔阵列」。**不是纯回转体**（revolvable=False）。",
+    "solved": {
+     "outer_d": 34.0,
+     "has_spherical_cap": true,
+     "off_axis_features": 5,
+     "pitch_d": 24.0,
+     "blocked_by": "sphere 面未支持（球冠）"
+    }
+   }
+  },
+  "glass": {
+   "no": 4,
+   "name": "油面透视片",
+   "qty": 1,
+   "material": "塑料",
+   "kind": "disc",
+   "status": "modeled",
+   "ref": "4-油面透视片.SLDPRT",
+   "D": {
+    "v": 34.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 1.0,
+    "source": "measured"
+   },
+   "_measured_faces": {
+    "note": "已解并**已建模**（v1.4.11）：圆环 Ø34/Ø4 ×1 厚 + 2×Ø4 偏心通孔（分布圆 Ø24）。解析 π(17²−2²)·1 − 2·π·2²·1 = **870.22**；真机实测 **870.2212**（参照 870.2，差 0.0024%），23/23 步通过。与垫片1 同族，只差孔数（3 vs 2）。",
+    "solved": {
+     "outer_d": 34.0,
+     "inner_d": 4.0,
+     "thickness": 1.0,
+     "holes": {
+      "n": 2,
+      "d": 4.0,
+      "pitch_d": 24.0
+     },
+     "volume_check_mm3": 870.22,
+     "reference_mm3": 870.2
+    },
+    "built": {
+     "version": "1.4.11",
+     "builder": "sw_reducer._disc_holes_plan",
+     "steps": 23,
+     "measured_volume_mm3": 870.2212,
+     "reference_mm3": 870.2,
+     "delta_pct": 0.0024,
+     "artifact": "4-glass-34x4x1.SLDPRT"
+    }
+   }
+  },
+  "cover1": {
+   "no": 19,
+   "name": "端盖1",
+   "qty": 1,
+   "material": "HT150",
+   "kind": "cover_thru",
+   "status": "modeled",
+   "ref": "19-端盖1.SLDPRT",
+   "D": {
+    "v": 68.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 16.0,
+    "source": "measured"
+   },
+   "bearing": "6206",
+   "form": "through",
+   "_measured_faces": {
+    "note": "★ 已解（sw_profile.py 读参照件 C:\\学习软件\\一级减速器\\19-端盖1.SLDPRT 的面 + 边界圆）：型面非单调（6 圆柱 + 3 锥面+ 1 环面圆弧），共 18 个元素，Pappus 体积与参照件差 0.0006% ⇒ 见 parts.cover1.profile。",
+    "built": {
+     "version": "1.4.11",
+     "builder": "sw_reducer._profile_plan",
+     "steps": 14,
+     "measured_volume_mm3": 24360.5552,
+     "reference_mm3": 24360.5,
+     "delta_pct": 0.0002,
+     "artifact": "19-cover1-68x16.SLDPRT"
+    }
+   },
+   "profile": {
+    "source": "sw_profile.py 读参照件 C:\\学习软件\\一级减速器\\19-端盖1.SLDPRT 的面 + 边界圆",
+    "axis": "X",
+    "bbox_mm": [
+     16.0,
+     68.0,
+     68.0
+    ],
+    "L": 16.0,
+    "reference_volume_mm3": 24360.5,
+    "pappus_volume_mm3": 24360.638,
+    "n_elements": 18,
+    "n_arcs": 1,
+    "closed": true,
+    "polyline": [
+     [
+      14.0,
+      26.0
+     ],
+     [
+      16.0,
+      26.0
+     ],
+     [
+      16.0,
+      31.0
+     ],
+     [
+      13.0,
+      31.0
+     ],
+     [
+      13.0,
+      34.0
+     ],
+     [
+      10.0,
+      34.0
+     ],
+     [
+      10.0,
+      31.0
+     ],
+     [
+      6.0,
+      31.0
+     ],
+     [
+      6.0,
+      27.0
+     ],
+     [
+      1.0,
+      27.0
+     ],
+     [
+      0.0,
+      26.0
+     ],
+     [
+      0.0,
+      15.0
+     ],
+     [
+      2.25,
+      15.0
+     ],
+     [
+      3.0,
+      23.0
+     ],
+     [
+      7.0,
+      23.0
+     ],
+     [
+      7.75,
+      15.0
+     ],
+     [
+      12.0,
+      15.0
+     ],
+     [
+      12.0,
+      24.0
+     ]
+    ],
+    "polyline_close": false,
+    "arcs": [
+     {
+      "p1": [
+       12.0,
+       24.0
+      ],
+      "p2": [
+       14.0,
+       26.0
+      ],
+      "p3": [
+       12.5858,
+       25.4142
+      ],
+      "radius": 2.0,
+      "center": [
+       14.0,
+       24.0
+      ]
+     }
+    ],
+    "note": [
+     "★ 型面**非单调**（轴向进进出出：法兰→台阶→轴承孔→毡圈槽），",
+     "  用 `stairway`（圆柱台阶表）串不出来 ⇒ 由 sw_profile 从面的边界圆重建。",
+     "  坐标已归一化：x 起点 = 0，轴向总长 = L。",
+     "★ 自校验：Pappus 体积 2π·r̄·A 与参照件实测体积吻合到 0.0006%（见上两个字段）。"
+    ]
+   },
+   "L": {
+    "v": 16.0,
+    "source": "measured_faces"
+   }
+  },
+  "cover2": {
+   "no": 22,
+   "name": "端盖2",
+   "qty": 1,
+   "material": "HT150",
+   "kind": "cover_blind",
+   "status": "modeled",
+   "ref": "22-端盖2.SLDPRT",
+   "D": {
+    "v": 54.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 7.0,
+    "source": "measured"
+   },
+   "bearing": "6204",
+   "form": "blind",
+   "flange_t": {
+    "v": 3.0,
+    "source": "measured_faces"
+   },
+   "flange_bore": {
+    "v": 31.0,
+    "source": "measured_faces",
+    "note": "法兰上的孔（凸台在其后且为实心 ⇒ 几何上是深 3 的盲孔）"
+   },
+   "spigot_D": {
+    "v": 47.0,
+    "source": "measured_faces",
+    "note": "= 6204 外径 ⇒ 插进箱体轴承座孔"
+   },
+   "spigot_t": {
+    "v": 4.0,
+    "source": "measured_faces"
+   }
+  },
+  "cover3": {
+   "no": 28,
+   "name": "端盖3",
+   "qty": 1,
+   "material": "HT150",
+   "kind": "cover_thru",
+   "status": "modeled",
+   "ref": "28-端盖3.SLDPRT",
+   "D": {
+    "v": 53.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 16.0,
+    "source": "measured"
+   },
+   "bearing": "6204",
+   "form": "through",
+   "_measured_faces": {
+    "note": "★ 已解（sw_profile.py 读参照件 C:\\学习软件\\一级减速器\\28-端盖3.SLDPRT 的面 + 边界圆）：型面非单调（6 圆柱 + 3 锥面），共 17 个元素，Pappus 体积与参照件差 0.0006% ⇒ 见 parts.cover3.profile。（原注「与 cover1 拓扑相同」当时判断有误：两件的过渡段不同。）",
+    "built": {
+     "version": "1.4.11",
+     "builder": "sw_reducer._profile_plan",
+     "steps": 13,
+     "measured_volume_mm3": 17210.2991,
+     "reference_mm3": 17210.3,
+     "delta_pct": 0.0,
+     "artifact": "28-cover3-53x16.SLDPRT"
+    }
+   },
+   "profile": {
+    "source": "sw_profile.py 读参照件 C:\\学习软件\\一级减速器\\28-端盖3.SLDPRT 的面 + 边界圆",
+    "axis": "X",
+    "bbox_mm": [
+     16.0,
+     53.0,
+     53.0
+    ],
+    "L": 16.0,
+    "reference_volume_mm3": 17210.3,
+    "pappus_volume_mm3": 17210.2991,
+    "n_elements": 17,
+    "n_arcs": 0,
+    "closed": true,
+    "polyline": [
+     [
+      12.0,
+      10.0
+     ],
+     [
+      12.0,
+      18.5
+     ],
+     [
+      16.0,
+      18.5
+     ],
+     [
+      16.0,
+      23.5
+     ],
+     [
+      13.0,
+      23.5
+     ],
+     [
+      13.0,
+      26.5
+     ],
+     [
+      10.0,
+      26.5
+     ],
+     [
+      10.0,
+      23.5
+     ],
+     [
+      6.0,
+      23.5
+     ],
+     [
+      6.0,
+      22.0
+     ],
+     [
+      1.0,
+      22.0
+     ],
+     [
+      0.0,
+      21.0
+     ],
+     [
+      0.0,
+      10.0
+     ],
+     [
+      2.25,
+      10.0
+     ],
+     [
+      3.0,
+      16.5
+     ],
+     [
+      7.0,
+      16.5
+     ],
+     [
+      7.75,
+      10.0
+     ]
+    ],
+    "polyline_close": true,
+    "arcs": [],
+    "note": [
+     "★ 型面**非单调**（轴向进进出出：法兰→台阶→轴承孔→毡圈槽），",
+     "  用 `stairway`（圆柱台阶表）串不出来 ⇒ 由 sw_profile 从面的边界圆重建。",
+     "  坐标已归一化：x 起点 = 0，轴向总长 = L。",
+     "★ 自校验：Pappus 体积 2π·r̄·A 与参照件实测体积吻合到 0.0006%（见上两个字段）。"
+    ]
+   },
+   "L": {
+    "v": 16.0,
+    "source": "measured_faces"
+   }
+  },
+  "cover4": {
+   "no": 31,
+   "name": "端盖4",
+   "qty": 1,
+   "material": "HT150",
+   "kind": "cover_blind",
+   "status": "modeled",
+   "ref": "31-端盖4.SLDPRT",
+   "D": {
+    "v": 68.0,
+    "source": "measured"
+   },
+   "t": {
+    "v": 7.0,
+    "source": "measured"
+   },
+   "bearing": "6206",
+   "form": "blind",
+   "flange_t": {
+    "v": 3.0,
+    "source": "measured_faces"
+   },
+   "flange_bore": {
+    "v": 50.0,
+    "source": "measured_faces"
+   },
+   "spigot_D": {
+    "v": 62.0,
+    "source": "measured_faces",
+    "note": "= 6206 外径"
+   },
+   "spigot_t": {
+    "v": 4.0,
+    "source": "measured_faces"
+   }
+  },
+  "breather": {
+   "no": 10,
+   "name": "通气塞",
+   "qty": 1,
+   "material": "Q235",
+   "kind": "revolution",
+   "status": "todo",
+   "ref": "10-通气塞.SLDPRT",
+   "thread": "M10"
+  },
+  "plug": {
+   "no": 16,
+   "name": "螺塞",
+   "qty": 1,
+   "material": "Q235",
+   "kind": "revolution",
+   "status": "todo",
+   "ref": "16-螺塞.SLDPRT",
+   "thread": "M10"
+  },
+  "bolt_m8x65": {
+   "no": 13,
+   "name": "螺栓 M8×65",
+   "qty": 1,
+   "material": "Q235",
+   "gb": "GB/T 5782",
+   "kind": "hex_bolt",
+   "status": "modeled",
+   "ref": "13-六角头螺栓 M8x65.SLDPRT",
+   "spec": "M8",
+   "L": {
+    "v": 65.0,
+    "source": "drawing"
+   },
+   "spec_s": {
+    "v": 13.0,
+    "source": "gb",
+    "note": "GB/T 5782 s 对边宽"
+   },
+   "spec_k": {
+    "v": 5.3,
+    "source": "gb",
+    "note": "GB/T 5782 k 头高"
+   },
+   "spec_d": {
+    "v": 8.0,
+    "source": "gb",
+    "note": "GB/T 5782 d 公称螺纹直径"
+   },
+   "spec_e": {
+    "v": 14.38,
+    "source": "gb",
+    "note": "GB/T 5782 e 对角宽(min)"
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 5782 建**（M8：s13 / k5.3 / 杆 Ø8，L=65 由图纸给）。参照件 bbox 19.588×16.0×70.6，同样与国标六角头不符（见 bolt_m8x25）。",
+    "solved": {
+     "kind": "hex_bolt",
+     "gb": {
+      "spec": "M8",
+      "s": 13.0,
+      "k": 5.3,
+      "d": 8.0,
+      "e": 14.38,
+      "pitch": 1.25
+     },
+     "L": 65.0,
+     "reference_bbox_mm": [
+      19.588,
+      16.0,
+      70.6
+     ],
+     "reference_volume_mm3": 4370.68,
+     "analytic_volume_mm3": 5594.353,
+     "built": {
+      "version": "1.4.13",
+      "builder": "sw_reducer._hex_plan",
+      "steps": 17,
+      "measured_volume_mm3": 5327.9461,
+      "artifact": "13-bolt_m8x65-13x8x65.SLDPRT",
+      "analytic_match": "逐位吻合（解析值由 GB 表独立算出）",
+      "simplified": "**未建螺纹、未建端部 30° 倒角** ⇒ 光杆/光孔"
+     },
+     "reference_looks_wrong": {
+      "bbox": "bbox [19.588,16,70.6]",
+      "verdict": "★ 参照件**没有六角头**（截图确认为光杆 + 圆端），与零件名/国标 GB/T 5782 矛盾 ⇒ 列入 Q5 待裁决"
+     }
+    },
+    "basis": "⚠️ **本件尺寸用国标值，理由如下（Q5 待裁决）**：参照件虽是六角形，但**带圆角 + 摆放角未知** ⇒ 从 bbox **无法反推对边宽 s**（螺母 M10 外接圆 Ø18.841 既不等于公称对角 18.475、也不满足 [2R, √3R] 的比例），而 s/m 这类**形状参数**从带圆角的实体上取不到干净值。⇒ 形状与尺寸取 GB 表，参照件只作『存在这个件』的证据。"
+   }
+  },
+  "bolt_m8x25": {
+   "no": 27,
+   "name": "螺栓 M8×25",
+   "qty": 2,
+   "material": "Q235",
+   "gb": "GB/T 5782",
+   "kind": "hex_bolt",
+   "status": "modeled",
+   "ref": "27-六角头螺栓 M8x25.SLDPRT",
+   "spec": "M8",
+   "L": {
+    "v": 25.0,
+    "source": "drawing"
+   },
+   "spec_s": {
+    "v": 13.0,
+    "source": "gb",
+    "note": "GB/T 5782 s 对边宽"
+   },
+   "spec_k": {
+    "v": 5.3,
+    "source": "gb",
+    "note": "GB/T 5782 k 头高"
+   },
+   "spec_d": {
+    "v": 8.0,
+    "source": "gb",
+    "note": "GB/T 5782 d 公称螺纹直径"
+   },
+   "spec_e": {
+    "v": 14.38,
+    "source": "gb",
+    "note": "GB/T 5782 e 对角宽(min)"
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 5782 建**（M8：s13 / k5.3 / 杆 Ø8，L=25 由图纸给）。参照件实测 bbox 19.588×16.0×30.6 —— **与国标六角头对不上**，且截图显示它其实是**光杆 + 圆端**（无六角头）⇒ 参照件本身与国标不符，**只作形状参考**。",
+    "solved": {
+     "kind": "hex_bolt",
+     "gb": {
+      "spec": "M8",
+      "s": 13.0,
+      "k": 5.3,
+      "d": 8.0,
+      "e": 14.38,
+      "pitch": 1.25
+     },
+     "L": 25.0,
+     "reference_bbox_mm": [
+      19.588,
+      16.0,
+      30.6
+     ],
+     "reference_volume_mm3": 2360.1,
+     "analytic_volume_mm3": 3583.7337,
+     "built": {
+      "version": "1.4.13",
+      "builder": "sw_reducer._hex_plan",
+      "steps": 17,
+      "measured_volume_mm3": 3317.3268,
+      "artifact": "27-bolt_m8x25-13x8x25.SLDPRT",
+      "analytic_match": "逐位吻合（解析值由 GB 表独立算出）",
+      "simplified": "**未建螺纹、未建端部 30° 倒角** ⇒ 光杆/光孔"
+     },
+     "reference_looks_wrong": {
+      "bbox": "bbox [19.588,16,30.6]",
+      "verdict": "★ 参照件**没有六角头**（截图确认为光杆 + 圆端），与零件名/国标 GB/T 5782 矛盾 ⇒ 列入 Q5 待裁决"
+     }
+    },
+    "basis": "⚠️ **本件尺寸用国标值，理由如下（Q5 待裁决）**：参照件虽是六角形，但**带圆角 + 摆放角未知** ⇒ 从 bbox **无法反推对边宽 s**（螺母 M10 外接圆 Ø18.841 既不等于公称对角 18.475、也不满足 [2R, √3R] 的比例），而 s/m 这类**形状参数**从带圆角的实体上取不到干净值。⇒ 形状与尺寸取 GB 表，参照件只作『存在这个件』的证据。"
+   }
+  },
+  "nut_m8": {
+   "no": 15,
+   "name": "螺母 M8",
+   "qty": 4,
+   "material": "Q235",
+   "gb": "GB/T 6170",
+   "kind": "hex_nut",
+   "status": "modeled",
+   "ref": "15-螺母 M8-10-2.SLDPRT",
+   "spec": "M8",
+   "spec_s": {
+    "v": 13.0,
+    "source": "gb",
+    "note": "GB/T 6170 s 对边宽"
+   },
+   "spec_m": {
+    "v": 6.8,
+    "source": "gb",
+    "note": "GB/T 6170 m 螺母高"
+   },
+   "spec_d": {
+    "v": 8.0,
+    "source": "gb",
+    "note": "GB/T 6170 d 公称螺纹直径"
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 6170 建**（M8：s13 / m6.8 / 内孔 Ø8）。参照件实测 bbox 15.246×12.453×7.506、V=513.47 —— 对边比国标小、**外形带圆角**，且 `mass_props` 对含内螺纹件不可信（§83）⇒ **不用它对账**，改用 `check_bbox` + `check_cyl_radius` + 解析体积自校验。参照件取证：端面 Z=±3.4（厚 6.8 ✔ 与国标一致）、内孔 Ø8 ✔。",
+    "solved": {
+     "kind": "hex_nut",
+     "gb": {
+      "spec": "M8",
+      "s": 13.0,
+      "m": 6.8,
+      "d": 8.0,
+      "e": 14.38
+     },
+     "reference_bbox_mm": [
+      15.246,
+      12.453,
+      7.506
+     ],
+     "reference_volume_mm3": 513.47,
+     "analytic_volume_mm3": 2643.9037,
+     "built": {
+      "version": "1.4.13",
+      "builder": "sw_reducer._hex_plan",
+      "steps": 12,
+      "measured_volume_mm3": 2643.9038,
+      "artifact": "15-nut_m8-13x8x6.8.SLDPRT",
+      "analytic_match": "逐位吻合（解析值由 GB 表独立算出）",
+      "simplified": "**未建螺纹、未建端部 30° 倒角** ⇒ 光杆/光孔"
+     },
+     "measured_readable": {
+      "bbox": [
+       15.246,
+       12.453,
+       7.506
+      ],
+      "note": "厚度 7.506 > GB m=6.8，差值来自端部圆角（外缘被削不薄反厚？）——**未逐面取证**，暂按 GB m=6.8 建；列入 Q5"
+     }
+    },
+    "basis": "⚠️ **本件尺寸用国标值，理由如下（Q5 待裁决）**：参照件虽是六角形，但**带圆角 + 摆放角未知** ⇒ 从 bbox **无法反推对边宽 s**（螺母 M10 外接圆 Ø18.841 既不等于公称对角 18.475、也不满足 [2R, √3R] 的比例），而 s/m 这类**形状参数**从带圆角的实体上取不到干净值。⇒ 形状与尺寸取 GB 表，参照件只作『存在这个件』的证据。"
+   }
+  },
+  "nut_m10": {
+   "no": 11,
+   "name": "螺母 M10",
+   "qty": 2,
+   "material": "Q235",
+   "gb": "GB/T 6170",
+   "kind": "hex_nut",
+   "status": "modeled",
+   "ref": "11-螺母 M10.SLDPRT",
+   "spec": "M10",
+   "spec_s": {
+    "v": 16.0,
+    "source": "gb",
+    "note": "GB/T 6170 s 对边宽"
+   },
+   "spec_m": {
+    "v": 8.4,
+    "source": "gb",
+    "note": "GB/T 6170 m 螺母高"
+   },
+   "spec_d": {
+    "v": 10.0,
+    "source": "gb",
+    "note": "GB/T 6170 d 公称螺纹直径"
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 6170 建**（M10：s16 / m8.4 / 内孔 Ø10）。参照件 bbox 18.841×15.389×9.127、外接圆 Ø18.841（> 公称对角 18.475，**外形带圆角**）；端面 Z=±4.2（**厚 8.4 与国标一致**）、内孔 Ø10 ✔。`mass_props` 的 V=970.73 对含内螺纹件**不可信**（§83，解析应 ≈4900）⇒ 不作对账基准。",
+    "solved": {
+     "kind": "hex_nut",
+     "gb": {
+      "spec": "M10",
+      "s": 16.0,
+      "m": 8.4,
+      "d": 10.0,
+      "e": 17.77
+     },
+     "reference_bbox_mm": [
+      18.841,
+      15.389,
+      9.127
+     ],
+     "reference_volume_mm3": 970.73,
+     "analytic_volume_mm3": 4927.1682,
+     "built": {
+      "version": "1.4.13",
+      "builder": "sw_reducer._hex_plan",
+      "steps": 12,
+      "measured_volume_mm3": 4927.1684,
+      "artifact": "11-nut_m10-16x10x8.4.SLDPRT",
+      "analytic_match": "逐位吻合（解析值由 GB 表独立算出）",
+      "simplified": "**未建螺纹、未建端部 30° 倒角** ⇒ 光杆/光孔"
+     },
+     "measured_readable": {
+      "bore_d": 10.0,
+      "face_z": [
+       -4.2,
+       4.2
+      ],
+      "thickness": 8.4,
+      "note": "sw_faces --axis 2 实测：内孔 Ø10.000、端面 Z=±4.200 ⇒ 厚 8.4，**与 GB/T 6170 的 m=8.4 一致** ⇒ 厚度可跟参照件；s 跟不了（见 basis）",
+      "outer_circumference_d": 18.841,
+      "bbox": [
+       18.841,
+       15.389,
+       9.127
+      ]
+     }
+    },
+    "basis": "⚠️ **本件尺寸用国标值，理由如下（Q5 待裁决）**：参照件虽是六角形，但**带圆角 + 摆放角未知** ⇒ 从 bbox **无法反推对边宽 s**（螺母 M10 外接圆 Ø18.841 既不等于公称对角 18.475、也不满足 [2R, √3R] 的比例），而 s/m 这类**形状参数**从带圆角的实体上取不到干净值。⇒ 形状与尺寸取 GB 表，参照件只作『存在这个件』的证据。"
+   }
+  },
+  "screw_m3x22": {
+   "no": 5,
+   "name": "螺钉 M3×22",
+   "qty": 3,
+   "material": "Q235",
+   "gb": "GB/T 818",
+   "kind": "cross_pan_screw",
+   "status": "modeled",
+   "ref": "5-螺钉M3x22.SLDPRT",
+   "spec": "M3",
+   "L": {
+    "v": 22.0,
+    "source": "drawing",
+    "note": "GB/T 818 的 L = **螺纹长度（不含头）**"
+   },
+   "D": {
+    "v": 5.6,
+    "source": "gb",
+    "note": "GB/T 818 M3 dk 头径（参照件 Ø6.0，见下）"
+   },
+   "t": {
+    "v": 24.4,
+    "source": "gb",
+    "note": "总长 = 头高 k 2.4 + 螺纹长 L"
+   },
+   "spec_dk": {
+    "v": 5.6,
+    "source": "gb",
+    "note": "GB/T 818 dk 头径"
+   },
+   "spec_k": {
+    "v": 2.4,
+    "source": "gb",
+    "note": "GB/T 818 k 头高"
+   },
+   "spec_d": {
+    "v": 3.0,
+    "source": "gb",
+    "note": "GB/T 818 d 公称杆径"
+   },
+   "profile": {
+    "axis": "X",
+    "L": 24.4,
+    "polyline": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      2.8
+     ],
+     [
+      2.4,
+      2.8
+     ],
+     [
+      2.4,
+      1.5
+     ],
+     [
+      24.4,
+      1.5
+     ],
+     [
+      24.4,
+      0.0
+     ]
+    ],
+    "polyline_close": true,
+    "arcs": [],
+    "n_elements": 6,
+    "revolvable": true,
+    "source": "GB/T 818 M3 盘头+杆半剖面（十字槽未建，见 _measured_faces）",
+    "pappus_volume_mm3": 214.6210437226403
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 818 建（盘头+杆，十字槽未建）**。参照件实测 bbox 体 191.7 mm³ —— 与 GB 件差 12%，来自①十字槽挖除 ②参照件头 Ø6.0×2.0 vs GB Ø5.6×2.4 ③螺纹。**不拿参照件体积当对账基准**（含螺纹件 mass_props 亦不可信，§83），用解析自校验。",
+    "solved": {
+     "kind": "cross_pan_screw_no_slot",
+     "gb": {
+      "std": "GB/T 818",
+      "spec": "M3",
+      "d": 3.0,
+      "dk": 5.6,
+      "k": 2.4,
+      "L": 22.0,
+      "slot_no": 1,
+      "h_type_m": 3.0
+     },
+     "reference_volume_mm3": 191.7,
+     "analytic_volume_mm3": 214.621,
+     "reference_vs_gb": "参照件头 Ø6.0×2.0、杆 Ø3；GB 头 Ø5.6×2.4 ⇒ 差 19%(L=10)/11%(L=22)",
+     "slot_not_built": "★ **十字槽未建**：GB 表无槽宽/槽深；参照件槽草图是「4 线单矩形 + 一个圆的拉伸」，不像十字形 ⇒ 建模可疑（Q6）",
+     "built": {
+      "version": "1.4.14",
+      "builder": "sw_reducer._profile_plan",
+      "steps": 13,
+      "measured_volume_mm3": 214.621,
+      "artifact": "5-screw_m3x22-5.6x24.4.SLDPRT",
+      "analytic_match": "逐位吻合（Pappus 由型面现算）",
+      "simplified": "**十字槽未建**（无权威槽宽/槽深，见 Q6）+ 未建螺纹"
+     }
+    }
+   }
+  },
+  "screw_m3x10": {
+   "no": 9,
+   "name": "螺钉 M3×10",
+   "qty": 4,
+   "material": "Q235",
+   "gb": "GB/T 818",
+   "kind": "cross_pan_screw",
+   "status": "modeled",
+   "ref": "9-螺钉M3x10.SLDPRT",
+   "spec": "M3",
+   "L": {
+    "v": 10.0,
+    "source": "drawing",
+    "note": "GB/T 818 的 L = **螺纹长度（不含头）**"
+   },
+   "D": {
+    "v": 5.6,
+    "source": "gb",
+    "note": "GB/T 818 M3 dk 头径（参照件 Ø6.0，见下）"
+   },
+   "t": {
+    "v": 12.4,
+    "source": "gb",
+    "note": "总长 = 头高 k 2.4 + 螺纹长 L"
+   },
+   "spec_dk": {
+    "v": 5.6,
+    "source": "gb",
+    "note": "GB/T 818 dk 头径"
+   },
+   "spec_k": {
+    "v": 2.4,
+    "source": "gb",
+    "note": "GB/T 818 k 头高"
+   },
+   "spec_d": {
+    "v": 3.0,
+    "source": "gb",
+    "note": "GB/T 818 d 公称杆径"
+   },
+   "profile": {
+    "axis": "X",
+    "L": 12.4,
+    "polyline": [
+     [
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      2.8
+     ],
+     [
+      2.4,
+      2.8
+     ],
+     [
+      2.4,
+      1.5
+     ],
+     [
+      12.4,
+      1.5
+     ],
+     [
+      12.4,
+      0.0
+     ]
+    ],
+    "polyline_close": true,
+    "arcs": [],
+    "n_elements": 6,
+    "revolvable": true,
+    "source": "GB/T 818 M3 盘头+杆半剖面（十字槽未建，见 _measured_faces）",
+    "pappus_volume_mm3": 129.7980420757159
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 818 建（盘头+杆，十字槽未建）**。参照件实测 bbox 体 108.84 mm³ —— 与 GB 件差 19%，来自①十字槽挖除 ②参照件头 Ø6.0×2.0 vs GB Ø5.6×2.4 ③螺纹。**不拿参照件体积当对账基准**（含螺纹件 mass_props 亦不可信，§83），用解析自校验。",
+    "solved": {
+     "kind": "cross_pan_screw_no_slot",
+     "gb": {
+      "std": "GB/T 818",
+      "spec": "M3",
+      "d": 3.0,
+      "dk": 5.6,
+      "k": 2.4,
+      "L": 10.0,
+      "slot_no": 1,
+      "h_type_m": 3.0
+     },
+     "reference_volume_mm3": 108.84,
+     "analytic_volume_mm3": 129.798,
+     "reference_vs_gb": "参照件头 Ø6.0×2.0、杆 Ø3；GB 头 Ø5.6×2.4 ⇒ 差 19%(L=10)/11%(L=22)",
+     "slot_not_built": "★ **十字槽未建**：GB 表无槽宽/槽深；参照件槽草图是「4 线单矩形 + 一个圆的拉伸」，不像十字形 ⇒ 建模可疑（Q6）",
+     "built": {
+      "version": "1.4.14",
+      "builder": "sw_reducer._profile_plan",
+      "steps": 13,
+      "measured_volume_mm3": 129.798,
+      "artifact": "9-screw_m3x10-5.6x12.4.SLDPRT",
+      "analytic_match": "逐位吻合（Pappus 由型面现算）",
+      "simplified": "**十字槽未建**（无权威槽宽/槽深，见 Q6）+ 未建螺纹"
+     }
+    }
+   }
+  },
+  "washer_10": {
+   "no": 17,
+   "name": "平垫圈 10",
+   "qty": 6,
+   "material": "A3",
+   "gb": "GB/T 97.1",
+   "kind": "plain_washer",
+   "status": "modeled",
+   "ref": "17-平垫圈 10.SLDPRT",
+   "spec": "10",
+   "D": {
+    "v": 22.0,
+    "source": "measured",
+    "note": "参照件实测外径（Q2 口径：跟参照件）"
+   },
+   "bore": {
+    "v": 11.0,
+    "source": "measured",
+    "note": "参照件实测内孔（由体积反解 d1≈10.97）"
+   },
+   "t": {
+    "v": 1.5,
+    "source": "measured",
+    "note": "参照件实测厚"
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 97.1 建**（d1 10.5 / d2 20 / h 2）。参照件实测 **Ø22/Ø11/1.5**（体积 428.33 = π/4(22²−11²)·1.5，与国标件不是同一个东西，像美制 3/8\"）。口径：标准件按国标表建，参照件只作形状对账 ⇒ 包围盒会有 2mm/0.5mm/0.5mm 的差，**属预期**。",
+    "solved": {
+     "kind": "plain_ring",
+     "measured": {
+      "d2": 22.0,
+      "d1": 11.0,
+      "h": 1.5,
+      "from": "17-平垫圈 10.SLDPRT：sw_faces --axis 2 实测外圆柱 Ø22.000×1.5、端面 Z=0/1.5 面积 285.10/286.00 ⇒ 内孔 Ø11.0→Ø10.95（**带 0.05mm 拔模**）；bbox [22,22,1.5]、V=428.33"
+     },
+     "gb": {
+      "std": "GB/T 97.1",
+      "d1": 10.5,
+      "d2": 20.0,
+      "h": 2.0,
+      "note": "**国标值与参照件不同，本件按参照件建**（Q2 口径）"
+     },
+     "divergence": {
+      "d1": "+0.5mm",
+      "d2": "+2.0mm",
+      "h": "−0.5mm",
+      "verdict": "参照件疑似**美制 3/8\"**（OD 22.2 / h 1.6 附近），非国标件",
+      "note": "参照件内孔略带 0.05mm 拔模 ⇒ 我们建**光孔 Ø11**，体积差 0.17%（427.65 vs 428.33），属预期"
+     },
+     "built": {
+      "version": "1.4.13",
+      "builder": "sw_reducer._ring_plan",
+      "steps": 13,
+      "measured_volume_mm3": 427.6493,
+      "artifact": "17-ring-22x11x1.5.SLDPRT",
+      "reference_volume_mm3": 428.33,
+      "delta_pct": 0.1586,
+      "simplified": "内孔按光孔 Ø11 建（参照件有 0.05mm 拔模）"
+     }
+    }
+   }
+  },
+  "washer_s8": {
+   "no": 14,
+   "name": "弹簧垫圈 8",
+   "qty": 1,
+   "material": "65Mn",
+   "gb": "GB/T 93",
+   "kind": "spring_washer",
+   "status": "modeled",
+   "ref": "14-弹簧垫圈 8-伸缩.SLDPRT",
+   "spec": "8",
+   "d1": {
+    "v": 8.1,
+    "source": "gb",
+    "note": "GB/T 93 d 内径"
+   },
+   "b": {
+    "v": 2.0,
+    "source": "gb",
+    "note": "GB/T 93 b 料宽（径向）"
+   },
+   "s": {
+    "v": 2.0,
+    "source": "gb",
+    "note": "GB/T 93 s 厚（轴向）"
+   },
+   "H": {
+    "v": 4.0,
+    "source": "gb",
+    "note": "GB/T 93 H 自由高"
+   },
+   "_measured_faces": {
+    "note": "★ **按 GB/T 93 标准型（压平态）建**（d1 8.1 / b 2.0 / s 2.0 / H 4.0 ⇒ 2 圈、螺距=料宽圈间相切，H = s+(n−1)·b = 4.0 逐位自洽）。\n  用户 2026-10-02 提醒：图上是**展开态**，装配时被压平成平垫圈 ⇒ **我们建的就是压平态 = 工作态**；参照件那个「伸缩」配置只作示意，**不对账**。\n  ★ 参照件实测 106.27 反推只有 **0.84 圈**，压平/展开都算不上 ⇒ 确认是示意图。",
+    "solved": {
+     "kind": "spring_washer",
+     "gb": {
+      "std": "GB/T 93",
+      "d1": 8.1,
+      "b": 2.0,
+      "s": 2.0,
+      "H": 4.0,
+      "n_turns": 2,
+      "pitch": "= 料宽 b（圈间相切）",
+      "helix_R": 5.05,
+      "OD": 12.1
+     },
+     "reference_bbox_mm": [
+      12.284,
+      4.984,
+      14.206
+     ],
+     "reference_volume_mm3": 106.27,
+     "reference_note": "参照件是**拉伸态**（螺距≈7.1、圈间有缝），GB 平螺旋圈间相切 ⇒ 不是标准形状",
+     "blocked": {
+      "stage": "helix 参数",
+      "symptom": "要 2 圈（height=4/pitch=2），真机反推 **2.516 圈**（体积 320 vs 解析 254.3，多 26%）；bbox X 12.753 vs 理论 12.1",
+      "ruled_out": [
+       "InsertHelix 的 Outward（改 False 后数值完全不变）",
+       "swept_boss 的 twist（0→1 KeepNormalConstant 不变）",
+       "截面尺寸（扫掠体积反推截面积仍为 4 ⇒ 截面没畸变）"
+      ],
+      "solved_but_related": "★ **模型态下选不中草图里的圆边**（SelectByID2 七种方式全灭）已解决：`helix` 增强为**草图编辑态内**用 ISketchSegment.Select4 选中，螺旋线正常生成",
+      "next": "查 InsertHelix 第 9 个参数 TotalHeights / HelixDefinedBy 常量是否真的生效"
+     },
+     "built": {
+      "version": "1.4.16",
+      "builder": "sw_reducer._spring_washer_plan",
+      "steps": 15,
+      "measured_volume_mm3": 253.825,
+      "analytic_volume_mm3": 254.34,
+      "delta_pct": 0.2,
+      "artifact": "14-washer_s8-d8.1xH4x2n.SLDPRT",
+      "bbox_note": "外径 12.1 ✔；轴向 GetBodyBox 报 6.0（真值 4.0，B 样条面虚报）⇒ bbox 不做门禁",
+      "solved_blocker": "★ 曾卡在「圈数 2.516」—— 根因是**截面被画成圆**（sketch_end 改名错对象 + helix 消费草图），已修"
+     },
+     "two_states": {
+      "_what": "★ 弹簧垫圈有**展开态 / 压平态**两态；标准型平螺旋的自由高 == 压平高。",
+      "flattened": {
+       "name": "压平态（= 装配后的工作态 = GB/T 93 标准型，我们建的）",
+       "pitch": 2.0,
+       "n_turns": 2,
+       "H_free": 4.0,
+       "H_flat_formula": "s + (n−1)·b = 2.0 + 1×2.0 = 4.0",
+       "self_consistent": true,
+       "bbox_mm": [
+        12.1,
+        12.1,
+        4.0
+       ],
+       "analytic_volume_mm3": 255.85,
+       "measured_volume_mm3": 253.825,
+       "delta_pct": 0.2
+      },
+      "expanded": {
+       "name": "展开态（产品图 / 参照件「伸缩」配置的样子）",
+       "pitch": 7.1,
+       "n_turns": 2,
+       "analytic_volume_mm3": 908.27,
+       "note": "圈间**有缝**的示意形状；螺距不是规格的一部分（GB/T 93 只规定自由高 H）"
+      },
+      "reference_is_neither": {
+       "claim": "★ 参照件 `14-弹簧垫圈 8` 的「伸缩」配置**既不是压平态也不是 2 圈展开态**",
+       "reference_bbox_mm": [
+        12.284,
+        4.984,
+        14.206
+       ],
+       "reference_volume_mm3": 106.27,
+       "back_calc": "V = b·s·L ⇒ L = 106.27/4 = **26.57mm**；而一圈路径长 √((π·10.1)²+2²) = 31.79 ⇒ **只有 0.84 圈**。要 2 圈（压平 255.85 / 展开 908.27）都对不上。",
+       "conclusion": "它是**画图示意**（让图纸上能看见螺旋形），不是规格，也不是任何工作态 ⇒ 不作对账基准"
+      },
+      "authority_override": "★ 本条**改写** `meta.authority` 的适用口径：对弹簧垫圈，**GB/T 93 标准型优先于参照件实测** —— 理由是工作态（压平）才是设计意图，而参照件画的是展开示意。其余件仍按「图纸 > 参照件实测 > 国标校核」。"
+     }
+    }
+   }
+  },
+  "bearing_6204": {
+   "no": 24,
+   "name": "深沟球轴承 6204",
+   "qty": 2,
+   "material": "GB/T276",
+   "kind": "bearing",
+   "status": "todo",
+   "ref": "24-深沟球轴承-6204.SLDPRT",
+   "subasm_dir": "24-深沟球轴承-零部件及装配体",
+   "subasm_files": [
+    "24-深沟球轴承-6204.SLDASM",
+    "轴承内测.SLDPRT",
+    "轴承外圈.SLDPRT",
+    "滚珠.SLDPRT",
+    "保持架.SLDPRT",
+    "铆钉.SLDPRT"
+   ],
+   "spec": "6204"
+  },
+  "bearing_6206": {
+   "no": 30,
+   "name": "深沟球轴承 6206",
+   "qty": 2,
+   "material": "GB/T276",
+   "kind": "bearing",
+   "status": "todo",
+   "ref": "30-深沟球轴承-6206.SLDPRT",
+   "subasm_dir": "30-深沟球轴承-6206-零部件-装配图",
+   "subasm_files": [
+    "30-深沟球轴承.SLDASM",
+    "轴承内圈-1.SLDPRT",
+    "轴承外圈-1.SLDPRT",
+    "滚子.SLDPRT",
+    "保持架-1.SLDPRT",
+    "铆钉.SLDPRT"
+   ],
+   "spec": "6206"
+  },
+  "housing_base": {
+   "no": 1,
+   "name": "箱座",
+   "qty": 1,
+   "material": "HT150",
+   "kind": "housing",
+   "status": "todo",
+   "ref": "1-箱座.SLDPRT",
+   "difficulty": "D4"
+  },
+  "housing_cover": {
+   "no": 12,
+   "name": "箱盖",
+   "qty": 1,
+   "material": "HT150",
+   "kind": "housing",
+   "status": "todo",
+   "ref": "12-箱盖.SLDPRT",
+   "difficulty": "D4"
+  },
+  "output_shaft": {
+   "no": 20,
+   "name": "轴",
+   "qty": 1,
+   "material": "45",
+   "kind": "stepped_shaft",
+   "status": "modeled",
+   "ref": "20-轴.SLDPRT",
+   "segments_ref": "见 sw_faces.py 实测台阶表"
+  },
+  "gear_shaft": {
+   "no": 23,
+   "name": "齿轮轴",
+   "qty": 1,
+   "material": "45",
+   "kind": "gear_shaft",
+   "status": "modeled",
+   "ref": "23-齿轮轴.SLDPRT",
+   "gear_role": "pinion",
+   "_measured_faces": {
+    "note": "★★★ **按用户提供的正式图纸重建**（2026-10-02）。此前只有成品 SLDPRT，靠反推，错了三处。\n  参数表（图纸右上）：m=2 / z=18（图纸 z=15，**根切**）/ α=20° ⇒ 齿顶 **Ø40**、齿根 **Ø31**、齿宽 **20=10m**。\n  段表（11 段，Σl=159.196，总长 161.412，图纸 158）：\n    Ø20×20 → Ø18×3 → Ø24×8 → ★齿部 Ø24×25.196 → Ø24×8 → Ø18×3 → Ø20×18\n    → ★**1:20 拔模段（锥 Ø20→Ø18×40）** → ★键槽段 Ø18×18 → Ø11×2 → M14×14\n  ★ 三处修正：\n   ① **1:20 拔模段是真的锥面**（上一版误判成 Ø18 圆柱 × 38）。证据：那个面的 `GetBox` YZ 跨度 **18.092 × 18.000**，0.092 的不对称就是锥度 —— 我当时当成浮点误差了。⇒ `shaft_profile` 新增 `d2` 锥段（不给 d2 行为一字不变）。\n   ② **齿宽**：图纸 50 是 z=15 的齿宽；z=18 重设计后取 b=10m=20。\n   ③ **键槽底 Ra1.6**（图纸）：我上一版量的『深 2.964』是含圆角的总深，不是直壁深度；深度改按 GB/T 1095 取 t₁=3.5。\n  ★ 齿部两端的 **30° 齿顶锥**未建（`gear_profile` 等截面）⇒ 已登记 **Q9**、影响仅在齿顶端部。",
+    "meshing_link": "meta.gear_train.pinion（z=15, d=30, da=34.8, x=+0.2）",
+    "shaft_steps": {
+     "axis": "X",
+     "_from": "sw_faces --doc 23-齿轮轴.SLDPRT --axis 0（2026-10-02 真机）",
+     "segments": [
+      {
+       "d": 20.0,
+       "x0": -61.0,
+       "x1": -45.0,
+       "L": 16.0,
+       "role": "输出端轴"
+      },
+      {
+       "d": 18.0,
+       "x0": -45.0,
+       "x1": -42.0,
+       "L": 3.0,
+       "role": "退刀槽"
+      },
+      {
+       "d": 24.0,
+       "x0": -42.0,
+       "x1": -34.0,
+       "L": 8.0,
+       "role": "齿根处轴段",
+       "_superseded": "★ 该段 Ø24 紧邻齿根，随齿数变；建件时按 df₁=31 留台阶",
+       "_new_d": 27.0
+      },
+      {
+       "d": 25.0,
+       "x0": -33.711,
+       "x1": -0.289,
+       "L": 33.423,
+       "role": "★齿根圆 df（15 个面）",
+       "_superseded": "★ **旧齿数**（z=15）实测 Ø25。新齿数 z₁=18 ⇒ 齿根圆 = 31、齿顶圆 = 40，建件时按新值算，本段仅留作参照。",
+       "_new_d": 31.0
+      },
+      {
+       "d": 34.0,
+       "x0": -31.113,
+       "x1": -2.887,
+       "L": 28.226,
+       "role": "★齿顶圆 da（15 个面）",
+       "_superseded": "★ **旧齿数**（z=15）实测 Ø34；新齿顶圆 = 40",
+       "_new_d": 40.0
+      },
+      {
+       "d": 18.0,
+       "x0": 26.0,
+       "x1": 42.0,
+       "L": 16.0,
+       "role": "轴承位"
+      },
+      {
+       "d": 6.0,
+       "x0": 45.0,
+       "x1": 48.186,
+       "L": 3.186,
+       "role": "法兰"
+      },
+      {
+       "d": 11.0,
+       "x0": 82.0,
+       "x1": 86.0,
+       "L": 4.0,
+       "role": "端部"
+      },
+      {
+       "d": 14.0,
+       "x0": 85.979,
+       "x1": 95.026,
+       "L": 9.047,
+       "role": "端部（螺纹段）"
+      }
+     ],
+     "bbox_mm": [
+      158.241,
+      33.794,
+      33.922
+     ],
+     "volume_mm3": 55551.0,
+     "n_faces": 154,
+     "n_features": 34,
+     "big_cone": {
+      "area_mm2": 1831.52,
+      "box": [
+       38.0,
+       18.092,
+       18.0
+      ],
+      "note": "大锥面过渡/倒角"
+     },
+     "thread_evidence": "ident4006 面 A=237.51 box=[9.876,14.01,14.01] ⇒ **B 样条螺纹面**（约 M14）",
+     "derivation": "齿根 Ø25.000 = df(z=15,m=2,x=0) **逐位吻合** ⇒ 参照件不变位（见 Q7）",
+     "_redesign": "★ 齿部几段为**旧齿数 z=15** 实测值，已标 `_superseded`；新齿数 z₁=18 ⇒ df₁=31 / da₁=40。非齿部各段沿用。"
+    },
+    "shaft_steps_v2": {
+     "_from": "sw_faces --doc 23-齿轮轴.SLDPRT --axis 0（2026-10-02 **全量**圆柱面重取）",
+     "_fix": "★ 上一版只按半径分组取「每个半径的最长一段」，漏了 x 0→26 的三段小直径轴身。本版按半径分组后**合并相邻区间**，得到完整 12 段。",
+     "segments": [
+      {
+       "d": 20.0,
+       "x0": -61.0,
+       "x1": -45.0,
+       "L": 16.0,
+       "role": "输出端轴"
+      },
+      {
+       "d": 18.0,
+       "x0": -45.0,
+       "x1": -42.0,
+       "L": 3.0,
+       "role": "退刀槽"
+      },
+      {
+       "d": 24.0,
+       "x0": -42.0,
+       "x1": -34.0,
+       "L": 8.0,
+       "role": "齿根处轴段"
+      },
+      {
+       "d": 31.0,
+       "x0": -33.711,
+       "x1": -0.289,
+       "L": 33.422,
+       "role": "齿根圆"
+      },
+      {
+       "d": 24.0,
+       "x0": 0.0,
+       "x1": 8.0,
+       "L": 8.0,
+       "role": "齿根对侧轴段"
+      },
+      {
+       "d": 18.0,
+       "x0": 8.0,
+       "x1": 11.0,
+       "L": 3.0,
+       "role": "退刀槽对侧"
+      },
+      {
+       "d": 20.0,
+       "x0": 11.0,
+       "x1": 26.0,
+       "L": 15.0,
+       "role": "轴身"
+      },
+      {
+       "d": 18.0,
+       "x0": 26.0,
+       "x1": 42.0,
+       "L": 16.0,
+       "role": "轴承位"
+      },
+      {
+       "d": 6.0,
+       "x0": 45.0,
+       "x1": 48.186,
+       "L": 3.186,
+       "role": "法兰"
+      },
+      {
+       "d": 6.0,
+       "x0": 71.815,
+       "x1": 75.0,
+       "L": 3.185,
+       "role": "法兰对侧"
+      },
+      {
+       "d": 11.0,
+       "x0": 82.0,
+       "x1": 86.0,
+       "L": 4.0,
+       "role": "端部"
+      },
+      {
+       "d": 14.0,
+       "x0": 85.979,
+       "x1": 95.026,
+       "L": 9.047,
+       "role": "端部螺纹（M14）"
+      }
+     ],
+     "bbox_mm": [
+      158.241,
+      33.794,
+      33.922
+     ],
+     "x_range": [
+      -62.0,
+      96.241
+     ],
+     "volume_mm3": 55551.0,
+     "n_faces": 154,
+     "n_features": 34,
+     "thread_evidence": "ident4006 A=237.51 box=[9.876,14.01,14.01] ⇒ B 样条螺纹面（约 M14）",
+     "tooth_runout_derived": "齿根段 33.422 vs 齿顶段 28.226 ⇒ 每端退刀 2.598；齿宽 = 28.226（真正啮合宽度）"
+    },
+    "built": {
+     "version": "1.4.21",
+     "builder": "sw_reducer._gear_shaft_plan",
+     "steps": 24,
+     "redesigned": true,
+     "measured_volume_mm3": 47015.11,
+     "expect_mass_g": 47.015,
+     "bbox_mm": [
+      111.243,
+      40.0,
+      39.606
+     ],
+     "teeth": 18,
+     "profile_points": 271,
+     "diagnostics": [
+      "info:root_below_base（df 31 < db 33.83，正常）"
+     ],
+     "cylinders": {
+      "count": 9,
+      "max_r": 12.0,
+      "note": "★ 齿根 Ø31 与齿顶 Ø40 **都不是圆柱面**（渐开线齿廓）⇒ 只能由 check_bbox 判；圆柱面判据钉轴台阶 Ø24（r=12）"
+     },
+     "feature_chain": "草图1(轴半剖面 25 点) → 旋转(轴体) → 齿部面(plane_offset Right+29) → 草图2(齿廓 271 点) → 凸台-拉伸 b=20 merge=True(齿部)",
+     "artifact": "23-gear_shaft-m2z18x40.SLDPRT",
+     "reconcile": "齿顶方向 40.0/39.606 ✔（渐开线采样差 0.4）；总长 111.243 vs 参照件 158.241 **不对比**（当时锥面不建，见 Q8）",
+     "_superseded": "★ 本记录属 **v1.4.21 的 z=18 版本**（da=40 / df=31 / b=20 / 齿廓面 plane_offset Right+29）—— 已被**方案 A 变位（z=15 / x=+0.2 / da=34.8 / df=25.8 / b=34）**取代。新的 `built` 记录在真机重跑后覆盖本条。★ 变位方案落地后**必须重跑**：旧 bbox=40.0 对新设计 da=34.8 会报「对不上」，那是**记录过期**不是模型错。"
+    }
+   },
+   "_redesign_2026_10_02": {
+    "why": "★ **方案 A 齿廓变位**（用户决策，取代当日上午的「改齿数 z₁=18」）",
+    "m": 2.0,
+    "z1": 15,
+    "x1": 0.2,
+    "da1": 34.8,
+    "df1": 25.8,
+    "face_width": 34.0,
+    "root_seg_len": 34.0,
+    "runout_each_end": 0.0,
+    "segments_full": {
+     "_how": "★ 图纸 11 段（尺寸链 158 闭合），不再靠参照件反推",
+     "n": 11,
+     "total_l": 155.5,
+     "end_chamfer": 1.25,
+     "total_len": 158.0
+    },
+    "superseded": "★ 上午的「z₁=18 / z₂=52」方案作废：齿顶会撑到 Ø40，偏离图纸。"
+   },
+   "shaft_segments": {
+    "source": "★★ **用户提供的正式图纸**（2026-10-02）—— 高于参照件反推（`meta.authority`：图纸 > 参照件 > 国标）",
+    "drawing": "23-齿轮轴 比例 1:1，总长 158，m=2.0 / z=15 / α=20°",
+    "order": "从 x=0（输出端）向 +X 排开 —— `shaft_profile` 的排法",
+    "end_chamfer": 1.25,
+    "end_chamfer_why": "图纸左端 1.5×45°、右端 1×45°。`shaft_profile` 只支持**单一** end_chamfer ⇒ 取均值 1.25；总长 = Σl(155.5) + 2×1.25 = **158** ✔（与图纸标注逐位相同）",
+    "total_l": 155.5,
+    "total_len": 158.0,
+    "total_len_formula": "Σl(155.5) + 2×ec(1.25) = 158 = 图纸总长。★ 本轮起**与图纸总长逐位相同**（上一版 141.412 是因为段表不全 + 5 段锥面未建）",
+    "n_segments": 11,
+    "cone_segments": [
+     "★1:20 拔模段（锥）"
+    ],
+    "chain_check": "★ 图纸尺寸链自校验：20(17+3) + 50(8+34+8) + 18(3+15) + 16 + 54(40+14) = **158** ✔\n  · 54 = **40（1:20 锥）+ 4（Ø11 退刀槽）+ 10（M14 螺纹）**；\n  · 段 1 的「17」含左端 1.5×45° 倒角 ⇒ 直段 15.5；段 11 的「10」含右端 1×45° ⇒ 直段 9；\n  · 段 8 的「16」**图纸漏标**，由总长反求（158 − 20 − 50 − 18 − 54 = 16）。",
+    "segments": [
+     {
+      "d": 20.0,
+      "l": 15.5,
+      "name": "输出端轴 Ø20m6",
+      "_src": "图纸 20（= 17 + 3；Ra0.8）。★ 「17」含左端 1.5×45° 倒角 ⇒ 直段 15.5",
+      "_tol": "Ø20m6 —— 配轴承 6204 内圈（过渡配合）"
+     },
+     {
+      "d": 18.0,
+      "l": 3.0,
+      "name": "退刀槽 Ø18",
+      "_src": "图纸 3（磨削越程槽）"
+     },
+     {
+      "d": 24.0,
+      "l": 8.0,
+      "name": "齿根侧台阶 Ø24",
+      "_src": "图纸 8（Ra0.8，轴承内圈定位端面）"
+     },
+     {
+      "d": 24.0,
+      "l": 34.0,
+      "name": "★齿部轴段",
+      "_redesign": "★ 齿部轴身是**细轴 Ø24**。x₁=+0.2 下 df₁=Ø25.8 < da₁=Ø34.8 ⇒ 轴身若建到 Ø25.8，齿顶那圈材料**根本不存在**、无料可凸（§91）。齿根/齿顶全由 `gear_profile` 拉伸实体提供。",
+      "_note": "段长 = **图纸齿部实体 34**（含两端 30° 齿顶倒锥；其中齿顶直段 28.226）。★ 齿宽 b 取 34（等截面拉伸，两端倒锥见 Q9 简化）"
+     },
+     {
+      "d": 24.0,
+      "l": 8.0,
+      "name": "齿根对侧台阶 Ø24",
+      "_src": "图纸 8（Ra0.8）"
+     },
+     {
+      "d": 18.0,
+      "l": 3.0,
+      "name": "退刀槽对侧 Ø18",
+      "_src": "图纸 3"
+     },
+     {
+      "d": 20.0,
+      "l": 15.0,
+      "name": "轴身 Ø20m6",
+      "_src": "图纸 15（Ra0.8）；「18」= 3 + 15"
+     },
+     {
+      "d": 18.0,
+      "l": 16.0,
+      "name": "轴身 Ø18",
+      "_src": "★★ **图纸漏标此段长度**，由总长反求：158 − (20 + 50 + 18 + 54) = **16**",
+      "_note": "★ 本段在图纸上没有任何尺寸指向它 ⇒ 只能靠尺寸链闭合解出。属**图纸缺项**，已登记。"
+     },
+     {
+      "d": 18.0,
+      "d2": 16.0,
+      "l": 40.0,
+      "name": "★1:20 拔模段（锥）",
+      "_src": "★★ 图纸「1:20」标注 + 尺寸链 54 = 40（锥）+ 14（= Ø11 退刀槽 4 + M14 螺纹 10）",
+      "_note": "★★ 2026-10-02 用户图纸指出，我前两版都误判成「Ø18 圆柱」。错因：把 `IFace2.GetBox()` 的 YZ 跨度 **18.092 × 18.000** 当成对称圆柱 —— **0.092 的不对称正是锥度证据**。\n  ★ 锥度定义 = Δd / ΔL = 1:20 ⇒ Ø18→Ø16 恰需长 **40**（独立佐证：54 − 14 = 40）。\n  ★★ **锥径方向是 Ø18→Ø16**（与前一节 Ø18 连续），**不是** Ø20→Ø18。\n  由 `shaft_profile` 新增的 `d2` 锥段支持画出（不给 d2 时行为一字不变）。"
+     },
+     {
+      "d": 11.0,
+      "l": 4.0,
+      "name": "退刀槽 Ø11",
+      "_src": "图纸「4×Ø11」= **槽宽 4 × 槽径 Ø11**（螺纹退刀槽）★ 不是「4 处 Ø11」"
+     },
+     {
+      "d": 14.0,
+      "l": 9.0,
+      "name": "★端部螺纹段 Ø14（M14）",
+      "_src": "图纸 M14：54 里的 14 减去退刀槽 4 ⇒ 螺纹长 **10**，含右端 1×45° 倒角 ⇒ 直段 **9**",
+      "_thread": "M14×2 粗牙，`real_thread` 真去料"
+     }
+    ]
+   },
+   "_simplified": {
+    "_rule": "★ 简化项必须显式登记 + 挂 open_question（自检会查）。",
+    "taper_drawn": {
+     "status": "**已建**（2026-10-02 图纸指出后）",
+     "what": "1:20 拔模段（Ø20→Ø18，长 40）用 `shaft_profile` 的 `d2` 锥段支持建出",
+     "was": "上一版误判成「Ø18 圆柱 × 38」，并据此把「锥面不存在」写进 params 与坑表"
+    },
+    "keyway_note": {
+     "status": "**已建**（长圆槽：直段 24 + 两端 R3，宽 6，底 Ra1.6）",
+     "was": "★ 更早一版**整段漏建**键槽（用户截图指出）"
+    },
+    "thread_note": {
+     "status": "**计划里已建**（`real_thread` 真去料 M14×2）—— ⚠ 真机**未能生成特征**（195s 后 CreateFeature 无新特征）",
+     "was": "更早一版简化成光杆（用户截图指出）",
+     "open_question": "Q11",
+     "note": "★ 该步已声明 `optional`（2026-10-02）：真机建不出也放行，后面的 bbox/圆柱面/质量验收照跑，但报告的 `skipped_optional` 会**单列这一步**，不允许静默。螺纹不在验收判据里 —— 见 Q11。"
+    },
+    "gear_tooth_taper": {
+     "status": "**简化**（唯一剩余项）",
+     "what": "齿轮齿部两端的 **30° 齿顶锥**（图纸两端 30°，Ø34→Ø30）未建 —— `gear_profile` 拉伸是等截面，齿顶两端不做收锥",
+     "impact": "**只影响齿顶两端的形状**，不影响啮合（啮合看齿顶圆 Øda 与中心距）；齿宽按 b=20 建，端部锥各占 (b−齿顶直段)/2",
+     "open_question": "Q9"
+    },
+    "runout_flat": {
+     "status": "简化",
+     "what": "齿根退刀段（Ø11 退刀槽 / 齿根退刀）收成直角台阶 —— `shaft_profile` 只能画直角台阶，画不出圆弧退刀",
+     "impact": "该段在齿廓之外，**不影响啮合**；只影响根部应力集中（教学模型不考核）",
+     "open_question": "Q10"
+    }
+   },
+   "expect_mass_g": {
+    "v": 0,
+    "source": "pending",
+    "note": "★ **已作废**（变位方案 A 改了齿部尺寸 + 段表改 11 段）。用 `sw_reducer.py --plan gear_shaft --calibrate` 真机重取后回填。0 会让生成器明确报错，避免拿旧值静默通过。"
+   },
+   "keyway": {
+    "_seg_name": "★1:20 拔模段（锥）",
+    "_offset_in_seg": 5.0,
+    "_offset_note": "★ 按图纸：键槽 30 切在 1:20 锥段上，起点在段内 +5（锥面在 x=0 处 Ø20，键槽 30+退刀 5+5 正好落在 Ø20→Ø18 的锥面上）。",
+    "type": "round_end_slotted",
+    "width": {
+     "v": 6.0,
+     "source": "drawing",
+     "note": "★ 图纸「6 上偏差 0 / 下偏差 −0.030」⇒ **N9（正常配合）**，与 GB/T 1095 一致。⚠ 修正记录：早前误读成「+0.03/+0.1」（把负号读没了），放大 12× 才看清 —— 见 §92③"
+    },
+    "length_total": {
+     "v": 30.0,
+     "source": "drawing",
+     "note": "图纸 30"
+    },
+    "length_straight": {
+     "v": 24.0,
+     "source": "drawing",
+     "note": "= 30 − 宽 6（两端各 R3 半圆）"
+    },
+    "end_radius": {
+     "v": 3.0,
+     "source": "derived",
+     "note": "= 宽/2"
+    },
+    "bottom_roughness_ra": {
+     "v": 1.6,
+     "source": "drawing",
+     "note": "★ 图纸标注 **Ra1.6** = 槽底的**表面粗糙度**（需精铣/磨），**不是**圆角半径 —— 早前记成 `bottom_radius` 属读写错误，已改正。本字段代码不引用（存档用）。"
+    },
+    "depth": {
+     "v": 3.5,
+     "source": "gb",
+     "note": "★ GB/T 1095：Ø18 配 6×6 平键 ⇒ 轴槽深 t₁=3.5。★ **图纸未标深度**（只标宽度与 Ra1.6）⇒ 按国标标准值；参照件实测总深 2.964（含 Ra1.6 圆角）作交叉核对。"
+    },
+    "segment_d": {
+     "v": 18.0,
+     "source": "drawing",
+     "note": "键槽起点处的锥面直径（锥段起点 = 前一节的 Ø18，不是 Ø20）"
+    },
+    "_evidence": "★ 参照件交叉验证：底平面 A=172.27 == `24×6 + π×3² = 172.2743` 逐位吻合",
+    "_cut_from": "★★ 切口位置修正（2026-10-02）：**必须从轴表面切进去，不能从轴心平面切**。\n  旧实现：草图开在 `Top`（y=0，**含轴心**）沿 −Y 切 3.5 ⇒ 切掉的块整落在 r≤sqrt(3.5²+3²)=4.6 < 9 内\n  ⇒ 在轴**内部**掏了个封闭空腔，外表完全看不出来，**体积判据也抓不到**（去料量相近）。\n  证据：参照件键槽**底面是完整的长圆形平面** A = 24×6 + π×3² = **172.2743**（实测 172.27 逐位吻合）—— 只有「平面底 + 从表面切」才长成这样。\n  正解：`plane_offset(Top, −R)`（R = 段径/2）→ 在该面画长圆 → 朝 **+Y**（轴心方向）切 t₁。\n  ★ 这是「返回值会说谎」的又一例：体积对、位置错（同 §84 螺栓质量式放大）。",
+    "_cut_radius": {
+     "v": 9.0,
+     "source": "derived",
+     "note": "= 锥段起点半径（Ø18/2）。槽底平面距轴心 = 9 − t₁ = 9 − 3.5 = **5.5**"
+    }
+   },
+   "thread": {
+    "_seg_name": "★端部螺纹段 Ø14（M14）",
+    "kind": "external",
+    "nominal": {
+     "v": "M14",
+     "source": "drawing",
+     "note": "★ 图纸明确标 **M14**（右端）+ 4×φ11 退刀孔"
+    },
+    "diameter": {
+     "v": 14.0,
+     "source": "drawing"
+    },
+    "pitch": {
+     "v": 2.0,
+     "source": "gb",
+     "note": "M14 粗牙螺距 2（GB/T 193）"
+    },
+    "length": {
+     "v": 9.0,
+     "source": "drawing",
+     "note": "★ 图纸 M14 旋合长 **10**（= 54 里的 14 − 退刀槽 4），含右端 1×45° 倒角 ⇒ 光杆直段 **9**。（上一版误把整个 14 当螺纹长 ⇒ 段表与尺寸链差 4mm）"
+    },
+    "face_d": {
+     "v": 12.0,
+     "source": "measured",
+     "note": "参照件端面 Ø12 = 螺纹小径（保留核对用）"
+    },
+    "standard": "metric_die",
+    "end_condition": "blind"
+   }
+  },
+  "wheel": {
+   "no": 33,
+   "name": "齿轮",
+   "qty": 1,
+   "material": "45",
+   "kind": "gear",
+   "status": "modeled",
+   "ref": "33-齿轮-m=2,z=55.SLDPRT",
+   "gear_role": "wheel",
+   "_measured_faces": {
+    "note": "★★ **方案 A 齿廓变位**（2026-10-02 用户决策，取代当日上午的「改齿数 z₂=52」）：\n   前情：参照件 z₂=55 本身没问题，问题在**配的小齿轮 z₁=15 根切** ⇒ 装不上。\n   本轮：m=2 / z₁=15 / z₂=**55** / x₁=+0.2 / x₂=**−0.2**（高度变位）⇒ **无根切**，\n   且中心距 a = m(z₁+z₂)/2 = **70 精确不变**（x₁+x₂=0 ⇒ y=0）⇒ 箱体/轴承座/端盖全不受影响。\n   大齿轮：齿顶 Ø114 → **113.2**、齿根 105 → **104.2**、凹槽外径 94 → **93.2**、\n           齿宽 **26**（回到参照件实测值）、凹槽深 **8.5**。\n   ★ 齿顶圆与参照件只差 0.8mm（变位量 2·x₂·m = −0.8）⇒ 参照件**仍可作结构参考**。\n   ★ 传动比 i 回到 **3.6667**，与图纸/参照件一致。",
+    "solved": {
+     "kind": "spur_gear",
+     "measured": {
+      "df_measured": null,
+      "df_theory": 104.2,
+      "da_measured": 113.976,
+      "da_theory": 114.0,
+      "da_delta": -0.024,
+      "db_theory": 103.3662,
+      "end_faces": {
+       "z": 13.0,
+       "a_outer": 1802.26,
+       "a_inner": 484.31,
+       "z_recess": 4.5,
+       "a_recess": 5130.22
+      },
+      "recess_derivation": "5130.22 = π/4(94²−48²) = 5130.22 ⇒ rim_id=94 / hub_od=48",
+      "b": 26.0,
+      "n_faces": 350,
+      "n_features": 31,
+      "reference_profile": "参照件齿廓是 `草图6`（110 ARC + 110 SPLINE，切除成形）；我们走 `gear_profile` 整圈一次成形（更简洁、误差 <0.01mm）",
+      "from": "33-齿轮-m=2,z=55.SLDPRT：sw_inspect 特征树 31 个；sw_faces --axis 2 读出 Ø105 齿根 + 端面/凹槽底面积；--axis 0 无沿 X 圆柱面",
+      "df_note": "★ 变位后 df₂ = m(z−2.5+2x₂) = 2×(55−2.5−0.4) = 104.2（参照件 105）"
+     },
+     "reference_bbox_mm": [
+      113.976,
+      113.973,
+      26.0
+     ],
+     "reference_volume_mm3": null,
+     "analytic_volume_note": "★ **不再与参照件逐位对账**：齿数同 55，但变位使齿顶 −0.8 / 齿根 −0.8；参照件只保留「结构做法（齿圈 + 两面环形凹槽 + 轮毂 + 键槽）」参考。",
+     "probe_evidence": "assets/probes/gear_m2z55.json —— 探针已按参照件真实结构真机跑通",
+     "built": {
+      "version": "1.4.20",
+      "builder": "sw_reducer._gear_plan",
+      "steps": 42,
+      "redesigned": true,
+      "measured_volume_mm3": 100735.964,
+      "expect_mass_g": 100.736,
+      "bbox_mm": [
+       108.0,
+       108.0,
+       20.0
+      ],
+      "teeth": 52,
+      "profile_points": null,
+      "diagnostics": [],
+      "cylinders": {
+       "note": "★ 齿顶圆**不是圆柱面**（55 段渐开线）⇒ da 由 check_bbox 判；圆柱面判据钉中心孔Ø32/轮毂Ø48/凹槽底Ø93.2"
+      },
+      "artifact": "33-wheel-m2z52x108.SLDPRT",
+      "calibration_note": "★ 用 `--calibrate` 跳过 check_mass 真机量得，再回填标定值 —— 齿隙体积取决于采样密度，解析式算不出",
+      "_superseded": "★ 本记录属 **v1.4.20 的 z=52 版本**（da=108 / b=20 / 100.736g）—— 已被方案 A 取代。新的 built 记录在真机重跑后覆盖。"
+     }
+    }
+   },
+   "b": {
+    "v": 26.0,
+    "source": "measured",
+    "note": "★ 齿宽回到**参照件实测 26**（不再用上一轮的 20 = 10m）。齿轮轴按图纸齿部实体 34、大齿轮 26 —— 两轮齿宽不同是常规做法（小齿轮略宽防边缘接触）。⚠ 经验规则 b ≤ 10m = 20 在此**不适用**，见 meta.gear_train.face_width_note"
+   },
+   "hub_od": {
+    "v": 48.0,
+    "source": "measured",
+    "note": "轮毂 Ø48（沿用；轴 Ø30 承 6206）"
+   },
+   "rim_id": {
+    "v": 93.2,
+    "source": "derived",
+    "note": "★ 凹槽外径 = df₂ − 11 = **104.2 − 11 = 93.2**（沿用参照件比例 df−11：参照件 105−11 = 94）"
+   },
+   "recess": {
+    "v": 8.5,
+    "source": "measured",
+    "note": "★ 凹槽深回到**参照件实测 8.5**（b = 26 时辐板厚 = 26 − 2×8.5 = 9，与参照件一致）"
+   },
+   "bore": {
+    "v": 32.0,
+    "source": "measured",
+    "note": "中心孔 Ø32（沿用）"
+   },
+   "keyway": {
+    "v": "10x3.3",
+    "source": "measured",
+    "note": "键槽 10×3.3（沿用）"
+   },
+   "expect_mass_g": {
+    "v": 0,
+    "source": "pending",
+    "note": "★ **已作废**（z 52→55、加 x₂=−0.2、齿宽 20→26、凹槽 6→8.5）。用 `sw_reducer.py --plan wheel --calibrate` 真机重取后回填。上一轮 z=52 的值 100.736 与更早 z=55 的值 136.56 都不可用。"
+   },
+   "_redesign_2026_10_02": {
+    "why": "★ **方案 A 齿廓变位**（用户决策，取代当日上午的「改齿数 z₂=52」）",
+    "m": 2.0,
+    "z1": 15,
+    "z2": 55,
+    "x1": 0.2,
+    "x2": -0.2,
+    "da2": 113.2,
+    "df2": 104.2,
+    "b": 26.0,
+    "rim_id": 93.2,
+    "recess": 8.5,
+    "superseded": "★ 上午的 z₂=52 / da=108 / b=20 / recess=6 方案作废（其成品 100.736g 亦作废）。"
+   }
+  }
+ },
+ "checks": {
+  "_desc": "交叉校核。离线跑，不启动 SolidWorks。每条都能被 sw_reducer.py --check 执行。",
+  "C1": {
+   "name": "中心距",
+   "expr": "a == m*(z1+z2)/2",
+   "tol": "a.tol",
+   "hard": true
+  },
+  "C2": {
+   "name": "分度圆",
+   "expr": "d1 == m*z1 且 d2 == m*z2",
+   "tol": 0.01,
+   "hard": true
+  },
+  "C3": {
+   "name": "中心距闭合",
+   "expr": "d1 + d2 == 2*a",
+   "tol": "2*a.tol",
+   "hard": true
+  },
+  "C4": {
+   "name": "齿顶圆",
+   "expr": "da1 == m*(z1+2ha*+2x1) 且 da2 == m*(z2+2ha*+2x2)",
+   "tol": 0.05,
+   "hard": true,
+   "note": "★ 2026-10-02 起含**变位项 2xm**（漏掉它 x=+0.2 就差 0.8mm，落在容差外）。参照件实测 113.976 vs da₂=113.2（差 0.8 来自 x₂=−0.2 的设计改动）—— 容差 0.05 只用于「表内值与公式是否一致」，与参照件对账见 R:wheel（容差 1.0）。"
+  },
+  "C5": {
+   "name": "轴承内径 = 轴颈",
+   "expr": "bearings[b].d == shafts[s].journal",
+   "tol": 0.0,
+   "hard": true
+  },
+  "C6": {
+   "name": "端盖外径 > 轴承外径",
+   "expr": "covers[c].D > bearings[covers[c].bearing].D",
+   "hard": true
+  },
+  "C7": {
+   "name": "中心高 ≥ 大齿轮齿顶半径",
+   "expr": "h >= da2/2",
+   "hard": true
+  },
+  "C8": {
+   "name": "箱体容得下齿轮副",
+   "expr": "箱体内腔 ≥ 齿顶圆 + 2×间隙",
+   "hard": false,
+   "status": "open",
+   "note": "内腔尺寸待从图纸/装配体取；见 open_questions Q1"
+  },
+  "C9": {
+   "name": "模数在 GB/T 1357 标准系列内",
+   "expr": "m ∈ gb_standard.gear_module",
+   "hard": false,
+   "kind": "info",
+   "note": "查本地权威表 assets/gb_standard.json，不联网"
+  },
+  "C10": {
+   "name": "压力角 α = 20°",
+   "expr": "alpha == 20",
+   "tol": 1e-09,
+   "hard": true
+  },
+  "C11": {
+   "name": "端盖两表（covers / parts）逐项一致",
+   "expr": "covers[k].{no,name,D,bearing} == parts[k].{no,name,D,bearing}",
+   "tol": 0.0,
+   "hard": true,
+   "note": "★ 两份表各存一份 D —— 分头改就会像 sw_gear.py 那份自留螺栓表一样同尺寸两值且没人发现。C11 把它们钉死；反例见 sw_reducer.py --selftest"
+  },
+  "C12": {
+   "name": "齿轮副模数一致 + 啮合几何自洽",
+   "expr": "meta.gear_train.module == drive.m 且 meta.gear_train.{pinion.z,wheel.z} == drive.{z1,z2} 且 gear_shaft/wheel **不自带 m/z** 且 a == m(z1+z2)/2 且 da2/2 < a",
+   "tol": "0.08",
+   "hard": false,
+   "kind": "pass/open",
+   "note": "★ 用户 2026-10-02 硬要求：「齿轮轴和大齿轮的模数必须相同，不然装配不能啮合」。\n  模数不一致是**「每个零件单看都对、合起来废掉」**的错 —— 两轮各自 d/da/df 全算得通，只有装到中心距 70 的箱体里才发现啮不上。所以 m **只许**来自 meta.gear_train.module；\n  `parts.gear_shaft` / `parts.wheel` 上任何自带的 m/z 一律判违规（守卫见自检 [2i]，含两条反例）。\n  `hard=false`：因为 z₁=15 < 17 **根切**属「已知且有实物证据的工程取舍」（齿根圆实测 Ø25.000 == df(x=0) 逐位吻合 ⇒ 参照件不变位），报 hard 会让人误以为抄错了参数。\n  ⇒ 分两级：**模数/齿数漂移 = hard（真错）**；**根切等取舍 = open（有据才降级，且必须登记 Q7）**。",
+   "open_question": "Q7"
+  }
+ },
+ "open_questions": [
+  {
+   "id": "Q1",
+   "topic": "箱体朝向：230 是「轴间方向」还是「轴向」",
+   "detail": [
+    "实测：箱座包围盒 105.908 × 82.764 × 230.0；箱盖 230.0 × 70.112 × 104.019。",
+    "按「230 = 轴间方向」算：齿轮副横向跨度 = (d2/2) + (a + da1/2) = 57 + 87 = 144 ≤ 230 ✔；",
+    "  轴向 = 104，而两根轴长 144 / 158 会伸出箱体 40~54 —— 合理（要接联轴器）。",
+    "按「230 = 轴向」算：跨向只剩 105.9，< 144 ✘ 装不下齿轮副。",
+    "⇒ 高度怀疑 **230 = 轴间方向**，但这是推断不是实测。",
+    "待办：扫 `减速器装配体.SLDASM` 的零部件变换矩阵，直接读出两轴中心距方向。"
+   ],
+   "blocks": [
+    "箱座/箱盖建模",
+    "装配层定位"
+   ]
+  },
+  {
+   "id": "Q2",
+   "topic": "标准件口径：跟图纸+参照件，还是跟国标",
+   "detail": [
+    "实测参照件与国标常规值有出入：平垫圈 10 实测 Ø22 × 1.5（GB/T 97.1 常用值 Ø10.5/Ø20/2.0）；",
+    "螺钉 M3 头部实测 Ø6.0。",
+    "⇒ 已按复盘建议定为 **跟图纸+参照件**，国标只做校核（见 meta.authority）。",
+    "**2026-10-02 已完成逐件并列**（Q2 原待办），结果：",
+    "  · 17-平垫圈 10：实测 22/11/1.5 vs GB 20/10.5/2 ⇒ **差 +2.0/+0.5/−0.5mm**，实测体积 428.33 ≈ π/4(22²−11²)·1.5 自洽 ⇒ 判定参照件疑似美制 3/8\"，**按参照件建**。",
+    "  · 15/11-螺母：可干净读出的**内孔与厚度都等于国标**（M10 内孔 Ø10.000、厚 8.4=GB m）；但**对边宽读不出来**（六角带圆角 + 摆放角未知）⇒ 见 Q5。",
+    "  · 13/27-六角头螺栓：参照件**根本没有六角头**（光杆+圆端）⇒ 见 Q5。"
+   ],
+   "blocks": [
+    "标准件建模验收（螺钉/销/轴承仍待处理）"
+   ]
+  },
+  {
+   "id": "Q3",
+   "topic": "轴承用单实体还是子装配体",
+   "detail": [
+    "`24-深沟球轴承-6204.SLDPRT` 是**单实体 20 个 body**（内外圈+滚珠布尔成一体）；",
+    "`24-深沟球轴承-零部件及装配体/24-深沟球轴承-6204.SLDASM` 是带滚珠的**子装配体**（5 个零件）。",
+    "比赛考「零件→装配」 ⇒ 子装配体更贴题，但 M3 工作量 +1。"
+   ],
+   "blocks": [
+    "装配层"
+   ]
+  },
+  {
+   "id": "Q4",
+   "topic": "材料口径：参照件多数未指定材料",
+   "detail": [
+    "实测：`35-平键` 材质 = <未指定> ⇒ 密度按默认 1000 kg/m³ 算，质量 1.575 g（= 体积）。",
+    "而表1 写平键材料 = 40（钢，7850 kg/m³）⇒ 同一个零件质量会变成 12.36 g。",
+    "⇒ **质量对账必须先统一材料口径**，否则数字对不上还查不出原因。",
+    "本版决定：几何验收用**体积**（与密度无关）；质量单列，等材料口径定了再开。"
+   ],
+   "blocks": [
+    "质量验收"
+   ]
+  },
+  {
+   "id": "Q5",
+   "topic": "六角件的参照件不可靠：对边宽读不出、螺栓还没有六角头",
+   "detail": [
+    "**① 螺母**：参照件是标准六角形但**带圆角**且摆放角未知 ⇒ 从 bbox 无法反推对边宽 s：",
+    "  螺母 M10 外接圆 Ø18.841，公称对角是 18.475，且 [2R, √3R] 比例也不满足",
+    "  （18.841/15.389 = 1.224，标准六角旋转后应是别的组合）⇒ s 取不到干净值。",
+    "  可干净读出的两项（内孔 Ø10.000、端面 Z=±4.200 ⇒ 厚 8.4）**都与国标一致**。",
+    "  ⇒ 当前取法：**s 走 GB、m/d 走 GB**（m/d 恰好与实测一致，不冲突）。",
+    "**② 螺栓**：参照件 bbox 19.588×16.0×70.6，**截图确认是光杆 + 圆端、没有六角头**；",
+    "  按参照件建就等于把「六角头螺栓」建成一根光杆，明显与零件名/国标冲突。",
+    "  ⇒ 当前取法：**按 GB/T 5782 建真六角头**（s13 / k5.3 / 杆 Ø8），与参照件不同。",
+    "**③ 螺母 M8** 参照件厚 7.506 > GB m=6.8（疑端部圆角所致，未逐面取证）⇒ 暂按 GB 6.8。",
+    "请裁决：",
+    "  A. 标准件一律按 **GB 表**（现状），参照件只作「存在性」证据，差异登记在案；",
+    "  B. 一律按**参照件**（则螺栓会没有六角头，需要接受）；",
+    "  C. 按参照件但**补上国标要求的特征**（六角头、30° 倒角），尺寸仍取参照件。"
+   ],
+   "blocks": [
+    "螺母/螺栓的最终验收口径",
+    "Q2 的收口"
+   ]
+  },
+  {
+   "id": "Q6",
+   "topic": "十字槽盘头螺钉的十字槽：槽宽/槽深没有权威数据",
+   "detail": [
+    "`assets/gb_standard.json::families.cross_pan_screw` 只有 `slot_no`（槽号）与`h_type_m`（H 型旋具插入深度，M3=3.0），**没有槽宽 b / 槽深 t**。",
+    "参照件 5/9-螺钉M3 的槽草图是「4 个 LINE、1 个轮廓」= **单个矩形**，另有一个「1 个 ARC」的草图做 depth=10 的**凸台拉伸** ⇒ 不像十字形，疑建模有误。",
+    "当前口径：**只建盘头 + 杆**（GB/T 818 的 d/dk/k 都有），槽留空。",
+    "请提供：① 图纸上的槽宽/槽深；或 ② 授权按常见近似值建（并在 `_measured_faces` 标注来源）；或 ③ 授权照参照件的槽形状复刻（但需先确认参照件是否可信）。"
+   ],
+   "blocks": [
+    "螺钉的最终验收",
+    "Q2 的收口"
+   ]
+  },
+  {
+   "id": "Q7",
+   "topic": "小齿轮 z₁=15 < 17 会**根切**：照参照件（根切）建，还是加正变位？",
+   "detail": [
+    "用户硬要求（2026-10-02）：「齿轮轴和大齿轮的模数必须相同，不然装配不能啮合」—— 已落地为 `meta.gear_train` 唯一真源 + 校核 C12。",
+    "**模数一致没问题**（两轮 m=2，中心距 a = m(z₁+z₂)/2 = 2×70/2 = **70** = 箱体中心距 70±0.08 ✔）。",
+    "⚠ **但 C12 顺带查出另一件事**：z₁=15 小于 20° 压力角下不变位的最小齿数 17~18。",
+    "  `sw_gear` 诊断原文：`z=15 且 x=0.0 会根切（不变位最少 z=18，此处至少需要 x=0.123）`。",
+    "参照件实测（`sw_faces --axis 0`）：齿根圆 **Ø25.000**（15 个圆柱面 = 15 个齿槽）、齿顶圆 **Ø34.000**（= da = m(z+2) = 34 ✔）。",
+    "而 df = d − 2m(ha*+c*) = 30 − 5 = **25.000**，**只有 x=0 才逐位吻合**；若用正变位 x=0.123 则 df = 25.49。",
+    "⇒ **参照件本身就是根切齿**（教学模型常见：为凑 z₁+z₂=70 拿到整数中心距 70）。"
+   ],
+   "current": "★ **方案 A（齿廓变位）** —— 2026-10-02 下午最终落地",
+   "blocks": [
+    "（已解除）齿轮轴齿形、装配对账"
+   ],
+   "status": "**已裁决并落地**（2026-10-02）",
+   "decision": "**最终落地 = 方案 A（齿廓变位）**。决策经过两次迭代，两条被否路线都留档防止后人走回头路：\n  ── ① 上午（**已作废**）：用户裁决「方案 C 改齿数」= z₁ 15→18 / z₂ 55→52 / 不变位 / 齿宽 26→20。\n     作废原因：齿轮轴齿部会被从 Ø34 撑到 **Ø40**，偏离图纸；传动比 3.6667→2.8889 也偏离。\n  ── ② 下午用户提议「**改模数**」—— **原理上无效**：根切判据 `z_min = 2h_a*/sin²α` **不含 m**，\n     20° 压力角下 z_min 恒为 17.0973（最小整数 18），改 m 改不动它。\n     且中心距锁死 70 ⇒ m(z₁+z₂)=140 ⇒ 只能连齿数一起改（如 m=1.75/z=18/62），又要换刀具。\n  ── ③ **最终 = 方案 A**：**m=2 / z₁=15 / z₂=55 / a=70 四项全部保持图纸原值**，只加变位系数\n     x₁=**+0.2**（≥ x_min=0.1227 ⇒ 不根切）、x₂=**−0.2**（x₁+x₂=0 ⇒ **高度变位** ⇒ y=0 ⇒ 中心距精确不变）。\n     代价最小：只需挪滚刀刀位，不动箱体/轴承座/端盖/传动比。齿顶 Ø34→34.8、Ø114→113.2（各差 0.8 = 2xm）。\n  ★ 完整论证见 `meta.gear_train.undercut_fix`（chosen / rejected / why_A 三节）。"
+  },
+  {
+   "id": "Q8",
+   "topic": "【已关闭】齿轮轴的锥面/螺纹：锥面**不存在**（上版误判），只剩螺纹一项",
+   "detail": [
+    "参照件 `23-齿轮轴.SLDPRT` 轴向有 **5 段锥面**：x −34→−33.7、−2.9→0、42→45、**48.2→71.8（23.6mm 大锥面）**、75→80。",
+    "`shaft_profile` op **只支持圆柱段 + 端部倒角**，画不出中间锥面。",
+    "当前处置：**简化 3 项并显式登记**（`parts.gear_shaft._simplified`）——锥面不建（总长 111.24 vs 参照 158.241）、M14 螺纹不建（建光杆）、齿根退刀收成直角。",
+    "**齿部完全准确**：齿根 Ø31 = df₁、齿顶 Ø40 = da₁、齿宽 20 = 10m。"
+   ],
+   "current": "A（保持简化）",
+   "blocks": [
+    "（已解除）齿轮轴长度对账"
+   ],
+   "status": "**已关闭**（2026-10-02 · 用户选 B 后经全量取证推翻前提）",
+   "resolution": "用户选 B（扩展 `shaft_profile` 支持锥段）后，我按 B 的前提去做全量取证，**结果推翻了前提**：\n  ① 真机枚举参照件全部 73 个面，`ISurface.Identity()` 分布 = {4001 平面 8, **4003 圆柱 73**, 4006 B样条螺纹 3, 4009 齿面 …}；\n  ② 逐个「锥面」验算圆锥台侧面积 vs 实测面积，偏差 **14%~137%**（真锥应 <1%）⇒ **没有真正的锥面**；\n  ③ 我上版判的「23.6mm 大锥」实为 **Ø18 圆柱**（x 48.183→71.815，两端 YZ 跨度都是 −9.0→+9.0 = Ø18）—— **错因：把 `IFace2.GetBox()` 的 YZ 跨度当成了「锥的两端直径」**。\n⇒ `shaft_profile` **不需要**支持锥段，**不动共用 op**（避免牵连 26 件已建件）。\n  改按**真实段表**（16 段，首尾连续无空档）重建，总长 149.459 贴近参照件 158.241。\n  剩下唯一未建项 = **M14 螺纹**（按项目口径「螺纹一律不建」保持光杆）。",
+   "_superseded": "★ 本条的「当前处置：简化 3 项」**已过时**（2026-10-02 图纸指出后）：锥面（1:20 拔模段）与 M14 螺纹**都已建**，键槽也已建。**当前唯一剩余简化项 = 齿部两端 30° 齿顶锥，见 Q9**。本条只保留「当年为什么判没有锥面」的取证价值。"
+  },
+  {
+   "id": "Q9",
+   "topic": "齿轮轴齿部两端的 **30° 齿顶锥**未建（`gear_profile` 拉伸是等截面）",
+   "detail": [
+    "图纸标注齿部两端各 30° 收锥：齿顶由 Øda₁ 收到约 Ø30（图纸原口径 Ø34→Ø30）。",
+    "`gear_profile` op 是**整圈渐开线一次拉伸**，拉伸体等截面 ⇒ **画不出齿顶两端的收锥**。",
+    "影响面：**只影响齿顶两端形状**，不影响啮合 —— 啮合看的是齿顶圆 Øda₁ 与中心距 70，两者都已准确。",
+    "已登记在 `parts.gear_shaft._simplified.gear_tooth_taper`（status=**简化**，唯一剩余项）。"
+   ],
+   "current": "A（保持简化：齿顶两端不收锥）",
+   "blocks": [],
+   "status": "**开放**（2026-10-02 登记）",
+   "options": {
+    "A": "保持现状 —— 齿廓等截面拉伸，两端不收锥（几何量 da/df/b 全对，只差端部形状）",
+    "B": "在 `gear_profile` 之后补两步 `extrude_cut` 做 30° 倒锥（需要沿端面法向的锥面切除，风险：可能牵连已建的 26 件齿轮族件）",
+    "C": "给 `gear_profile` 加一个 `end_taper_deg` 参数，在齿廓采样时按两端 30° 收顶"
+   },
+   "note": "★ 与 Q8 的区别：Q8 是「以为锥面/螺纹不存在」⇒ 已推翻并建出；Q9 是**确实存在但当前 op 画不出**的端部齿顶锥。两者都挂在 `parts.gear_shaft._simplified` 上，但只有 Q9 是**活着的**简化项。"
+  },
+  {
+   "id": "Q10",
+   "topic": "齿轮轴齿根退刀段收成直角台阶（画不出圆弧退刀）",
+   "detail": [
+    "`shaft_profile` op 的台阶**只能是直角**，没有圆角/退刀圆弧参数 ⇒ Ø11 退刀槽与齿根退刀按直角建。",
+    "影响：**该段在齿廓之外，不影响啮合**；只影响根部应力集中（教学模型不作考核项）。",
+    "已登记在 `parts.gear_shaft._simplified.runout_flat`（status=**简化**）。"
+   ],
+   "current": "A（保持直角退刀）",
+   "blocks": [],
+   "status": "**开放**（2026-10-02 登记）",
+   "options": {
+    "A": "保持直角 —— 退刀段在齿廓之外，几何量（da/df/b/各段直径）全对",
+    "B": "给 `shaft_profile` 的段加 `fillet_r` 参数（会在退刀槽两肩生成圆弧），**风险：改动共用 op 会牵连已建的 26 件**",
+    "C": "退刀槽单独用 `revolve_cut` + 圆弧草图建（不走 `shaft_profile`）"
+   },
+   "note": "★ 本条是**简化项登记守卫**（`sw_reducer.check_simplified_registry`）在 2026-10-02 上线后**当场抓出来的第一处**：`runout_flat` 标着「简化」却没有 `open_question`，属于**静默降级、无人认领**。守卫现在会在 `build_plan` 阶段直接 ValueError。"
+  },
+  {
+   "id": "Q11",
+   "topic": "齿轮轴端 M14×2 真螺纹：`real_thread` 真机**建不出特征**（195s 后 CreateFeature 无新特征）",
+   "detail": [
+    "计划步：`{op: real_thread, edges: [[147.75,0,0]], standard: metric_die, diameter: 14, pitch: 2, end_condition: blind, depth: 9}`。",
+    "真机表现：**跑了 195.0s** 后抛 `真实螺纹线没生成特征。`（`_new_feature(tree_diff)` 为空）—— 既不报 API 错误、也没有新特征，体积不变。",
+    "已排除：圆边**选中了**（选不中会先在 `hit==0` 处抛另一条错误）；`Diameter`/`Pitch` 的 `*Override` 顺序已按真机实测结论（先标志后值）写对。",
+    "★ 这是「参数静默失效」家族的**第四次**现身（前三次：`Size` 是 no-op、`AddToDB` 不影响约束、先值后标志被吞）—— 而这次连**已知的四条硬规矩都满足了**，仍不建。",
+    "处置（2026-10-02，按用户口径「先把件建出来，细节留到装配期」）：该步声明 **`optional`**（sw_plan 新机制），失败降级为报告里的 `skipped_optional`，**不阻塞** bbox/圆柱面/质量验收。"
+   ],
+   "current": "A（声明 optional + 登记，暂不深挖）",
+   "blocks": [
+    "齿轮轴端部螺纹的最终几何（**不阻塞**装配：螺纹段不参与配合判据）"
+   ],
+   "status": "**开放**（2026-10-02 登记）",
+   "options": {
+    "A": "保持 optional —— 件能建出来，螺纹缺席被显式记录（当前）",
+    "B": "深挖：用 `probes/` 单独复现（怀疑点：① Ø14 段只有 9mm 且紧邻 Ø11 退刀槽，选到的圆边可能是退刀槽台阶而非螺纹起始圆；② 端部有 1.25 倒角，起始圆直径不是 Ø14；③ blind depth 9 = 段长的极限，可能越界）",
+    "C": "退回「螺纹一律不建」的旧口径（螺纹在工程图里用装饰线表示）"
+   },
+   "note": "★ **不影响本件验收**：`bb` 判总长 158 / 齿顶 Ø34.8、`cyl` 判最大圆柱面 Ø24 —— 螺纹不在这两条里。"
+  },
+  {
+   "id": "Q12",
+   "topic": "26-圆锥销：**图纸写圆锥销（GB/T 117 锥度 1:50），参照件却是圆柱销（Ø4×19）** —— 按哪个建？",
+   "detail": [
+    "图纸：`A型圆形销` 标注 φ4×18，配 GB/T 117 圆锥销、锥度 1:50。",
+    "参照件实测（`sw_profile`，2026-10-02）：bbox **[19, 4, 4]**，型面是**一条恒定 r=2.0 的母线（长 18）+ 两端球冠 R4.25（冠高 0.5）**，体积 232.609 mm³ = π·2²·18 + 2×球缺 ⇒ **整根没有锥度**。",
+    "文件名本身就是 `26-A型圆形销.SLDPRT` —— A 型圆形销 = **GB/T 119.1 圆柱销**，和图纸的「圆锥销」是两种标准件。",
+    "⇒ **图纸与参照件互相矛盾**，且圆柱销与圆锥销在装配里不可互换（锥销靠锥面锁紧）。"
+   ],
+   "current": "★ 暂按**参照件**（Ø4×19 圆柱销，两端球冠 R4.25）建 —— 理由是 `meta.authority` = 「图纸 > 参照件实测 > 国标校核」，但图纸这一条只有文字没有尺寸链（无小端/大端直径），照图纸反而无法确定锥度走向；且装配孔是参照件配作的。",
+   "blocks": [
+    "26-圆锥销建模口径",
+    "装配层：销孔配合性质（过渡/过盈）"
+   ],
+   "status": "★ **待用户裁决**（本件已按参照件建，若要改圆锥销只需换型面 + 重跑）"
+  }
+ ]
+}

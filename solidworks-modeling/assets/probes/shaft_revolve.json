@@ -1,0 +1,77 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 shaft_revolve：按参照件 20-轴.SLDPRT 的真实台阶表建输出轴。轴走「半剖面 + 旋转」（参照件的 草图1 → 旋转1），不是一层层拉伸。8 段 + 两端 2×45° 倒角 ⇒ 总长 144 = 140 + 2×2，对齐参照件包围盒 [144, 38, 38]。台阶表全部来自 ref_steps/ref_faces 真机取证（逐圆柱面站位 + 逐平面站位），不是猜的。",
+    "units": "mm"
+  },
+  "params": {
+    "d_bearing": 30,
+    "d_gear_seat": 32,
+    "d_shoulder": 38,
+    "d_groove": 27,
+    "d_step": 27.32,
+    "d_out": 24.317,
+    "cham": 2
+  },
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p1", "op": "select_plane", "plane": "Front" },
+    { "id": "s1", "op": "sketch_begin" },
+
+    {
+      "id": "prof",
+      "op": "shaft_profile",
+      "segments": [
+        { "d": "{{ params.d_bearing }}", "l": 30, "name": "轴承位(6206)" },
+        { "d": "{{ params.d_gear_seat }}", "l": 26, "name": "齿轮位(与大齿轮孔/宽一致)" },
+        { "d": "{{ params.d_shoulder }}", "l": 13, "name": "轴肩" },
+        { "d": "{{ params.d_groove }}", "l": 2, "name": "越程槽" },
+        { "d": "{{ params.d_bearing }}", "l": 14, "name": "轴承位2(6206)" },
+        { "d": 28, "l": 24, "name": "挡油环位" },
+        { "d": "{{ params.d_step }}", "l": 1.5, "name": "锥过渡(45°)" },
+        { "d": "{{ params.d_out }}", "l": 29.5, "name": "输出端(键8x7)" }
+      ],
+      "end_chamfer": "{{ params.cham }}",
+      "note": "Σl = 140；两端各 2×45° ⇒ 总长 144。★ 参照件的 Ø24.317 是它自己的建值，这里照抄以便对账。"
+    },
+    { "id": "zf0", "op": "zoom_fit" },
+    {
+      "id": "zf0b",
+      "op": "zoom_fit",
+      "note": "★ 连着调两次。长而细的件（144×38）一次 ViewZoomtofit2 会用**过期的包围盒**，画面只装得下左边一半 —— 几何没问题，是视图没跟上。"
+    },
+    { "id": "shot_open", "op": "screenshot", "path": "{{ params.out }}/probe_shaft_revolve_open.bmp", "width": 1800, "height": 560 },
+    { "id": "s2", "op": "sketch_end", "name": "轴半剖面" },
+    { "id": "cksk", "op": "check_sketch", "sketch": "轴半剖面" },
+
+    { "id": "rev", "op": "revolve_boss", "name": "轴体", "angle": 360 },
+
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [144, 38, 38],
+      "tol": 0.05,
+      "note": "★ 与参照件 20-轴 的包围盒完全一致（144.0 / 38.0 / 38.0）。这一步同时验了「端部倒角是外扩不是内切」。"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 19.0,
+      "tol": 0.01,
+      "note": "最大圆柱面半径 = Ø38/2。列出全部半径可核对每一级台阶在不在。"
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 98.71,
+      "tol": 0.01,
+      "note": "本剖面 98708 mm³ ⇒ 98.71g（密度 1000）。★ 对照参照件 97.573g：**本件重 1.16%**。差额已定位 —— 参照件的 Ø32 面只有 24 长（本件 26）、Ø24.317 面只有 27（本件 29.5），说明它在那两处各有约 1mm 的 45° 过渡/倒角，本剖面是直角台阶。对齐它的办法：把那两段各缩 1mm 并从相邻段补回。"
+    },
+    { "id": "fc", "op": "check_feature_count", "min": 2 },
+    { "id": "zf", "op": "zoom_fit" },
+    { "id": "zfb", "op": "zoom_fit" },
+    { "id": "shot", "op": "screenshot", "path": "{{ params.out }}/probe_shaft_revolve.bmp", "width": 1800, "height": 560 },
+    { "id": "diag", "op": "check_diagnostics", "fail_on": "error" },
+    { "id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_shaft_revolve.SLDPRT", "overwrite": true }
+  ]
+}

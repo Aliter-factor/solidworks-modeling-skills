@@ -1,0 +1,107 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 circular_pattern：Ø60 圆盘上一个 Ø8 孔绕 Axis1 圆周阵列 6 个",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "ax",
+      "op": "axis_from_planes",
+      "plane1": "Top",
+      "plane2": "Right",
+      "name": "Axis1"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "cx": 0,
+      "cy": 0,
+      "r": 30
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "DiscSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Disc"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c2",
+      "op": "circle",
+      "cx": 18,
+      "cy": 0,
+      "r": 4
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "HoleSk"
+    },
+    {
+      "id": "ec",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "Hole1"
+    },
+    {
+      "id": "cp",
+      "op": "circular_pattern",
+      "target": "Hole1",
+      "axis": "Axis1",
+      "count": 6,
+      "angle": 360,
+      "name": "CircPattern1"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [60, 60, 10],
+      "tol": 0.2
+    },
+    {
+      "id": "mass",
+      "op": "check_mass"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_circular_pattern.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

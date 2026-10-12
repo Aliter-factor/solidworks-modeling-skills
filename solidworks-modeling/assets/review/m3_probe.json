@@ -1,0 +1,59 @@
+{
+  "Q1_language_raw": "chinese-simplified",
+  "Q1_language_meaning": "未知(chinese-simplified)",
+  "Q1_ok": true,
+  "active_sketch": "1",
+  "Q2_status_before": 2,
+  "Q2_status_before_meaning": "UnderConstrained",
+  "Q2_ok": true,
+  "Q2_relation_members": {
+    "GetSketchRelationCount": "不可用 (SwError)",
+    "GetRelationCount": "不可用 (SwError)",
+    "GetSketchRelations": "不可用 (SwError)"
+  },
+  "Q3_return_code": 0,
+  "Q3_meaning": "Success",
+  "Q2_status_after": 3,
+  "Q2_status_after_meaning": "FullyConstrained",
+  "Q3_dim_probe": {
+    "GetDimensionCount": "不可用 (SwError)",
+    "GetVisibleFeatureCount": "不可用 (SwError)"
+  },
+  "Q3_relation_after": {},
+  "tree": [
+    "FavoriteFolder/收藏",
+    "HistoryFolder/历史记录",
+    "SelectionSetFolder/选择集",
+    "SensorFolder/传感器",
+    "DocsFolder/设计活页夹",
+    "DetailCabinet/注解",
+    "InkMarkupFolder/标注",
+    "EnvFolder/光源与相机",
+    "SolidBodyFolder/实体",
+    "SurfaceBodyFolder/曲面实体",
+    "CommentsFolder/备注",
+    "EqnFolder/方程式",
+    "MaterialFolder/材质 <未指定>",
+    "RefPlane/前视基准面",
+    "RefPlane/上视基准面",
+    "RefPlane/右视基准面",
+    "OriginProfileFeature/原点",
+    "ConfigTableFolder/Tables",
+    "ProfileFeature/草图1"
+  ],
+  "Q4_rename": {
+    "old": "草图1",
+    "new_readback": "Sketch1_EN",
+    "ok": true
+  },
+  "plane_names": [
+    "前视基准面",
+    "上视基准面",
+    "右视基准面"
+  ],
+  "cleanup": {
+    "active_title": "零件234",
+    "active_path": "",
+    "closed": true
+  }
+}

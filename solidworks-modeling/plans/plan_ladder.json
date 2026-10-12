@@ -1,0 +1,333 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "壁厚沿 Y 的 z 梯级探针（真壳）",
+    "units": "mm"
+  },
+  "params": {
+    "out": "D:/out"
+  },
+  "steps": [
+    {
+      "id": "open_shell",
+      "op": "open",
+      "path": "D:/out/crh380cl_nose_s4_shell.SLDPRT"
+    },
+    {
+      "id": "base",
+      "op": "check_volume_delta"
+    },
+    {
+      "id": "p0",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb0",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl0",
+      "op": "polyline",
+      "points": [
+        [
+          3950.0,
+          -300
+        ],
+        [
+          4050.0,
+          -300
+        ],
+        [
+          4050.0,
+          -200
+        ],
+        [
+          3950.0,
+          -200
+        ]
+      ]
+    },
+    {
+      "id": "se0",
+      "op": "sketch_end",
+      "name": "LAD0"
+    },
+    {
+      "id": "cut0",
+      "op": "extrude_cut",
+      "profile": "LAD0",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "LAD_CUT0"
+    },
+    {
+      "id": "d0",
+      "op": "check_volume_delta",
+      "expect_mm3": -60000.0,
+      "tol_mm3": 60000.0,
+      "note": "z=200..300: 期望 2*100*100*3=60000"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl1",
+      "op": "polyline",
+      "points": [
+        [
+          3950.0,
+          -700
+        ],
+        [
+          4050.0,
+          -700
+        ],
+        [
+          4050.0,
+          -600
+        ],
+        [
+          3950.0,
+          -600
+        ]
+      ]
+    },
+    {
+      "id": "se1",
+      "op": "sketch_end",
+      "name": "LAD1"
+    },
+    {
+      "id": "cut1",
+      "op": "extrude_cut",
+      "profile": "LAD1",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "LAD_CUT1"
+    },
+    {
+      "id": "d1",
+      "op": "check_volume_delta",
+      "expect_mm3": -60000.0,
+      "tol_mm3": 60000.0,
+      "note": "z=600..700: 期望 2*100*100*3=60000"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb2",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl2",
+      "op": "polyline",
+      "points": [
+        [
+          3950.0,
+          -1100
+        ],
+        [
+          4050.0,
+          -1100
+        ],
+        [
+          4050.0,
+          -1000
+        ],
+        [
+          3950.0,
+          -1000
+        ]
+      ]
+    },
+    {
+      "id": "se2",
+      "op": "sketch_end",
+      "name": "LAD2"
+    },
+    {
+      "id": "cut2",
+      "op": "extrude_cut",
+      "profile": "LAD2",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "LAD_CUT2"
+    },
+    {
+      "id": "d2",
+      "op": "check_volume_delta",
+      "expect_mm3": -60000.0,
+      "tol_mm3": 60000.0,
+      "note": "z=1000..1100: 期望 2*100*100*3=60000"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl3",
+      "op": "polyline",
+      "points": [
+        [
+          3950.0,
+          -1500
+        ],
+        [
+          4050.0,
+          -1500
+        ],
+        [
+          4050.0,
+          -1400
+        ],
+        [
+          3950.0,
+          -1400
+        ]
+      ]
+    },
+    {
+      "id": "se3",
+      "op": "sketch_end",
+      "name": "LAD3"
+    },
+    {
+      "id": "cut3",
+      "op": "extrude_cut",
+      "profile": "LAD3",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "LAD_CUT3"
+    },
+    {
+      "id": "d3",
+      "op": "check_volume_delta",
+      "expect_mm3": -60000.0,
+      "tol_mm3": 60000.0,
+      "note": "z=1400..1500: 期望 2*100*100*3=60000"
+    },
+    {
+      "id": "p4",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb4",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl4",
+      "op": "polyline",
+      "points": [
+        [
+          3950.0,
+          -1900
+        ],
+        [
+          4050.0,
+          -1900
+        ],
+        [
+          4050.0,
+          -1800
+        ],
+        [
+          3950.0,
+          -1800
+        ]
+      ]
+    },
+    {
+      "id": "se4",
+      "op": "sketch_end",
+      "name": "LAD4"
+    },
+    {
+      "id": "cut4",
+      "op": "extrude_cut",
+      "profile": "LAD4",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "LAD_CUT4"
+    },
+    {
+      "id": "d4",
+      "op": "check_volume_delta",
+      "expect_mm3": -60000.0,
+      "tol_mm3": 60000.0,
+      "note": "z=1800..1900: 期望 2*100*100*3=60000"
+    },
+    {
+      "id": "p5",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl5",
+      "op": "polyline",
+      "points": [
+        [
+          3950.0,
+          -2300
+        ],
+        [
+          4050.0,
+          -2300
+        ],
+        [
+          4050.0,
+          -2200
+        ],
+        [
+          3950.0,
+          -2200
+        ]
+      ]
+    },
+    {
+      "id": "se5",
+      "op": "sketch_end",
+      "name": "LAD5"
+    },
+    {
+      "id": "cut5",
+      "op": "extrude_cut",
+      "profile": "LAD5",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "LAD_CUT5"
+    },
+    {
+      "id": "d5",
+      "op": "check_volume_delta",
+      "expect_mm3": -60000.0,
+      "tol_mm3": 60000.0,
+      "note": "z=2200..2300: 期望 2*100*100*3=60000"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "D:/out/winprobe_ladder.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

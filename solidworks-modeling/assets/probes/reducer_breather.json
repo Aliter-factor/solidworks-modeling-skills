@@ -1,0 +1,333 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "通气塞（breather，回转主轮廓 + Ø4 中心孔 + 真螺纹 M10×1）",
+    "units": "mm",
+    "note": "尺寸 source=measured（sw_faces/sw_profile 取证，见 params._measured_faces）；**不硬编码**。★ 真螺纹用 helix+cut_swept **绕开 Q11 的 real_thread**；滚花简化为光柱（见 _simplified）",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {
+    "out": "D:/out/reducer"
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl1",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 35.0,
+      "y2": 0.0
+    },
+    {
+      "id": "prof",
+      "op": "polyline",
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          9.5
+        ],
+        [
+          2.0,
+          11.5
+        ],
+        [
+          8.084,
+          11.5
+        ],
+        [
+          10.0,
+          8.5
+        ],
+        [
+          20.0,
+          8.5
+        ],
+        [
+          20.0,
+          4.25
+        ],
+        [
+          22.0,
+          4.25
+        ],
+        [
+          22.0,
+          5.0
+        ],
+        [
+          34.0,
+          5.0
+        ],
+        [
+          35.0,
+          4.0
+        ],
+        [
+          35.0,
+          0.0
+        ]
+      ],
+      "close": true,
+      "note": "主轮廓半剖面 12 点（顶面→45°倒角→滚花头→过渡锥→轴肩→退刀槽→杆→端锥）；滚花**简化为光柱**，见 _simplified"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "通气塞外轮廓"
+    },
+    {
+      "id": "ck1",
+      "op": "check_sketch_constraint",
+      "sketch": "通气塞外轮廓",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态，几何由 m0/m1/m2 兜"
+    },
+    {
+      "id": "rev",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "通气塞主体"
+    },
+    {
+      "id": "m0",
+      "op": "check_mass",
+      "expect_volume_mm3": 7218.66,
+      "vol_tol": 0.005,
+      "note": "主轮廓 Pappus 2π·r̄·A = 7218.660mm³（型面错一处立刻红）"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [
+        35.0,
+        23.0,
+        23.0
+      ],
+      "tol_mm": 0.05,
+      "note": "外形 [35, 23, 23]（滚花简化后即 Ø23 光柱；全圆柱/锥面 ⇒ GetBodyBox 可信，**判定**）"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl2",
+      "op": "centerline",
+      "x1": 10.845,
+      "y1": 0.0,
+      "x2": 35.0,
+      "y2": 0.0
+    },
+    {
+      "id": "hp",
+      "op": "polyline",
+      "points": [
+        [
+          10.845,
+          0.0
+        ],
+        [
+          11.9997,
+          2.0
+        ],
+        [
+          35.0,
+          2.0
+        ],
+        [
+          35.0,
+          0.0
+        ]
+      ],
+      "close": true,
+      "note": "Ø4 中心孔通长 + 钻尖（尖端 x=10.845，孔口 x=35）"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "通气塞中心孔"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "通气塞中心孔",
+      "expect_min_dims": 0,
+      "note": "★ 只记录约束状态；孔对不对由 m1 兜"
+    },
+    {
+      "id": "rc",
+      "op": "revolve_cut",
+      "profile": "通气塞中心孔",
+      "angle": 360,
+      "name": "通气塞中心孔",
+      "note": "绕草图内中心线（X）旋切 360°"
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_volume_mm3": 6924.793,
+      "vol_tol": 0.01,
+      "note": "主体 7218.660 − 孔 293.867 = 6924.793mm³"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Right",
+      "note": "Right 面（x=0）偏移到螺纹杆起点 x=22"
+    },
+    {
+      "id": "rp",
+      "op": "ref_plane",
+      "offset": 22.0,
+      "flip": false,
+      "name": "通气塞螺纹面",
+      "note": "平行 Right 的基准面 @ x=22（**基于标准基准面偏移** ⇒ 可离线校验）"
+    },
+    {
+      "id": "s5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c5",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 10.0
+    },
+    {
+      "id": "hx",
+      "op": "helix",
+      "pitch": 1.0,
+      "height": 12.0,
+      "name": "通气塞螺纹线",
+      "note": "**草图内**建螺旋（不可先 sketch_end）；M10 螺距 1，从 x=22 沿 +X 高 12"
+    },
+    {
+      "id": "p4",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s6",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl3",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 0.0,
+      "y2": 6.0,
+      "note": "中心线过原点（S7 锚定）；牙槽画在 x=22 = 螺旋起点处"
+    },
+    {
+      "id": "tp",
+      "op": "polyline",
+      "points": [
+        [
+          22.4375,
+          5.5
+        ],
+        [
+          21.5625,
+          5.5
+        ],
+        [
+          21.916666666666668,
+          4.3866
+        ],
+        [
+          22.083333333333332,
+          4.3866
+        ]
+      ],
+      "close": true,
+      "note": "M10×1.0 牙槽（h3=0.6134P，顶宽 0.875P，底宽 P/6）"
+    },
+    {
+      "id": "s7",
+      "op": "sketch_end",
+      "name": "通气塞牙型"
+    },
+    {
+      "id": "ck3",
+      "op": "check_sketch_constraint",
+      "sketch": "通气塞牙型",
+      "expect_min_dims": 0,
+      "note": "★ 只记录约束状态；螺纹对不对由 m2 兜"
+    },
+    {
+      "id": "sw",
+      "op": "cut_swept",
+      "profile": "通气塞牙型",
+      "path": "通气塞螺纹线",
+      "name": "通气塞螺纹",
+      "note": "轮廓平面 ⊥ 路径切向且过起点（Front ⊥ X）；op 内部验证「特征新增 + 体积减少」"
+    },
+    {
+      "id": "m2",
+      "op": "check_mass",
+      "expect_volume_mm3": 6849.753,
+      "vol_tol": 0.1,
+      "note": "切螺纹后 ≈ 6849.753mm³（− 牙槽咬料 75.0）；容差放宽 —— 螺纹切除量按哨兵等比估算"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 11.5,
+      "tol": 0.01,
+      "note": "最大圆柱半径 = Ø23 滚花头的一半（已按光柱建）"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/10-breather-D23xL35.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "L": 35.0,
+    "D": 23.0,
+    "revolve_volume_mm3": 7218.6605,
+    "center_hole_volume_mm3": 293.8671,
+    "after_hole_volume_mm3": 6924.7934,
+    "after_thread_volume_mm3": 6849.7534,
+    "thread": "M10×1",
+    "reference_bbox_mm": [
+      35.0,
+      23.0,
+      23.0
+    ],
+    "simplified": [
+      "knurl → Ø23 光柱"
+    ],
+    "reference_volume_note": "参照件含螺纹+滚花 221 张未进轮廓面 ⇒ 体积**不对账**（§83⑤）"
+  }
+}

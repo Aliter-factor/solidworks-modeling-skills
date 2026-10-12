@@ -1,0 +1,156 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 装配体配合（第二条）：同一文档里建**第二条**配合 —— 曾是 XFAIL 边界，现已解",
+    "units": "mm",
+    "note": "★ 本探针**故意失败**（meta.expect_fail），失败是**预期结果**，不计入套件失败。真实减速器装配要建几十条配合，这条边界是后续装配阶段的第一号阻塞（见 references/30-pitfalls.md §96）。★★ 为什么仍要保留它：删掉就变成「我们不知道自己不会第二条配合」——而这条边界恰恰是最容易被误判成 op 写错的地方（三样判据全都报成功）。 | 2026-10-12：原 expect_fail（\"同一文档第二条配合必然静默失效\"）已作废 —— 全量套件里本探针 XPASS，且减速器整机装配实测 41 条配合正常。去掉 expect_fail，改作**回归探针**守着这条边界。"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "np",
+      "op": "new_part"
+    },
+    {
+      "id": "pl",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 0,
+      "x2": 40,
+      "y2": 30
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BoxSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 10,
+      "name": "Box"
+    },
+    {
+      "id": "sv0",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_asm_mate2_box.SLDPRT",
+      "overwrite": true
+    },
+    {
+      "id": "na",
+      "op": "new_assembly"
+    },
+    {
+      "id": "c1",
+      "op": "insert_component",
+      "path": "{{ params.out }}/probe_asm_mate2_box.SLDPRT",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "name": "地基",
+      "note": "包围盒中心对齐 (0,0,0) ⇒ x∈[-20,20] y∈[-15,15] z∈[-5,5]。第一个插入的组件默认被固定。"
+    },
+    {
+      "id": "c2",
+      "op": "insert_component",
+      "path": "{{ params.out }}/probe_asm_mate2_box.SLDPRT",
+      "x": 100,
+      "y": 0,
+      "z": 10,
+      "name": "上块",
+      "note": "中心对齐 (100,0,10) ⇒ x∈[80,120] y∈[-15,15] z∈[5,15]。与地基贴合、侧面相隔 60 ⇒ 第 2 条配合的几何**本来就满足**（排除「几何不满足所以建不出」）。"
+    },
+    {
+      "id": "cc",
+      "op": "check_component_count",
+      "expect": 2
+    },
+    {
+      "id": "m1",
+      "op": "add_mate",
+      "kind": "coincident",
+      "entities": [
+        {
+          "type": "FACE",
+          "point": [
+            0,
+            0,
+            5
+          ]
+        },
+        {
+          "type": "FACE",
+          "point": [
+            100,
+            0,
+            5
+          ]
+        }
+      ],
+      "align": "anti_aligned",
+      "name": "底上重合",
+      "note": "第一条配合：**真机必成**（2026-10-03 实测，取面距点 0.000mm）。它成了才说明问题不在取面。"
+    },
+    {
+      "id": "mc1",
+      "op": "check_mate_count",
+      "expect": 1,
+      "note": "确认第一条真的建上了（配合数 1）。"
+    },
+    {
+      "id": "m2",
+      "op": "add_mate",
+      "kind": "distance",
+      "distance": 60,
+      "entities": [
+        {
+          "type": "FACE",
+          "point": [
+            20,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "FACE",
+          "point": [
+            80,
+            0,
+            10
+          ]
+        }
+      ],
+      "align": "anti_aligned",
+      "name": "左右相距60",
+      "note": "★★ 第二条：**预期在这里失败**。两个面都是**背面**（地基 +X 面、上块 −X 面在默认等轴测视图里朝向不同），所以取点必须走枚举面路径（op 已改）；取到之后 CreateMate 仍会静默无操作。期望报错是「CreateMate 没有产生任何新特征」—— 若报的是「没选全」，说明取面路径退化了、那是另一个问题。"
+    },
+    {
+      "id": "mc2",
+      "op": "check_mate_count",
+      "expect": 2,
+      "note": "★ 如果 m2 静默失效，这里的 `expect=2` 就会**失败** —— 那是**期望中的失败**。哪天它过了，说明边界解了（sw_probe 会报 XPASS）。"
+    },
+    {
+      "id": "ia",
+      "op": "inspect_assembly",
+      "tree": true,
+      "note": "取证：特征树里应当只有 1 条 `MateCoincident`。distance 配合的真实类型名是 **`MateDistanceDim`**（带 `Dim` 后缀）—— 在单条配合的干净会话里已实测到过一次（`_diag/diag_distance_mate.py` 变体 G）。"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_asm_mate2.SLDASM",
+      "overwrite": true,
+      "note": "即便配合只建上 1 条，这份 .SLDASM 仍是有效产物（组件 + 基准 + 一条重合），可以打开人工看。"
+    }
+  ]
+}

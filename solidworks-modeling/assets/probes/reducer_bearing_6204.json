@@ -1,0 +1,969 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "深沟球轴承 6204（6204：外圈+内圈+8滚珠，单件多实体）",
+    "units": "mm",
+    "note": "尺寸 source=measured（sw_faces 取证，见 params._measured_faces）。★ 滚珠用 Z 次独立 revolve_boss（**不用 circular_pattern** —— 对独立 body 静默无产出，坑表 §113）；球的回转轴 = 过球心的水平中心线",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {
+    "out": "D:/out/reducer"
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl1",
+      "op": "centerline",
+      "x1": -7.0,
+      "y1": 0.0,
+      "x2": 7.0,
+      "y2": 0.0
+    },
+    {
+      "id": "opo",
+      "op": "polyline",
+      "points": [
+        [
+          -7.0,
+          19.0573
+        ],
+        [
+          -7.0,
+          23.5
+        ],
+        [
+          7.0,
+          23.5
+        ],
+        [
+          7.0,
+          19.0573
+        ],
+        [
+          2.5649301569438476,
+          19.0573
+        ]
+      ],
+      "close": false,
+      "note": "外圈剖面：左端面→OD(D=47)→右端面→右台肩(R=19.0573)；缺口由 arc3p 收口"
+    },
+    {
+      "id": "ao",
+      "op": "arc3p",
+      "p1": [
+        2.5649301569438476,
+        19.0573
+      ],
+      "p2": [
+        -2.5649301569438476,
+        19.0573
+      ],
+      "p3": [
+        0.0,
+        20.2
+      ],
+      "note": "外圈沟道：R3.4500 弧，圆心在分布半径 16.75，弧底 20.2000"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204外圈剖面"
+    },
+    {
+      "id": "ck1",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204外圈剖面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "r1",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204外圈"
+    },
+    {
+      "id": "m0",
+      "op": "check_mass",
+      "expect_volume_mm3": 7817.987,
+      "vol_tol": 0.005,
+      "note": "外圈解析 Pappus 体积 7817.9870mm³"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl2",
+      "op": "centerline",
+      "x1": -7.0,
+      "y1": 0.0,
+      "x2": 7.0,
+      "y2": 0.0
+    },
+    {
+      "id": "opi",
+      "op": "polyline",
+      "points": [
+        [
+          7.0,
+          14.4427
+        ],
+        [
+          7.0,
+          10.0
+        ],
+        [
+          -7.0,
+          10.0
+        ],
+        [
+          -7.0,
+          14.4427
+        ],
+        [
+          -2.5649301569438494,
+          14.4427
+        ]
+      ],
+      "close": false,
+      "note": "内圈剖面：右台肩→右端面→孔(d=20)→左端面→左台肩(R=14.4427)"
+    },
+    {
+      "id": "ai",
+      "op": "arc3p",
+      "p1": [
+        -2.5649301569438494,
+        14.4427
+      ],
+      "p2": [
+        2.5649301569438494,
+        14.4427
+      ],
+      "p3": [
+        0.0,
+        13.3
+      ],
+      "note": "内圈沟道：同样 R3.4500 弧，弧底 13.3000"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204内圈剖面"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204内圈剖面",
+      "expect_min_dims": 0
+    },
+    {
+      "id": "r2",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204内圈"
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_volume_mm3": 12237.701,
+      "vol_tol": 0.005,
+      "note": "外圈 7817.9870 + 内圈 4419.7137 = 12237.7007"
+    },
+    {
+      "id": "pb0",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb0",
+      "op": "ref_plane",
+      "offset": 6.4099,
+      "flip": false,
+      "name": "深沟球轴承 6204滚珠面0",
+      "note": "平行 Front @ z=+6.4099（球心所在平面）"
+    },
+    {
+      "id": "sb0",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt0",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb0",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": 15.475,
+      "x2": 4.4,
+      "y2": 15.475,
+      "note": "★ 回转轴 = 过球心 (0,15.4750) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob0",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          15.475
+        ],
+        [
+          3.4,
+          15.475
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab0",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        15.475
+      ],
+      "p2": [
+        -3.4,
+        15.475
+      ],
+      "p3": [
+        0.0,
+        18.875
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es0",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面0"
+    },
+    {
+      "id": "ckb0",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面0",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk0",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠0"
+    },
+    {
+      "id": "mk0",
+      "op": "check_mass",
+      "expect_volume_mm3": 12402.337,
+      "vol_tol": 0.005,
+      "note": "累计到第 1 个球：12237.701 + 1×164.636"
+    },
+    {
+      "id": "pb1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb1",
+      "op": "ref_plane",
+      "offset": 15.475,
+      "flip": false,
+      "name": "深沟球轴承 6204滚珠面1",
+      "note": "平行 Front @ z=+15.4750（球心所在平面）"
+    },
+    {
+      "id": "sb1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt1",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb1",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": 6.4099,
+      "x2": 4.4,
+      "y2": 6.4099,
+      "note": "★ 回转轴 = 过球心 (0,6.4099) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob1",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          6.4099
+        ],
+        [
+          3.4,
+          6.4099
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab1",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        6.4099
+      ],
+      "p2": [
+        -3.4,
+        6.4099
+      ],
+      "p3": [
+        0.0,
+        9.8099
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es1",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面1"
+    },
+    {
+      "id": "ckb1",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面1",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk1",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠1"
+    },
+    {
+      "id": "mk1",
+      "op": "check_mass",
+      "expect_volume_mm3": 12566.973,
+      "vol_tol": 0.005,
+      "note": "累计到第 2 个球：12237.701 + 2×164.636"
+    },
+    {
+      "id": "pb2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb2",
+      "op": "ref_plane",
+      "offset": 15.475,
+      "flip": false,
+      "name": "深沟球轴承 6204滚珠面2",
+      "note": "平行 Front @ z=+15.4750（球心所在平面）"
+    },
+    {
+      "id": "sb2",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt2",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb2",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": -6.4099,
+      "x2": 4.4,
+      "y2": -6.4099,
+      "note": "★ 回转轴 = 过球心 (0,-6.4099) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob2",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          -6.4099
+        ],
+        [
+          3.4,
+          -6.4099
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab2",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        -6.4099
+      ],
+      "p2": [
+        -3.4,
+        -6.4099
+      ],
+      "p3": [
+        0.0,
+        -3.0099000000000005
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es2",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面2"
+    },
+    {
+      "id": "ckb2",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面2",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk2",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠2"
+    },
+    {
+      "id": "mk2",
+      "op": "check_mass",
+      "expect_volume_mm3": 12731.609,
+      "vol_tol": 0.005,
+      "note": "累计到第 3 个球：12237.701 + 3×164.636"
+    },
+    {
+      "id": "pb3",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb3",
+      "op": "ref_plane",
+      "offset": 6.4099,
+      "flip": false,
+      "name": "深沟球轴承 6204滚珠面3",
+      "note": "平行 Front @ z=+6.4099（球心所在平面）"
+    },
+    {
+      "id": "sb3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt3",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb3",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": -15.475,
+      "x2": 4.4,
+      "y2": -15.475,
+      "note": "★ 回转轴 = 过球心 (0,-15.4750) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob3",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          -15.475
+        ],
+        [
+          3.4,
+          -15.475
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab3",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        -15.475
+      ],
+      "p2": [
+        -3.4,
+        -15.475
+      ],
+      "p3": [
+        0.0,
+        -12.075
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es3",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面3"
+    },
+    {
+      "id": "ckb3",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面3",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk3",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠3"
+    },
+    {
+      "id": "mk3",
+      "op": "check_mass",
+      "expect_volume_mm3": 12896.246,
+      "vol_tol": 0.005,
+      "note": "累计到第 4 个球：12237.701 + 4×164.636"
+    },
+    {
+      "id": "pb4",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb4",
+      "op": "ref_plane",
+      "offset": 6.4099,
+      "flip": true,
+      "name": "深沟球轴承 6204滚珠面4",
+      "note": "平行 Front @ z=-6.4099（球心所在平面）"
+    },
+    {
+      "id": "sb4",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt4",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb4",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": -15.475,
+      "x2": 4.4,
+      "y2": -15.475,
+      "note": "★ 回转轴 = 过球心 (0,-15.4750) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob4",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          -15.475
+        ],
+        [
+          3.4,
+          -15.475
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab4",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        -15.475
+      ],
+      "p2": [
+        -3.4,
+        -15.475
+      ],
+      "p3": [
+        0.0,
+        -12.075
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es4",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面4"
+    },
+    {
+      "id": "ckb4",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面4",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk4",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠4"
+    },
+    {
+      "id": "mk4",
+      "op": "check_mass",
+      "expect_volume_mm3": 13060.882,
+      "vol_tol": 0.005,
+      "note": "累计到第 5 个球：12237.701 + 5×164.636"
+    },
+    {
+      "id": "pb5",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb5",
+      "op": "ref_plane",
+      "offset": 15.475,
+      "flip": true,
+      "name": "深沟球轴承 6204滚珠面5",
+      "note": "平行 Front @ z=-15.4750（球心所在平面）"
+    },
+    {
+      "id": "sb5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt5",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb5",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": -6.4099,
+      "x2": 4.4,
+      "y2": -6.4099,
+      "note": "★ 回转轴 = 过球心 (0,-6.4099) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob5",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          -6.4099
+        ],
+        [
+          3.4,
+          -6.4099
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab5",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        -6.4099
+      ],
+      "p2": [
+        -3.4,
+        -6.4099
+      ],
+      "p3": [
+        0.0,
+        -3.0099000000000005
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es5",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面5"
+    },
+    {
+      "id": "ckb5",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面5",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk5",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠5"
+    },
+    {
+      "id": "mk5",
+      "op": "check_mass",
+      "expect_volume_mm3": 13225.518,
+      "vol_tol": 0.005,
+      "note": "累计到第 6 个球：12237.701 + 6×164.636"
+    },
+    {
+      "id": "pb6",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb6",
+      "op": "ref_plane",
+      "offset": 15.475,
+      "flip": true,
+      "name": "深沟球轴承 6204滚珠面6",
+      "note": "平行 Front @ z=-15.4750（球心所在平面）"
+    },
+    {
+      "id": "sb6",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt6",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb6",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": 6.4099,
+      "x2": 4.4,
+      "y2": 6.4099,
+      "note": "★ 回转轴 = 过球心 (0,6.4099) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob6",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          6.4099
+        ],
+        [
+          3.4,
+          6.4099
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab6",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        6.4099
+      ],
+      "p2": [
+        -3.4,
+        6.4099
+      ],
+      "p3": [
+        0.0,
+        9.8099
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es6",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面6"
+    },
+    {
+      "id": "ckb6",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面6",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk6",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠6"
+    },
+    {
+      "id": "mk6",
+      "op": "check_mass",
+      "expect_volume_mm3": 13390.154,
+      "vol_tol": 0.005,
+      "note": "累计到第 7 个球：12237.701 + 7×164.636"
+    },
+    {
+      "id": "pb7",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "fb7",
+      "op": "ref_plane",
+      "offset": 6.4099,
+      "flip": true,
+      "name": "深沟球轴承 6204滚珠面7",
+      "note": "平行 Front @ z=-6.4099（球心所在平面）"
+    },
+    {
+      "id": "sb7",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pt7",
+      "op": "point",
+      "x": 0.0,
+      "y": 0.0,
+      "note": "★ S7 锚定：球心离轴 ⇒ 中心线不过原点，必须补一个**落在原点的构造点**（§111，不能用中心线代）"
+    },
+    {
+      "id": "cb7",
+      "op": "centerline",
+      "x1": -4.4,
+      "y1": 15.475,
+      "x2": 4.4,
+      "y2": 15.475,
+      "note": "★ 回转轴 = 过球心 (0,15.4750) 的水平线（**不是** X 轴：球心离轴）"
+    },
+    {
+      "id": "ob7",
+      "op": "polyline",
+      "points": [
+        [
+          -3.4,
+          15.475
+        ],
+        [
+          3.4,
+          15.475
+        ]
+      ],
+      "close": false,
+      "note": "半圆直径，贴在回转轴上"
+    },
+    {
+      "id": "ab7",
+      "op": "arc3p",
+      "p1": [
+        3.4,
+        15.475
+      ],
+      "p2": [
+        -3.4,
+        15.475
+      ],
+      "p3": [
+        0.0,
+        18.875
+      ],
+      "note": "半径 3.4 半圆（球母线）"
+    },
+    {
+      "id": "es7",
+      "op": "sketch_end",
+      "name": "深沟球轴承 6204滚珠剖面7"
+    },
+    {
+      "id": "ckb7",
+      "op": "check_sketch_constraint",
+      "sketch": "深沟球轴承 6204滚珠剖面7",
+      "expect_min_dims": 0,
+      "note": "★ 每张草图都要有约束闸门（§11.3）；只记录状态"
+    },
+    {
+      "id": "rk7",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "深沟球轴承 6204滚珠7"
+    },
+    {
+      "id": "mk7",
+      "op": "check_mass",
+      "expect_volume_mm3": 13554.79,
+      "vol_tol": 0.005,
+      "note": "累计到第 8 个球：12237.701 + 8×164.636"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        14.0,
+        47.0,
+        47.0
+      ],
+      "tol_mm": 0.05,
+      "note": "外形 [14,47,47]（全平面/圆柱/球面，GetBodyBox 可信）⇒ **判定**"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 23.5,
+      "tol": 0.01,
+      "note": "最大圆柱面 = 外圈 OD Ø47"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/24-bearing-6204-20x47x14.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "spec": "6204",
+    "d": 20.0,
+    "D": 47.0,
+    "B": 14.0,
+    "ball_d": 6.8,
+    "ball_count": 8,
+    "pitch_r": 16.75,
+    "groove_arc_r": 3.45,
+    "groove_clearance": 0.05,
+    "outer_volume_mm3": 7817.987,
+    "inner_volume_mm3": 4419.7137,
+    "ball_volume_mm3": 164.6362,
+    "total_volume_mm3": 13554.7904,
+    "reference_bbox_mm": [
+      14.0,
+      47.0,
+      47.0
+    ],
+    "reference_volume_note": "参照件体积**不对账**：它含保持架/铆钉/非保形槽，本件是登记在案的简化（§102）"
+  }
+}

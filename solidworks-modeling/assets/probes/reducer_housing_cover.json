@@ -1,0 +1,844 @@
+{
+ "schema": "yoyo.swplan/1",
+ "meta": {
+  "name": "箱盖（housing_cover：figure-8 顶罩 + 顶法兰 + 轴承孔）",
+  "units": "mm",
+  "note": "尺寸 source=图纸 03.jpg（RapidOCR+分区放大）+ measured 交叉校核。★ 2026-10-04 按图纸补：**窥视孔凸台 锥台 46(顶)×10°拔模 + 方孔 28 + 4×M3（孔心距 36×36）**、法兰螺栓 **Ø18 沉孔**。★★ 图纸复核纠正：B 向视图「36×36」是 **M3 孔心距**、不是凸台顶面；凸台顶面 = 俯视最外方框 = **46×46**（与主视「46」一致）；俯视三层方框实测同心 ⇒ 中心 X = −9.0（230 左端起 91.3mm）。",
+  "layers": [
+   {
+    "n": 1,
+    "name": "顶板（剖分法兰）",
+    "size": "230×104.019×2.764（X∈[-100.476,129.524]，Y 0→2.764）",
+    "built_by": [
+     "e0 顶法兰"
+    ],
+    "why_first": "全件的基准面；穹顶与窥视孔都长在它上面"
+   },
+   {
+    "n": 2,
+    "name": "穹顶壳（figure-8 顶罩）",
+    "size": "外 R70.112/R62、壁 6、内腔 R64.112/R56（端壁 13.8）",
+    "built_by": [
+     "e10/e11 罩外半圆（两半圆各一特征）",
+     "e30/e31 罩腔（内腔切除）"
+    ]
+   },
+   {
+    "n": 3,
+    "name": "窥视孔凸台（锥台）",
+    "size": "顶面 46×46，侧壁拔模 10°，Y 54→70",
+    "built_by": [
+     "eV0 窥视孔凸台（带拔模的拉伸）"
+    ]
+   }
+  ],
+  "details_on_layers": "轴承孔 Ø47/Ø62、法兰 6×Ø9 + Ø18 沉孔、窥视孔方孔 28×28、4×M3 通孔 —— **全部基于上述三层加工**",
+  "source_params": "assets/reducer/reducer.params.json"
+ },
+ "params": {
+  "out": "D:/out/reducer"
+ },
+ "steps": [
+  {
+   "id": "n",
+   "op": "new_part"
+  },
+  {
+   "id": "p1",
+   "op": "select_plane",
+   "plane": "Front",
+   "note": "Front 法向 +Z；草图 (x,y)=(X,Y) 正是顶罩剖面 ⇒ 不需换面"
+  },
+  {
+   "id": "s1",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "pt1",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定（法兰矩形不含原点内部）"
+  },
+  {
+   "id": "out",
+   "op": "rect_corner",
+   "x1": -100.476,
+   "y1": 0.0,
+   "x2": 129.524,
+   "y2": 2.764,
+   "note": "顶法兰 230×2.764（X∈[-100.476,129.524]）"
+  },
+  {
+   "id": "s2",
+   "op": "sketch_end",
+   "name": "箱盖顶法兰截面"
+  },
+  {
+   "id": "ck1",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖顶法兰截面",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "e0",
+   "op": "extrude_boss",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 104.019,
+   "name": "箱盖顶法兰",
+   "note": "MidPlane 104.019 ⇒ Z∈[±52.0095]"
+  },
+  {
+   "id": "m0",
+   "op": "check_mass",
+   "expect_volume_mm3": 66126.959,
+   "vol_tol": 0.005,
+   "note": "【层1 顶板】法兰 230×2.764×104.019 = 66127.0mm³"
+  },
+  {
+   "id": "p20",
+   "op": "select_plane",
+   "plane": "Front",
+   "note": "顶罩剖面在 Front（法向 Z）"
+  },
+  {
+   "id": "s30",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "pt20",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "a0",
+   "op": "arc3p",
+   "p1": [
+    104.632,
+    0.0
+   ],
+   "p2": [
+    -35.59199999999999,
+    0.0
+   ],
+   "p3": [
+    34.52,
+    70.112
+   ],
+   "note": "外半圆 R70.112 @ X=34.52（大侧）"
+  },
+  {
+   "id": "l0",
+   "op": "line",
+   "x1": -35.59199999999999,
+   "y1": 0.0,
+   "x2": 104.632,
+   "y2": 0.0,
+   "note": "封口弦（在剖分面 y=0）"
+  },
+  {
+   "id": "s40",
+   "op": "sketch_end",
+   "name": "箱盖罩外截面大"
+  },
+  {
+   "id": "ck20",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖罩外截面大",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "e10",
+   "op": "extrude_boss",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 104.019,
+   "name": "箱盖顶罩大",
+   "note": "【层2 穹顶】MidPlane 104.019（与已在的实体合并）"
+  },
+  {
+   "id": "p21",
+   "op": "select_plane",
+   "plane": "Front",
+   "note": "顶罩剖面在 Front（法向 Z）"
+  },
+  {
+   "id": "s31",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "pt21",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "a1",
+   "op": "arc3p",
+   "p1": [
+    26.520000000000003,
+    0.0
+   ],
+   "p2": [
+    -97.47999999999999,
+    0.0
+   ],
+   "p3": [
+    -35.48,
+    62.0
+   ],
+   "note": "外半圆 R62 @ X=-35.48（小侧）"
+  },
+  {
+   "id": "l1",
+   "op": "line",
+   "x1": -97.47999999999999,
+   "y1": 0.0,
+   "x2": 26.520000000000003,
+   "y2": 0.0,
+   "note": "封口弦（在剖分面 y=0）"
+  },
+  {
+   "id": "s41",
+   "op": "sketch_end",
+   "name": "箱盖罩外截面小"
+  },
+  {
+   "id": "ck21",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖罩外截面小",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "e11",
+   "op": "extrude_boss",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 104.019,
+   "name": "箱盖顶罩小",
+   "note": "【层2 穹顶】MidPlane 104.019（与已在的实体合并）"
+  },
+  {
+   "id": "m1",
+   "op": "check_mass",
+   "expect_volume_mm3": 1184772.782,
+   "vol_tol": 0.005,
+   "note": "【层2 半】法兰 66127 + 罩(高出法兰) 1118646 = 1184773mm³"
+  },
+  {
+   "id": "p50",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s50",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "pt50",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "a30",
+   "op": "arc3p",
+   "p1": [
+    98.632,
+    0.0
+   ],
+   "p2": [
+    -29.59199999999999,
+    0.0
+   ],
+   "p3": [
+    34.52,
+    64.112
+   ],
+   "note": "内腔半圆 R64.112，**圆心在剖分面 y=0** ⇒ 腔顶 = R64.112、顶壁厚 = 6 ✓ 图纸（★ 别写成圆心 (cx,2.764)）"
+  },
+  {
+   "id": "l30",
+   "op": "line",
+   "x1": -29.59199999999999,
+   "y1": 0.0,
+   "x2": 98.632,
+   "y2": 0.0,
+   "note": "封口弦（在剖分面 y=0，腔体向下敞开）"
+  },
+  {
+   "id": "s60",
+   "op": "sketch_end",
+   "name": "箱盖罩腔截面大"
+  },
+  {
+   "id": "ck50",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖罩腔截面大",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "e30",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 76.41900000000001,
+   "name": "箱盖罩腔大",
+   "note": "【层2 穹顶内腔】MidPlane 76.419 ⇒ Z∈[±38.2095]，两端各留端壁 13.8"
+  },
+  {
+   "id": "p51",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s51",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "pt51",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "a31",
+   "op": "arc3p",
+   "p1": [
+    20.520000000000003,
+    0.0
+   ],
+   "p2": [
+    -91.47999999999999,
+    0.0
+   ],
+   "p3": [
+    -35.48,
+    56.0
+   ],
+   "note": "内腔半圆 R56，**圆心在剖分面 y=0** ⇒ 腔顶 = R56、顶壁厚 = 6 ✓ 图纸（★ 别写成圆心 (cx,2.764)）"
+  },
+  {
+   "id": "l31",
+   "op": "line",
+   "x1": -91.47999999999999,
+   "y1": 0.0,
+   "x2": 20.520000000000003,
+   "y2": 0.0,
+   "note": "封口弦（在剖分面 y=0，腔体向下敞开）"
+  },
+  {
+   "id": "s61",
+   "op": "sketch_end",
+   "name": "箱盖罩腔截面小"
+  },
+  {
+   "id": "ck51",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖罩腔截面小",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "e31",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 76.41900000000001,
+   "name": "箱盖罩腔小",
+   "note": "【层2 穹顶内腔】MidPlane 76.419 ⇒ Z∈[±38.2095]，两端各留端壁 13.8"
+  },
+  {
+   "id": "m2",
+   "op": "check_mass",
+   "expect_volume_mm3": 445303.578,
+   "vol_tol": 0.005,
+   "note": "【三层主体完】− 内腔 739469 = 445304mm³ —— 以下均为基于三层的加工"
+  },
+  {
+   "id": "p7",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s7",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "pt7",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "b0",
+   "op": "circle",
+   "cx": 34.52,
+   "cy": 0.0,
+   "d": 62.0,
+   "note": "轴承孔 Ø62 @ (X=34.52, Y=0)；材料只在 y≥0 ⇒ 自然只切上半"
+  },
+  {
+   "id": "b1",
+   "op": "circle",
+   "cx": -35.48,
+   "cy": 0.0,
+   "d": 47.0,
+   "note": "轴承孔 Ø47 @ (X=-35.48, Y=0)；材料只在 y≥0 ⇒ 自然只切上半"
+  },
+  {
+   "id": "s8",
+   "op": "sketch_end",
+   "name": "箱盖轴承孔截面"
+  },
+  {
+   "id": "ck6",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖轴承孔截面",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "bore",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondThroughAllBoth",
+   "both_directions": true,
+   "name": "箱盖轴承孔",
+   "note": "沿 Z 双向贯穿：切穿两端端壁的轴承座孔（中段是空腔，不吃料）"
+  },
+  {
+   "id": "m3",
+   "op": "check_mass",
+   "expect_volume_mm3": 379698.17,
+   "vol_tol": 0.005,
+   "note": "− 两轴承孔 65605 = 379698mm³"
+  },
+  {
+   "id": "p8",
+   "op": "select_plane",
+   "plane": "Top",
+   "note": "Top 面 = 剖分面 y=0（顶法兰底面）"
+  },
+  {
+   "id": "s9",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "pt8",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "fh0",
+   "op": "circle",
+   "cx": 118.52,
+   "cy": -0.0,
+   "d": 9.0,
+   "note": "法兰螺栓孔 Ø9 @ (X=118.52, Z=0)（Top 面 (u,v)=(X,−Z)）"
+  },
+  {
+   "id": "fh1",
+   "op": "circle",
+   "cx": -89.48,
+   "cy": -0.0,
+   "d": 9.0,
+   "note": "法兰螺栓孔 Ø9 @ (X=-89.48, Z=0)（Top 面 (u,v)=(X,−Z)）"
+  },
+  {
+   "id": "fh2",
+   "op": "circle",
+   "cx": 84.52,
+   "cy": -37.0,
+   "d": 9.0,
+   "note": "法兰螺栓孔 Ø9 @ (X=84.52, Z=37)（Top 面 (u,v)=(X,−Z)）"
+  },
+  {
+   "id": "fh3",
+   "op": "circle",
+   "cx": 84.52,
+   "cy": 37.0,
+   "d": 9.0,
+   "note": "法兰螺栓孔 Ø9 @ (X=84.52, Z=-37)（Top 面 (u,v)=(X,−Z)）"
+  },
+  {
+   "id": "fh4",
+   "op": "circle",
+   "cx": -73.48,
+   "cy": -37.0,
+   "d": 9.0,
+   "note": "法兰螺栓孔 Ø9 @ (X=-73.48, Z=37)（Top 面 (u,v)=(X,−Z)）"
+  },
+  {
+   "id": "fh5",
+   "op": "circle",
+   "cx": -73.48,
+   "cy": 37.0,
+   "d": 9.0,
+   "note": "法兰螺栓孔 Ø9 @ (X=-73.48, Z=-37)（Top 面 (u,v)=(X,−Z)）"
+  },
+  {
+   "id": "s10",
+   "op": "sketch_end",
+   "name": "箱盖法兰孔位"
+  },
+  {
+   "id": "ck7",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖法兰孔位",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "fhc",
+   "op": "extrude_cut",
+   "depth": 2.764,
+   "end_cond": "swEndCondBlind",
+   "name": "箱盖法兰孔",
+   "note": "自 y=0 向上深 2.764（只穿顶法兰）"
+  },
+  {
+   "id": "pm1",
+   "op": "check_mass",
+   "note": "★ 探针：法兰孔之后（只记录判据用）"
+  },
+  {
+   "id": "pC0",
+   "op": "plane_offset",
+   "base": "Top",
+   "offset": 1.764,
+   "name": "沉孔中面",
+   "note": "平行 Top @ y=1.764"
+  },
+  {
+   "id": "pC0s",
+   "op": "select_plane",
+   "plane": "沉孔中面"
+  },
+  {
+   "id": "sC1",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "ptC1",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "cc0",
+   "op": "circle",
+   "cx": 118.52,
+   "cy": -0.0,
+   "d": 18.0,
+   "note": "法兰螺栓沉孔 Ø18 深 2 @ (X=118.52, Z=0)"
+  },
+  {
+   "id": "cc1",
+   "op": "circle",
+   "cx": -89.48,
+   "cy": -0.0,
+   "d": 18.0,
+   "note": "法兰螺栓沉孔 Ø18 深 2 @ (X=-89.48, Z=0)"
+  },
+  {
+   "id": "cc2",
+   "op": "circle",
+   "cx": 84.52,
+   "cy": -37.0,
+   "d": 18.0,
+   "note": "法兰螺栓沉孔 Ø18 深 2 @ (X=84.52, Z=37)"
+  },
+  {
+   "id": "cc3",
+   "op": "circle",
+   "cx": 84.52,
+   "cy": 37.0,
+   "d": 18.0,
+   "note": "法兰螺栓沉孔 Ø18 深 2 @ (X=84.52, Z=-37)"
+  },
+  {
+   "id": "cc4",
+   "op": "circle",
+   "cx": -73.48,
+   "cy": -37.0,
+   "d": 18.0,
+   "note": "法兰螺栓沉孔 Ø18 深 2 @ (X=-73.48, Z=37)"
+  },
+  {
+   "id": "cc5",
+   "op": "circle",
+   "cx": -73.48,
+   "cy": 37.0,
+   "d": 18.0,
+   "note": "法兰螺栓沉孔 Ø18 深 2 @ (X=-73.48, Z=-37)"
+  },
+  {
+   "id": "sC2",
+   "op": "sketch_end",
+   "name": "箱盖螺栓沉孔位"
+  },
+  {
+   "id": "ckC1",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖螺栓沉孔位",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "eC0",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 2.0,
+   "name": "箱盖螺栓沉孔",
+   "note": "MidPlane 2 ⇒ Y∈[0.764,2.764]（自剖分面上表面下沉）"
+  },
+  {
+   "id": "pm2",
+   "op": "check_mass",
+   "note": "★ 探针：法兰沉孔之后（只记录判据用）"
+  },
+  {
+   "id": "pV0",
+   "op": "plane_offset",
+   "base": "Top",
+   "offset": 54.0,
+   "name": "窥视孔凸台底面",
+   "note": "平行 Top @ y=54（拔模起点）"
+  },
+  {
+   "id": "pV0s",
+   "op": "select_plane",
+   "plane": "窥视孔凸台底面"
+  },
+  {
+   "id": "sV1",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "ptV1",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "vout",
+   "op": "rect_corner",
+   "x1": -34.82123169133544,
+   "y1": -25.82123169133544,
+   "x2": 16.82123169133544,
+   "y2": 25.82123169133544,
+   "note": "锥台**底面** 51.642×51.642 @ X=-9（= 46 + 2·16·tan10° ⇒ 拔模后顶面恰 46）"
+  },
+  {
+   "id": "sV2",
+   "op": "sketch_end",
+   "name": "箱盖窥视孔凸台"
+  },
+  {
+   "id": "ckV1",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖窥视孔凸台",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "eV0",
+   "op": "extrude_boss",
+   "end_cond": "swEndCondBlind",
+   "depth": 16.0,
+   "taper": 10.0,
+   "name": "箱盖窥视孔凸台",
+   "note": "【层3 窥视孔凸台】自 y=54 向上盲拉 16 + **10° 向内拔模** ⇒ Y∈[54,70]，顶面 46×46（图纸 B 向 46×46，10° 侧壁）"
+  },
+  {
+   "id": "pm3",
+   "op": "check_mass",
+   "note": "★ 探针：窥视孔凸台之后（只记录判据用）"
+  },
+  {
+   "id": "pV1",
+   "op": "plane_offset",
+   "base": "Top",
+   "offset": 62.0,
+   "name": "窥视孔中面",
+   "note": "平行 Top @ y=62"
+  },
+  {
+   "id": "pV1s",
+   "op": "select_plane",
+   "plane": "窥视孔中面"
+  },
+  {
+   "id": "sV3",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "ptV2",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "vwin",
+   "op": "rect_corner",
+   "x1": -23.0,
+   "y1": -14.0,
+   "x2": 5.0,
+   "y2": 14.0,
+   "note": "窥视孔方孔 28×28"
+  },
+  {
+   "id": "sV4",
+   "op": "sketch_end",
+   "name": "箱盖窥视孔方孔"
+  },
+  {
+   "id": "ckV2",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖窥视孔方孔",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "eV1",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 16.0,
+   "name": "箱盖窥视孔",
+   "note": "MidPlane 16 ⇒ 贯穿凸台与穹顶壁（观察孔）"
+  },
+  {
+   "id": "pm4",
+   "op": "check_mass",
+   "note": "★ 探针：窥视孔方孔之后（只记录判据用）"
+  },
+  {
+   "id": "pV2s",
+   "op": "select_plane",
+   "plane": "窥视孔中面"
+  },
+  {
+   "id": "sV5",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "ptV3",
+   "op": "point",
+   "x": 0.0,
+   "y": 0.0,
+   "note": "★ S7 锚定"
+  },
+  {
+   "id": "vm0",
+   "op": "circle",
+   "cx": 9.0,
+   "cy": 18.0,
+   "d": 2.5,
+   "note": "4×M3 通孔"
+  },
+  {
+   "id": "vm1",
+   "op": "circle",
+   "cx": -27.0,
+   "cy": 18.0,
+   "d": 2.5,
+   "note": "4×M3 通孔"
+  },
+  {
+   "id": "vm2",
+   "op": "circle",
+   "cx": 9.0,
+   "cy": -18.0,
+   "d": 2.5,
+   "note": "4×M3 通孔"
+  },
+  {
+   "id": "vm3",
+   "op": "circle",
+   "cx": -27.0,
+   "cy": -18.0,
+   "d": 2.5,
+   "note": "4×M3 通孔"
+  },
+  {
+   "id": "sV6",
+   "op": "sketch_end",
+   "name": "箱盖窥视孔M3"
+  },
+  {
+   "id": "ckV3",
+   "op": "check_sketch_constraint",
+   "sketch": "箱盖窥视孔M3",
+   "expect_min_dims": 0
+  },
+  {
+   "id": "eV2",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondThroughAllBoth",
+   "both_directions": true,
+   "name": "箱盖窥视孔M3孔",
+   "note": "4×M3 沿 Y 贯穿凸台"
+  },
+  {
+   "id": "bb",
+   "op": "check_bbox",
+   "expect": [
+    230.0,
+    70.112,
+    104.019
+   ],
+   "tol_mm": 0.05,
+   "note": "外形 [230, 70.112, 104.019]"
+  },
+  {
+   "id": "cyl",
+   "op": "check_cyl_radius",
+   "expect_max": 70.112,
+   "tol": 0.01,
+   "note": "最大圆柱面 = 大顶罩外半圆 R70.112"
+  },
+  {
+   "id": "m4",
+   "op": "check_mass",
+   "expect_volume_mm3": 388267.883,
+   "vol_tol": 0.005,
+   "note": "闭体积解析 = 法兰 66127 + 罩 1118646 − 腔 739469 − 轴承孔 65605 − 法兰孔 1055 + 窥视孔锥台 12229 − 方孔/M3 314 − 沉孔 2290 = 388268mm³。★ 容差**收到 0.5%** 的依据（2026-10-04 真机分段探针 pm1~pm4）：修掉「内腔半圆圆心上移到 y=tf」之后（§118），凸台净增实测 29669.28 → 解析 29669.52（0.0008%）；主体 m0~m3、Δ1/Δ2/Δ4/Δ5 全部逐位吻合 ⇒ 不再需要 2% 的宽容量"
+  },
+  {
+   "id": "diag",
+   "op": "check_diagnostics",
+   "fail_on": "error"
+  },
+  {
+   "id": "sv",
+   "op": "save_as",
+   "path": "{{ params.out }}/12-housing_cover-230x70.112x104.019.SLDPRT",
+   "overwrite": true
+  }
+ ],
+ "_derived": {
+  "frame_native": "X=轴间(230) Y=竖直(0→70.112) Z=轴向(104.019)；装配绕 Y 转 −90°（X_cover = 104.52 − Z_base、Z_cover = X_base）",
+  "radii_outer_inner_mm": [
+   [
+    70.112,
+    64.112
+   ],
+   [
+    62.0,
+    56.0
+   ]
+  ],
+  "axis_x_mm": [
+   34.52,
+   -35.48
+  ],
+  "axis_distance_mm": 70.0,
+  "wall_w_mm": 6.0,
+  "end_wall_tw_mm": 13.8,
+  "flange_tf_mm": 2.764,
+  "analytic_volume_mm3": 388267.883,
+  "reference_volume_mm3": 355625.313,
+  "analytic_vs_ref_pct": 9.179
+ }
+}

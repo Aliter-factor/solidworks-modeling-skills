@@ -1,0 +1,70 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 mirror_body：镜像实体（射线选中实体，mark=256）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r",
+      "op": "rect_center",
+      "cx": 30,
+      "w": 20,
+      "h": 20
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BossSk"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 10,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Boss1"
+    },
+    {
+      "id": "mb",
+      "op": "mirror_body",
+      "plane": "Right",
+      "bodies": true,
+      "body_point": [
+        40,
+        0,
+        0
+      ],
+      "merge": false,
+      "name": "Mirror1"
+    },
+    {
+      "id": "v",
+      "op": "check_bbox"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_mirror_body.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

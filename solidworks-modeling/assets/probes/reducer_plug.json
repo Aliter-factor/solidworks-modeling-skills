@@ -1,0 +1,411 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "螺塞（plug，回转段 + 六角头 af14 + 真螺纹 M10×1）",
+    "units": "mm",
+    "note": "尺寸 source=measured（sw_faces/sw_profile 取证，见 params._measured_faces）；**不硬编码**。★ 真螺纹用 helix+cut_swept **绕开 Q11 的 real_thread**",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {
+    "out": "D:/out/reducer"
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl1",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 9.0,
+      "y2": 0.0
+    },
+    {
+      "id": "prof",
+      "op": "polyline",
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          3.5
+        ],
+        [
+          1.5,
+          5.0
+        ],
+        [
+          6.0,
+          5.0
+        ],
+        [
+          6.0,
+          4.25
+        ],
+        [
+          8.0,
+          4.25
+        ],
+        [
+          8.0,
+          6.5
+        ],
+        [
+          9.0,
+          6.5
+        ],
+        [
+          9.0,
+          0.0
+        ]
+      ],
+      "close": true,
+      "note": "回转段半剖面 9 点（端倒角→杆→退刀槽→轴肩）；回转轴 = 草图内中心线（X）"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "螺塞回转剖面"
+    },
+    {
+      "id": "ck1",
+      "op": "check_sketch_constraint",
+      "sketch": "螺塞回转剖面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态，几何由 m0/m1/m2 兜"
+    },
+    {
+      "id": "rev",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "螺塞回转"
+    },
+    {
+      "id": "m0",
+      "op": "check_mass",
+      "expect_volume_mm3": 685.653,
+      "vol_tol": 0.005,
+      "note": "回转段 Pappus 2π·r̄·A = 685.653mm³（型面错一处立刻红）"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Right"
+    },
+    {
+      "id": "rp1",
+      "op": "ref_plane",
+      "offset": 9.0,
+      "flip": false,
+      "name": "螺塞头面",
+      "note": "平行 Right 的基准面 @ x=9（**基于标准基准面偏移** ⇒ 不引用前序实体面，可离线校验）"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl2",
+      "op": "centerline",
+      "x1": -8.082903768654761,
+      "y1": 0.0,
+      "x2": 8.082903768654761,
+      "y2": 0.0,
+      "note": "构造线过原点（S7 锚定用，不参与轮廓）"
+    },
+    {
+      "id": "hex",
+      "op": "polyline",
+      "points": [
+        [
+          8.082904,
+          0.0
+        ],
+        [
+          4.041452,
+          7.0
+        ],
+        [
+          -4.041452,
+          7.0
+        ],
+        [
+          -8.082904,
+          0.0
+        ],
+        [
+          -4.041452,
+          -7.0
+        ],
+        [
+          4.041452,
+          -7.0
+        ]
+      ],
+      "close": true,
+      "note": "正六边形 对边宽 14（顶点距 = 外接圆半径 8.0829）"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "螺塞六角头截面"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "螺塞六角头截面",
+      "expect_min_dims": 0,
+      "note": "★ 只记录约束状态"
+    },
+    {
+      "id": "ex1",
+      "op": "extrude_boss",
+      "profile": "螺塞六角头截面",
+      "depth": 6.0,
+      "name": "螺塞六角头",
+      "note": "头高 6（x 9→15）"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [
+        15.0,
+        14.0,
+        16.165807537309522
+      ],
+      "tol_mm": 0.05,
+      "note": "六角头后外形：长 15（X），对边 14（Y），对角 16.166（Z）—— 全是平面，GetBodyBox 可信 ⇒ **判定**"
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_volume_mm3": 1704.098,
+      "vol_tol": 0.01,
+      "note": "回转 685.653 + 六角柱 1018.446（(3√3/2)·R²·h）"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s5",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl3",
+      "op": "centerline",
+      "x1": 13.0,
+      "y1": 0.0,
+      "x2": 15.0,
+      "y2": 0.0
+    },
+    {
+      "id": "chp",
+      "op": "polyline",
+      "points": [
+        [
+          13.0,
+          8.154700538379252
+        ],
+        [
+          13.0,
+          11.082903768654761
+        ],
+        [
+          15.0,
+          11.082903768654761
+        ],
+        [
+          15.0,
+          7.0
+        ]
+      ],
+      "close": true,
+      "note": "30° 锥倒角：顶面 r=7 → 向下扩到 r=8.1547（> 外接圆 8.0829 ⇒ 切掉六条棱角，顶面成 Ø14 圆）"
+    },
+    {
+      "id": "s6",
+      "op": "sketch_end",
+      "name": "螺塞锥倒角剖面"
+    },
+    {
+      "id": "ck3",
+      "op": "check_sketch_constraint",
+      "sketch": "螺塞锥倒角剖面",
+      "expect_min_dims": 0,
+      "note": "★ 只记录约束状态"
+    },
+    {
+      "id": "rc",
+      "op": "revolve_cut",
+      "profile": "螺塞锥倒角剖面",
+      "angle": 360,
+      "name": "螺塞锥倒角",
+      "note": "绕草图内中心线（X）旋切 360°"
+    },
+    {
+      "id": "m2",
+      "op": "check_mass",
+      "expect_volume_mm3": 1695.162,
+      "vol_tol": 0.01,
+      "note": "− 锥倒角（Pappus 现算 8.936）= 光坯 1695.162mm³（**切螺纹前**）"
+    },
+    {
+      "id": "p4",
+      "op": "select_plane",
+      "plane": "Right",
+      "note": "螺旋线画在 Right 面（x=0），圆**留在草图里**（模型态选不中草图圆）"
+    },
+    {
+      "id": "s7",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c4",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "d": 10.0
+    },
+    {
+      "id": "hx",
+      "op": "helix",
+      "pitch": 1.0,
+      "height": 6.0,
+      "name": "螺塞螺纹线",
+      "note": "**草图内**建螺旋（不可先 sketch_end）；M10 螺距 1，从 x=0 沿 +X 高 6（咬料段 = Ø10 杆 x∈[1.5, 6.0]）"
+    },
+    {
+      "id": "p5",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s8",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl5",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 0.0,
+      "y2": 6.0,
+      "note": "中心线过原点（S7 锚定）；牙槽画在 x=0 = 螺旋起点处"
+    },
+    {
+      "id": "tp",
+      "op": "polyline",
+      "points": [
+        [
+          0.4375,
+          5.5
+        ],
+        [
+          -0.4375,
+          5.5
+        ],
+        [
+          -0.08333333333333333,
+          4.3866
+        ],
+        [
+          0.08333333333333333,
+          4.3866
+        ]
+      ],
+      "close": true,
+      "note": "M10×1.0 牙槽（h3=0.6134P，顶宽 0.875P，底宽 P/6）"
+    },
+    {
+      "id": "s9",
+      "op": "sketch_end",
+      "name": "螺塞牙型"
+    },
+    {
+      "id": "ck4",
+      "op": "check_sketch_constraint",
+      "sketch": "螺塞牙型",
+      "expect_min_dims": 0,
+      "note": "★ 只记录约束状态；螺纹对不对由 m3 兜"
+    },
+    {
+      "id": "sw",
+      "op": "cut_swept",
+      "profile": "螺塞牙型",
+      "path": "螺塞螺纹线",
+      "name": "螺塞螺纹",
+      "note": "轮廓平面 ⊥ 路径切向且过起点（Front ⊥ X）；op 内部验证「特征新增 + 体积减少」"
+    },
+    {
+      "id": "m3",
+      "op": "check_mass",
+      "expect_volume_mm3": 1666.662,
+      "vol_tol": 0.075,
+      "note": "切螺纹后 ≈ 1666.662mm³（光坯 1695.162 − 牙槽咬料 28.5）；容差放宽 —— 螺纹切除量是**解析估算**，非法定值"
+    },
+    {
+      "id": "bb2",
+      "op": "check_bbox",
+      "expect": [
+        15.0,
+        16.165807537309522,
+        14.0
+      ],
+      "mode": "record",
+      "note": "最终外形（**记录**：含螺纹面，GetBodyBox 对螺纹会虚报）"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 6.5,
+      "tol": 0.01,
+      "note": "最大圆柱半径 = Ø13 轴肩的一半（六角头是平面，不参与）"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/16-plug-af14xL15.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "L_rot": 9.0,
+    "D_rot": 13.0,
+    "revolve_volume_mm3": 685.6526,
+    "hex_across_flats": 14.0,
+    "hex_r_circum": 8.0829,
+    "hex_volume_mm3": 1018.4459,
+    "chamfer_volume_mm3": 8.9361,
+    "blank_volume_mm3": 1695.1624,
+    "after_thread_volume_mm3": 1666.6624,
+    "expect_mass_g": 1.6952,
+    "reference_bbox_mm": [
+      15.0,
+      16.165807537309522,
+      14.0
+    ],
+    "reference_volume_mm3": 1659.7914,
+    "thread": "M10×1",
+    "reference_volume_note": "参照件 1659.79 **不对账**（含螺纹曲面，mass_props 不可信 §83⑤）"
+  }
+}

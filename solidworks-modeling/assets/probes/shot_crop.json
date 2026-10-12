@@ -1,0 +1,33 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 shot_crop：screenshot / open / hide_refs 回归（自建零件 → 存盘 → 重开 → 隐藏参考 → 截图+自动裁剪）",
+    "units": "mm",
+    "note": [
+      "★ `open` 与 `hide_refs` **只有本探针覆盖**（其余探针只覆盖 screenshot），所以它必须能跑，不能删。",
+      "★★★ 旧版直接 `open` 一个**外部构建产物**（`D:/out/crh380cl_nose_s5.SLDPRT`）—— 这是**误依赖**：",
+      "  该文件一旦缺失/损坏/异常，`open` 会**阻塞**（真机踩到：python CPU 恒 0、SW 停在「查看中」、日志不动）。",
+      "  改成**自包含**：本探针自己建零件 → `save_as` → `close` → `open` 回来。",
+      "★ `open` 的判据落在**重开后包围盒仍对**（`bb1`）—— 铁律①：读回，不信返回值。",
+      "★ 顺带覆盖 `screenshot` 的 **PNG 转换 + 自动裁剪**（`crop` 默认 True，走 `sw_shot.autocrop_content`）。"
+    ]
+  },
+  "params": {"out": "D:/out/_dbtest"},
+  "steps": [
+    {"id": "n", "op": "new_part"},
+    {"id": "p", "op": "select_plane", "plane": "Front"},
+    {"id": "s1", "op": "sketch_begin"},
+    {"id": "r", "op": "rect_center", "w": 60, "h": 40},
+    {"id": "s2", "op": "sketch_end"},
+    {"id": "e", "op": "extrude_boss", "depth": 20},
+    {"id": "bb0", "op": "check_bbox", "expect": [60, 40, 20], "tol_mm": 0.1},
+    {"id": "po", "op": "plane_offset", "base": "Front", "offset": 30, "name": "Off30"},
+    {"id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_shot_part.SLDPRT", "overwrite": true},
+    {"id": "cl", "op": "close", "save": false},
+    {"id": "op", "op": "open", "path": "{{ params.out }}/probe_shot_part.SLDPRT"},
+    {"id": "bb1", "op": "check_bbox", "expect": [60, 40, 20], "tol_mm": 0.1},
+    {"id": "hr", "op": "hide_refs"},
+    {"id": "z", "op": "zoom_fit"},
+    {"id": "s", "op": "screenshot", "path": "{{ params.out }}/opshot.bmp", "width": 1200, "height": 900}
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "梯形螺纹丝杠",
+    "units": "mm",
+    "note": "轴身 + 中间梯形螺纹段。螺纹走「螺旋线 → 沿螺旋线扫掠切除」，和手工建模的步骤顺序一一对应；改 d/P/Lthread 就能重建同族零件。牙型角恒 30°、牙高 0.5P，按中径处牙槽等宽构造。螺旋线与牙型都从「螺纹段起点面」出发，两者天然对齐。"
+  },
+  "params": {
+    "d": 24.0,
+    "P": 5.0,
+    "Lthread": 200.0,
+    "dj": 18.0,
+    "Lj": 40.0
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "d": "{{ params.dj }}"
+    },
+    {
+      "id": "e1",
+      "op": "sketch_end"
+    },
+    {
+      "id": "x1",
+      "op": "extrude_boss",
+      "depth": "{{ params.Lthread + 2 * params.Lj }}",
+      "end_cond": "swEndCondMidPlane",
+      "name": "ShaftBody"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "rp",
+      "op": "ref_plane",
+      "offset": "{{ params.Lthread / 2 }}",
+      "flip": true,
+      "name": "螺纹起点面"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c2",
+      "op": "circle",
+      "d": "{{ params.d }}"
+    },
+    {
+      "id": "e2",
+      "op": "sketch_end"
+    },
+    {
+      "id": "h1",
+      "op": "helix",
+      "pitch": "{{ params.P }}",
+      "height": "{{ params.Lthread }}",
+      "name": "螺纹线"
+    },
+    {
+      "id": "x2",
+      "op": "extrude_boss",
+      "depth": "{{ params.Lthread }}",
+      "end_cond": "swEndCondBlind",
+      "name": "ThreadBlank"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "上视基准面"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pf",
+      "op": "polyline",
+      "points": [
+        [
+          13.0,
+          98.41506350946109
+        ],
+        [
+          12.0,
+          98.41506350946109
+        ],
+        [
+          9.5,
+          99.08493649053891
+        ],
+        [
+          9.5,
+          100.91506350946109
+        ],
+        [
+          12.0,
+          101.58493649053891
+        ],
+        [
+          13.0,
+          101.58493649053891
+        ]
+      ],
+      "close": true
+    },
+    {
+      "id": "e3",
+      "op": "sketch_end"
+    },
+    {
+      "id": "ks",
+      "op": "check_sketch"
+    },
+    {
+      "id": "sw1",
+      "op": "cut_swept",
+      "name": "螺纹"
+    },
+    {
+      "id": "rb",
+      "op": "rebuild"
+    },
+    {
+      "id": "hr",
+      "op": "hide_refs"
+    },
+    {
+      "id": "v1",
+      "op": "check_bbox",
+      "expect": [
+        "{{ params.d }}",
+        "{{ params.d }}",
+        "{{ params.Lthread + 2 * params.Lj }}"
+      ],
+      "tol": 0.6
+    },
+    {
+      "id": "v2",
+      "op": "check_feature_count",
+      "min": 4
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "D:\\out\\leadscrew.SLDPRT"
+    }
+  ]
+}

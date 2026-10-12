@@ -1,0 +1,276 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "X 薄片（查折叠/额外壁）",
+    "units": "mm"
+  },
+  "params": {
+    "out": "D:/out"
+  },
+  "steps": [
+    {
+      "id": "open_shell",
+      "op": "open",
+      "path": "D:/out/crh380cl_nose_s4_shell.SLDPRT"
+    },
+    {
+      "id": "base",
+      "op": "check_volume_delta"
+    },
+    {
+      "id": "p0",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb0",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl0",
+      "op": "polyline",
+      "points": [
+        [
+          3700,
+          -3200
+        ],
+        [
+          3710,
+          -3200
+        ],
+        [
+          3710,
+          0
+        ],
+        [
+          3700,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "se0",
+      "op": "sketch_end",
+      "name": "SL0"
+    },
+    {
+      "id": "cut0",
+      "op": "extrude_cut",
+      "profile": "SL0",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "SL_CUT0"
+    },
+    {
+      "id": "d0",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "x-slab 3700-3710"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl1",
+      "op": "polyline",
+      "points": [
+        [
+          3900,
+          -3200
+        ],
+        [
+          3910,
+          -3200
+        ],
+        [
+          3910,
+          0
+        ],
+        [
+          3900,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "se1",
+      "op": "sketch_end",
+      "name": "SL1"
+    },
+    {
+      "id": "cut1",
+      "op": "extrude_cut",
+      "profile": "SL1",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "SL_CUT1"
+    },
+    {
+      "id": "d1",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "x-slab 3900-3910"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb2",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl2",
+      "op": "polyline",
+      "points": [
+        [
+          4100,
+          -3200
+        ],
+        [
+          4110,
+          -3200
+        ],
+        [
+          4110,
+          0
+        ],
+        [
+          4100,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "se2",
+      "op": "sketch_end",
+      "name": "SL2"
+    },
+    {
+      "id": "cut2",
+      "op": "extrude_cut",
+      "profile": "SL2",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "SL_CUT2"
+    },
+    {
+      "id": "d2",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "x-slab 4100-4110"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl3",
+      "op": "polyline",
+      "points": [
+        [
+          4300,
+          -3200
+        ],
+        [
+          4310,
+          -3200
+        ],
+        [
+          4310,
+          0
+        ],
+        [
+          4300,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "se3",
+      "op": "sketch_end",
+      "name": "SL3"
+    },
+    {
+      "id": "cut3",
+      "op": "extrude_cut",
+      "profile": "SL3",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "SL_CUT3"
+    },
+    {
+      "id": "d3",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "x-slab 4300-4310"
+    },
+    {
+      "id": "p4",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "sb4",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl4",
+      "op": "polyline",
+      "points": [
+        [
+          4500,
+          -3200
+        ],
+        [
+          4510,
+          -3200
+        ],
+        [
+          4510,
+          0
+        ],
+        [
+          4500,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "se4",
+      "op": "sketch_end",
+      "name": "SL4"
+    },
+    {
+      "id": "cut4",
+      "op": "extrude_cut",
+      "profile": "SL4",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "SL_CUT4"
+    },
+    {
+      "id": "d4",
+      "op": "check_volume_delta",
+      "expect_mm3": -200000.0,
+      "tol_mm3": 9000000000.0,
+      "note": "x-slab 4500-4510"
+    }
+  ]
+}

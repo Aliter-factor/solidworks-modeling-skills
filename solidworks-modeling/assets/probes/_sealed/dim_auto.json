@@ -1,0 +1,78 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 dim_auto：批量**真尺寸**标注（用户口径「参数标注是草图的关键操作」）。同心双圆（Ø40 外圆 + Ø16 孔）→ dim_auto(kinds=circle, anchor=true) ⇒ 一次标出 2 个 Ø 尺寸并把两个圆心 sgFIXED ⇒ **完全定义**（6 自由度 = 2+2 定位 + 1+1 直径，一个不多一个不少）。check_sketch_constraint 用 expect_min_dims=2 当闸门（没标尺寸就过不去）。拉伸成环 → 包围盒 40×40×8 → set_dimension 把 Ø40 改成 Ø50 ⇒ 包围盒 50（证明标出来的是**真尺寸、能驱动**，不是装饰）。末尾截图 —— 尺寸可见性是纯视觉问题，数值断言抓不到。",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p1", "op": "select_plane", "plane": "Front" },
+    { "id": "s1", "op": "sketch_begin" },
+
+    { "id": "c1", "op": "circle", "cx": 0, "cy": 0, "r": 20, "note": "外圆 Ø40" },
+    { "id": "c2", "op": "circle", "cx": 0, "cy": 0, "r": 8, "note": "孔 Ø16" },
+
+    {
+      "id": "da",
+      "op": "dim_auto",
+      "kinds": "circle",
+      "anchor": true,
+      "note": "★ 本探针的主角。圆 → 直径(Ø)，自动把文字放到圆外；anchor 固定圆心点 ⇒ 完全定义。"
+    },
+
+    { "id": "zf0", "op": "zoom_fit" },
+    {
+      "id": "shot_open",
+      "op": "screenshot",
+      "path": "{{ params.out }}/probe_dim_auto_open.bmp",
+      "note": "草图开着截一张 —— 尺寸必须**看得见**。"
+    },
+    { "id": "s2", "op": "sketch_end", "name": "RingSk" },
+
+    {
+      "id": "cc1",
+      "op": "check_sketch_constraint",
+      "sketch": "RingSk",
+      "expect": "FullyConstrained",
+      "expect_min_dims": 2,
+      "expect_fully_defined": true,
+      "note": "★ 口径闸门：既要求完全定义，也要求**真有 ≥2 个尺寸**。只靠 fully_define 补的坐标尺寸不算「真尺寸」。★★ 必须在 `sketch_end` **之后**读：草图开着时 SolidWorks 的尺寸枚举**只回 1 个**（§63 的同类病）。"
+    },
+    { "id": "ld0", "op": "list_dimensions" },
+
+    { "id": "e1", "op": "extrude_boss", "depth": 8, "name": "Ring" },
+    { "id": "bb0", "op": "check_bbox", "expect": [40, 40, 8], "tol": 0.05 },
+    {
+      "id": "m0",
+      "op": "check_mass",
+      "expect_mass_g": 8.4446,
+      "tol": 0.01,
+      "note": "环体积 = π/4×(40²−16²)×8 = 8444.60 mm³ ⇒ 8.4446 g。（默认材料密度按 1e-3 g/mm³）"
+    },
+
+    {
+      "id": "sd",
+      "op": "set_dimension",
+      "sketch": "RingSk",
+      "index": 0,
+      "value": 50,
+      "note": "把外圆 Ø40 改成 Ø50。若 index 0 其实是孔，包围盒不会变 —— 下一步就会失败。"
+    },
+    { "id": "bb1", "op": "check_bbox", "expect": [50, 50, 8], "tol": 0.05 },
+    { "id": "cc2", "op": "check_sketch_constraint", "sketch": "RingSk", "expect": "FullyConstrained" },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_mass_g": 14.0994,
+      "tol": 0.02,
+      "note": "π/4×(50²−16²)×8 = 14099.44 mm³ ⇒ 14.0994 g"
+    },
+    { "id": "ld1", "op": "list_dimensions" },
+
+    { "id": "zf", "op": "zoom_fit" },
+    { "id": "shot", "op": "screenshot", "path": "{{ params.out }}/probe_dim_auto.bmp" },
+    { "id": "diag", "op": "check_diagnostics", "fail_on": "error" },
+    { "id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_dim_auto.SLDPRT", "overwrite": true }
+  ]
+}

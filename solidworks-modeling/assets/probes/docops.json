@@ -1,0 +1,56 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 docops：整屏显示 zoom_fit + 关闭文档 close",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": -15,
+      "y1": -10,
+      "x2": 15,
+      "y2": 10
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "DocSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 8,
+      "name": "DocBox"
+    },
+    {
+      "id": "zf",
+      "op": "zoom_fit"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "cl",
+      "op": "close",
+      "save": false
+    }
+  ]
+}

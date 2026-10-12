@@ -1,0 +1,319 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "polyline + extrude_cut：圆角梯形工具挖方管（两片壁）",
+    "units": "mm",
+    "note": [
+      "背景：R-A 精修把风挡/翼窗的**工具轮廓**从 rect_center/circle 换成 polyline（任意闭合折线）。",
+      "  ★ polyline **此前从未和 extrude_cut 组合用过** ⇒ 单独探针（新组合先探，别拿整条 S5 当小白鼠）。",
+      "几何：方管 60×40 截面 × 深 40、壁厚 3 ⇒ 体积 25440mm³（同 shell_window_cut.json 的 m1）。",
+      "判据：工具 = **圆角梯形**折线，完全落在壁面内 ⇒ 去掉量 = 2 × A × t（两片壁、轴 ⊥ 壁面）**精确**；",
+      "  再加 check_faces（只改拓扑的特征 check_body 会假绿，§135）。",
+      "★ 这条探针固定住两件事：① polyline 画出的**闭合折线**能被 FeatureCut4 认成轮廓；",
+      "  ② 圆角折线（44 段级别的短线段）不会把轮廓弄成「自交 / 不闭合」。"
+    ]
+  },
+  "params": {
+    "out": "D:/out"
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "sb",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r",
+      "op": "rect_center",
+      "cx": 0,
+      "cy": 0,
+      "w": 60,
+      "h": 40
+    },
+    {
+      "id": "se",
+      "op": "sketch_end",
+      "name": "TubeSk"
+    },
+    {
+      "id": "sx",
+      "op": "surface_extrude",
+      "profile": "TubeSk",
+      "depth": 40,
+      "name": "Tube1"
+    },
+    {
+      "id": "b1",
+      "op": "check_body",
+      "expect_sheet": 1,
+      "expect_solid": 0,
+      "expect_area_mm2": 8000
+    },
+    {
+      "id": "tk",
+      "op": "thicken",
+      "targets": [
+        "Tube1"
+      ],
+      "thickness": 3.0,
+      "direction": "side1",
+      "name": "Wall"
+    },
+    {
+      "id": "b2",
+      "op": "check_body",
+      "expect_sheet": 0,
+      "expect_solid": 1
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_volume_mm3": 25440.0,
+      "vol_tol": 1.0
+    },
+    {
+      "id": "vbase",
+      "op": "check_volume_delta",
+      "baseline": true
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Right"
+    },
+    {
+      "id": "sb2",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "pl",
+      "op": "polyline",
+      "points": [
+        [
+          -29.3338,
+          -4.4471
+        ],
+        [
+          -29.3851,
+          -4.9708
+        ],
+        [
+          -29.344,
+          -5.4954
+        ],
+        [
+          -29.212,
+          -6.0047
+        ],
+        [
+          -28.993,
+          -6.4831
+        ],
+        [
+          -28.6937,
+          -6.9159
+        ],
+        [
+          -28.3235,
+          -7.2898
+        ],
+        [
+          -27.8936,
+          -7.5932
+        ],
+        [
+          -27.4174,
+          -7.8169
+        ],
+        [
+          -26.9094,
+          -7.9539
+        ],
+        [
+          -26.3852,
+          -8.0
+        ],
+        [
+          -13.6148,
+          -8.0
+        ],
+        [
+          -13.0906,
+          -7.9539
+        ],
+        [
+          -12.5826,
+          -7.8169
+        ],
+        [
+          -12.1064,
+          -7.5932
+        ],
+        [
+          -11.6765,
+          -7.2898
+        ],
+        [
+          -11.3063,
+          -6.9159
+        ],
+        [
+          -11.007,
+          -6.4831
+        ],
+        [
+          -10.788,
+          -6.0047
+        ],
+        [
+          -10.656,
+          -5.4954
+        ],
+        [
+          -10.6149,
+          -4.9708
+        ],
+        [
+          -10.6662,
+          -4.4471
+        ],
+        [
+          -12.5412,
+          5.5529
+        ],
+        [
+          -12.6458,
+          5.9548
+        ],
+        [
+          -12.8049,
+          6.3384
+        ],
+        [
+          -13.0154,
+          6.6964
+        ],
+        [
+          -13.2734,
+          7.0218
+        ],
+        [
+          -13.5739,
+          7.3085
+        ],
+        [
+          -13.911,
+          7.551
+        ],
+        [
+          -14.2785,
+          7.7446
+        ],
+        [
+          -14.6691,
+          7.8856
+        ],
+        [
+          -15.0755,
+          7.9713
+        ],
+        [
+          -15.4898,
+          8.0
+        ],
+        [
+          -24.5102,
+          8.0
+        ],
+        [
+          -24.9245,
+          7.9713
+        ],
+        [
+          -25.3309,
+          7.8856
+        ],
+        [
+          -25.7215,
+          7.7446
+        ],
+        [
+          -26.089,
+          7.551
+        ],
+        [
+          -26.4261,
+          7.3085
+        ],
+        [
+          -26.7266,
+          7.0218
+        ],
+        [
+          -26.9846,
+          6.6964
+        ],
+        [
+          -27.1951,
+          6.3384
+        ],
+        [
+          -27.3542,
+          5.9548
+        ],
+        [
+          -27.4588,
+          5.5529
+        ]
+      ],
+      "close": true
+    },
+    {
+      "id": "se2",
+      "op": "sketch_end",
+      "name": "WinSk"
+    },
+    {
+      "id": "cut",
+      "op": "extrude_cut",
+      "profile": "WinSk",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "WinCut"
+    },
+    {
+      "id": "f2",
+      "op": "check_faces",
+      "surfaces": false
+    },
+    {
+      "id": "vdelta",
+      "op": "check_volume_delta",
+      "expect_mm3": -1581.1561,
+      "tol_mm3": 20.8116
+    },
+    {
+      "id": "m2",
+      "op": "check_mass",
+      "expect_volume_mm3": 23858.8439,
+      "vol_tol": 1.0
+    },
+    {
+      "id": "zf",
+      "op": "zoom_fit"
+    },
+    {
+      "id": "shot",
+      "op": "screenshot",
+      "path": "{{ params.out }}/probe_poly_window_cut.bmp"
+    }
+  ]
+}

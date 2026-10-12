@@ -1,0 +1,96 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 real_thread：Ø3×22 光杆 → 真实螺纹线 M3×0.5（SweepThread，去料）→ 最大圆柱面半径仍 1.5、体积真减少、特征类型正确",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "cx": 0,
+      "cy": 0,
+      "r": 1.5
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "ShankSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 22,
+      "name": "Shank"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [3, 3, 22],
+      "tol": 0.05
+    },
+    {
+      "id": "m0",
+      "op": "check_mass"
+    },
+    {
+      "id": "th",
+      "op": "real_thread",
+      "edges": [
+        {
+          "point": [0, 0, 22]
+        }
+      ],
+      "standard": "metric_die",
+      "diameter": 3,
+      "pitch": 0.5,
+      "end_condition": "blind",
+      "depth": 20,
+      "right_handed": true
+    },
+    {
+      "id": "cyl1",
+      "op": "check_cyl_radius",
+      "expect_max": 1.5,
+      "tol": 0.02
+    },
+    {
+      "id": "m1",
+      "op": "check_mass"
+    },
+    {
+      "id": "fc",
+      "op": "check_feature_count",
+      "min": 4
+    },
+    {
+      "id": "zf",
+      "op": "zoom_fit"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_real_thread.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

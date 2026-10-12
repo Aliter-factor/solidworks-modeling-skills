@@ -1,0 +1,76 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 thread：装饰螺纹线（选圆柱端面的圆形边）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "d": 20
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "RodSk"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 30,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Rod"
+    },
+    {
+      "id": "th",
+      "op": "thread",
+      "size": "M20",
+      "diameter": 20,
+      "end_type": "swEndConditionThrough",
+      "select": [
+        {
+          "type": "EDGE",
+          "point": [
+            10,
+            0,
+            15
+          ]
+        },
+        {
+          "type": "EDGE",
+          "point": [
+            10,
+            0,
+            -15
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_thread.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

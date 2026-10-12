@@ -1,0 +1,99 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 draft：40×40×20 方块四侧面拔模 3°（中面拉伸；取点用**面中心** Z=0）",
+    "units": "mm",
+    "note": "2026-10-12 修正：原取点 Z=±10 落在侧面的上下棱上，而 _pick 走 swSelectOptionExtensive → 容易选到相邻面/棱 ⇒ 拔模静默无产出。改用面中心 Z=0（+ 中面拉伸让方块对称）后成立。"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r",
+      "op": "rect_center",
+      "w": 40,
+      "h": 40
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BoxSk"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 20,
+      "name": "Box1",
+      "end_cond": "swEndCondMidPlane"
+    },
+    {
+      "id": "d",
+      "op": "draft",
+      "angle": 3,
+      "direction": "Front",
+      "prop": "swFacePropNone",
+      "faces": [
+        {
+          "type": "FACE",
+          "point": [
+            20,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "FACE",
+          "point": [
+            -20,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "FACE",
+          "point": [
+            0,
+            20,
+            0
+          ]
+        },
+        {
+          "type": "FACE",
+          "point": [
+            0,
+            -20,
+            0
+          ]
+        }
+      ],
+      "name": "Draft1"
+    },
+    {
+      "id": "v",
+      "op": "check_bbox"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_draft.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

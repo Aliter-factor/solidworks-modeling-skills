@@ -1,0 +1,85 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 fillet：40×30×20 方块顶面四条棱倒 R4（按边中点坐标选）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": -20,
+      "y1": 0,
+      "x2": 20,
+      "y2": 30
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BoxSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 20,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Box"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [40, 30, 20],
+      "tol": 0.05
+    },
+    {
+      "id": "f1",
+      "op": "fillet",
+      "r": 4,
+      "edges": [
+        [0, 30, 10],
+        [0, 0, 10],
+        [20, 15, 10],
+        [-20, 15, 10]
+      ],
+      "tol": 5,
+      "name": "Fillet1"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [40, 30, 20],
+      "tol": 0.05
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_mass_g": 23.544,
+      "tol": 0.01
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_fillet.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

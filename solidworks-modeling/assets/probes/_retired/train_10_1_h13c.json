@@ -1,0 +1,251 @@
+{
+ "schema": "yoyo.swplan/1",
+ "meta": {
+  "name": "训练题 10_1 v5 (弧深13, p3=z_end-depth)",
+  "units": "mm",
+  "note": "读图: 100x50x50 box; 四面腰部收缩=Front面草图上下 R25 弧(深12.5)贯穿Y切除; 中央槽 stadium 圆心距20 R8(宽16) 深12.5 从Y+25面切; R3 四条Y向棱。首跑对账: 解析预算 204714 与目标差 2120, 弧深若 13 则 202531 差 63 —— 真机量完定修正方向",
+  "source": "PracticeProblems_10_1_ENG.pdf"
+ },
+ "params": {},
+ "steps": [
+  {
+   "id": "n",
+   "op": "new_part"
+  },
+  {
+   "id": "p0",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s0",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "r0",
+   "op": "rect_center",
+   "cx": 0.0,
+   "cy": 0.0,
+   "w": 100.0,
+   "h": 50.0
+  },
+  {
+   "id": "s0e",
+   "op": "sketch_end",
+   "name": "基体草图"
+  },
+  {
+   "id": "boss",
+   "op": "extrude_boss",
+   "end_cond": "swEndCondMidPlane",
+   "depth": 50.0,
+   "name": "基体",
+   "note": "100x50x50, Y 对称 ±25"
+  },
+  {
+   "id": "p1",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s1",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c1",
+   "op": "line",
+   "x1": -21.9317,
+   "y1": 25.0,
+   "x2": 21.9317,
+   "y2": 25.0
+  },
+  {
+   "id": "a1",
+   "op": "arc3p",
+   "p1": [
+    21.9317,
+    25.0
+   ],
+   "p2": [
+    -21.9317,
+    25.0
+   ],
+   "p3": [
+    0.0,
+    12.0
+   ],
+   "note": "弧深13: p3在z=25-13=12, R=25 由三点重算=25.0"
+  },
+  {
+   "id": "c2",
+   "op": "line",
+   "x1": -21.9317,
+   "y1": -25.0,
+   "x2": 21.9317,
+   "y2": -25.0
+  },
+  {
+   "id": "a2",
+   "op": "arc3p",
+   "p1": [
+    21.9317,
+    -25.0
+   ],
+   "p2": [
+    -21.9317,
+    -25.0
+   ],
+   "p3": [
+    0.0,
+    -12.0
+   ],
+   "note": "下弓形 R25, 圆心(0,-37.5)"
+  },
+  {
+   "id": "s2",
+   "op": "sketch_end",
+   "name": "腰弧草图"
+  },
+  {
+   "id": "cut1",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondThroughAll",
+   "both_directions": true,
+   "name": "腰部收缩"
+  },
+  {
+   "id": "pl",
+   "op": "plane_offset",
+   "base": "Front",
+   "offset": 25.0,
+   "name": "Yp25"
+  },
+  {
+   "id": "p2",
+   "op": "select_plane",
+   "plane": "Yp25"
+  },
+  {
+   "id": "s3",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "k1",
+   "op": "line",
+   "x1": -10.0,
+   "y1": -8.0,
+   "x2": 10.0,
+   "y2": -8.0
+  },
+  {
+   "id": "k2",
+   "op": "arc3p",
+   "p1": [
+    10.0,
+    -8.0
+   ],
+   "p2": [
+    10.0,
+    8.0
+   ],
+   "p3": [
+    18.0,
+    0.0
+   ],
+   "note": "槽右端 R8 半圆, 圆心(10,0)"
+  },
+  {
+   "id": "k3",
+   "op": "line",
+   "x1": 10.0,
+   "y1": 8.0,
+   "x2": -10.0,
+   "y2": 8.0
+  },
+  {
+   "id": "k4",
+   "op": "arc3p",
+   "p1": [
+    -10.0,
+    8.0
+   ],
+   "p2": [
+    -10.0,
+    -8.0
+   ],
+   "p3": [
+    -18.0,
+    0.0
+   ],
+   "note": "槽左端 R8 半圆, 圆心(-10,0)"
+  },
+  {
+   "id": "s4",
+   "op": "sketch_end",
+   "name": "中央槽草图"
+  },
+  {
+   "id": "cut2",
+   "op": "extrude_cut",
+   "depth": 12.5,
+   "name": "中央槽"
+  },
+  {
+   "id": "f1",
+   "op": "fillet",
+   "r": 3.0,
+   "edges": [
+    [
+     -50.0,
+     0.0,
+     25.0
+    ],
+    [
+     50.0,
+     0.0,
+     25.0
+    ],
+    [
+     -50.0,
+     0.0,
+     -25.0
+    ],
+    [
+     50.0,
+     0.0,
+     -25.0
+    ]
+   ],
+   "tol": 3.0,
+   "name": "R3端面棱"
+  },
+  {
+   "id": "bb",
+   "op": "check_bbox",
+   "expect": [
+    100.0,
+    50.0,
+    50.0
+   ],
+   "tol": 0.05
+  },
+  {
+   "id": "m",
+   "op": "check_mass",
+   "expect_volume_mm3": 202594.0,
+   "vol_tol": 0.05,
+   "note": "h=13 (p3 正确=12): 解析预期 202530.5"
+  },
+  {
+   "id": "diag",
+   "op": "check_diagnostics",
+   "fail_on": "error"
+  },
+  {
+   "id": "sv",
+   "op": "save_as",
+   "path": "D:/out/train_10_1_h13c.SLDPRT",
+   "overwrite": true
+  }
+ ]
+}

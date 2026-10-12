@@ -1,0 +1,77 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 S族：曲面拉伸(60×40 方管) → 加厚 side1 成实体；手算 25440mm³ / 66×46×40",
+    "units": "mm",
+    "note": [
+      "★ 为什么体积是 25440 而不是 8000×3=24000：",
+      "  方管是**闭合环**，加厚出来的横截面是**环**不是片。",
+      "  side1(外偏 3mm)：外框 66×46 − 内框 60×40 = 3036−2400 = 636mm²，×高 40 = 25440mm³。",
+      "  side2(内偏 3mm)：外框 60×40 − 内框 54×34 = 2400−1836 = 564mm²，×40 = 22560mm³。",
+      "  both(各 1.5mm)：25440+22560 = 48000mm³。",
+      "  这三个数是 2026-10-09 真机实测值，**逐位吻合**，是本族的回归基准。",
+      "★ 加厚必须 mark=1 选曲面体（SURFACEBODY）—— 见 sw_ops.op_thicken 文档。"
+    ]
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": -30,
+      "y1": -20,
+      "x2": 30,
+      "y2": 20
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "SrfSk"
+    },
+    {
+      "id": "se",
+      "op": "surface_extrude",
+      "depth": 40,
+      "name": "Srf1"
+    },
+    {
+      "id": "bb1",
+      "op": "check_bbox",
+      "expect": [60, 40, 40],
+      "tol": 0.05
+    },
+    {
+      "id": "tk",
+      "op": "thicken",
+      "targets": ["Srf1"],
+      "thickness": 3,
+      "direction": "side1",
+      "name": "Solid1"
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_volume_mm3": 25440,
+      "vol_tol": 60
+    },
+    {
+      "id": "bb2",
+      "op": "check_bbox",
+      "expect": [66, 46, 40],
+      "tol": 0.6
+    }
+  ]
+}

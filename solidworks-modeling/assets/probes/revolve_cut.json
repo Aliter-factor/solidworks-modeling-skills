@@ -1,0 +1,91 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 revolve_cut：轴上开退刀槽",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "d": 20
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "ShaftSk"
+    },
+    {
+      "id": "e",
+      "op": "extrude_boss",
+      "depth": 40,
+      "end_cond": "swEndCondMidPlane",
+      "name": "ShaftBody"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": 0,
+      "y1": -25,
+      "x2": 0,
+      "y2": 25
+    },
+    {
+      "id": "rr",
+      "op": "rect_corner",
+      "x1": 8,
+      "y1": 5,
+      "x2": 12,
+      "y2": 10
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "GrooveSk"
+    },
+    {
+      "id": "rc",
+      "op": "revolve_cut",
+      "angle": 360,
+      "name": "Groove"
+    },
+    {
+      "id": "v",
+      "op": "check_bbox"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_revolve_cut.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

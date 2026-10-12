@@ -1,0 +1,282 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "小盖（cap_small，环回转 + 3 沉孔 + 3 通孔圆周阵列）",
+    "units": "mm",
+    "note": "规格来自 reducer.params.json::parts.cap_small._measured_faces.solved（sw_profile 实测），不硬编码",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {
+    "out": "D:/out/reducer"
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 7.0,
+      "y2": 0.0
+    },
+    {
+      "id": "prof",
+      "op": "polyline",
+      "points": [
+        [
+          1.5,
+          7.0
+        ],
+        [
+          7.0,
+          7.0
+        ],
+        [
+          7.0,
+          17.0
+        ],
+        [
+          0.5,
+          17.0
+        ],
+        [
+          0.0,
+          16.5
+        ],
+        [
+          0.0,
+          8.5
+        ]
+      ],
+      "close": true,
+      "note": "半剖面（含孔口锥口 1.5 + 外缘倒角 0.5）"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "小盖半剖面"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch_constraint",
+      "sketch": "小盖半剖面",
+      "expect_min_dims": 0,
+      "note": "★ 尺寸标注已封存 ⇒ 只记录约束状态；几何由 check_bbox / check_mass 兜"
+    },
+    {
+      "id": "rev",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "小盖"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        7.0,
+        34.0,
+        34.0
+      ],
+      "tol_mm": 0.05,
+      "note": "与参照件 6-小盖.SLDPRT 的包围盒一致（[7, 34, 34]）"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 17.0,
+      "tol": 0.01
+    },
+    {
+      "id": "m0",
+      "op": "check_mass",
+      "expect_volume_mm3": 5211.706,
+      "vol_tol": 0.005,
+      "note": "回转后 = 环 5277.876 − 锥口 53.014 − 外缘倒角 13.155 = 5211.706mm³（倒角/锥口画在半剖面里，回转即生效）"
+    },
+    {
+      "id": "ax",
+      "op": "axis_from_planes",
+      "plane1": "Front",
+      "plane2": "Top",
+      "name": "Axis1",
+      "note": "阵列轴 = 回转轴 = 全局 X（Front ∩ Top）"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Right",
+      "note": "孔位草图开在 Right 基准面（X=0）—— 正好压在小盖左端面上"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin",
+      "reset": true
+    },
+    {
+      "id": "cl2",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 17.0,
+      "y2": 0.0
+    },
+    {
+      "id": "c1",
+      "op": "circle",
+      "cx": 12.0,
+      "cy": 0.0,
+      "d": 6.0,
+      "note": "Ø6 沉孔种子，距原点 12（分布圆 Ø24）"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "小盖沉孔位"
+    },
+    {
+      "id": "ck2",
+      "op": "check_sketch_constraint",
+      "sketch": "小盖沉孔位",
+      "expect_min_dims": 0,
+      "note": "★ 只记录约束状态；沉孔对不对由 m1 兜"
+    },
+    {
+      "id": "cut_cb",
+      "op": "extrude_cut",
+      "depth": 3.0,
+      "end_cond": "swEndCondBlind",
+      "name": "小盖沉孔",
+      "note": "左端起深 3（单向，不贯穿）"
+    },
+    {
+      "id": "cp_cb",
+      "op": "circular_pattern",
+      "target": "小盖沉孔",
+      "axis": "Axis1",
+      "count": 3,
+      "angle": 360,
+      "name": "小盖沉孔阵",
+      "note": "整圈 3 个（含原始那个）"
+    },
+    {
+      "id": "m1",
+      "op": "check_mass",
+      "expect_volume_mm3": 4957.237,
+      "vol_tol": 0.005,
+      "note": "沉孔后 = 回转 5211.706 − 3×π/4·Ø6²·3 = 4957.237mm³（**此时通孔未切，沉孔切的是整块 Ø6**）"
+    },
+    {
+      "id": "p3",
+      "op": "select_plane",
+      "plane": "Right"
+    },
+    {
+      "id": "s5",
+      "op": "sketch_begin",
+      "reset": true
+    },
+    {
+      "id": "cl3",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 17.0,
+      "y2": 0.0
+    },
+    {
+      "id": "c2",
+      "op": "circle",
+      "cx": 12.0,
+      "cy": 0.0,
+      "d": 4.0,
+      "note": "Ø4 通孔种子"
+    },
+    {
+      "id": "s6",
+      "op": "sketch_end",
+      "name": "小盖通孔位"
+    },
+    {
+      "id": "ck3",
+      "op": "check_sketch_constraint",
+      "sketch": "小盖通孔位",
+      "expect_min_dims": 0,
+      "note": "★ 只记录约束状态；通孔对不对由 m2 兜"
+    },
+    {
+      "id": "cut",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAllBoth",
+      "both_directions": true,
+      "name": "小盖通孔",
+      "note": "双向贯穿 —— 草图平面在端面上，单向穿不透"
+    },
+    {
+      "id": "cp",
+      "op": "circular_pattern",
+      "target": "小盖通孔",
+      "axis": "Axis1",
+      "count": 3,
+      "angle": 360,
+      "name": "小盖通孔阵",
+      "note": "整圈 3 个（含原始那个）"
+    },
+    {
+      "id": "m2",
+      "op": "check_mass",
+      "expect_volume_mm3": 4806.44,
+      "vol_tol": 0.005,
+      "note": "5277.876 − 沉孔 141.372 − 通孔 263.894 − 锥口 53.014 − 倒角 13.155 = 4806.440mm³（参照 4806.0）"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/6-cap_small-34x14x7.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "OD": 34.0,
+    "ID": 14.0,
+    "t": 7.0,
+    "ri": 7.0,
+    "ro": 17.0,
+    "n": 3,
+    "hole_d": 4.0,
+    "pitch_d": 24.0,
+    "counterbore": {
+      "d": 6.0,
+      "t": 3.0
+    },
+    "ring_mm3": 5277.875658030852,
+    "thru_mm3": 263.89378290154264,
+    "counterbore_mm3": 141.37166941154067,
+    "bore_chamfer_mm3": 53.01437602932779,
+    "outer_chamfer_mm3": 13.155419236907258,
+    "volume_mm3": 4806.440410451533,
+    "hd": 4.0,
+    "cb_d": 6.0,
+    "cb_t": 3.0,
+    "pitch_r": 12.0,
+    "after_turn_mm3": 5211.7058627646165,
+    "after_cb_mm3": 4957.236857823843,
+    "reference_volume_mm3": 4806.0
+  }
+}

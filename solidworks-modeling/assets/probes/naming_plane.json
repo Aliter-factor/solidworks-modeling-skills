@@ -1,0 +1,77 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 naming_plane：把自带基准面「上视基准面」改成英文名 Top Plane（模拟英文界面残留）→ normalize_names(planes=true) 统一回中文 → 基准面照样能选中、照样能建模（包围盒对得上）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "rn0",
+      "op": "set_feature_name",
+      "feature": "上视基准面",
+      "new_name": "Top Plane"
+    },
+    {
+      "id": "norm",
+      "op": "normalize_names",
+      "primary": "cn",
+      "planes": true
+    },
+    {
+      "id": "assert_cn",
+      "op": "set_feature_name",
+      "feature": "上视基准面",
+      "new_name": "上视基准面"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Top"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": 0,
+      "y1": 0,
+      "x2": 20,
+      "y2": 20
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "PlaneTest"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 5,
+      "name": "Pad"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [20, 5, 20],
+      "tol": 0.05
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_naming_plane.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

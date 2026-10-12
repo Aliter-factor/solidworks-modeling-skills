@@ -1,0 +1,117 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "平垫圈 10（washer_10，圆环半剖面回转）",
+    "units": "mm",
+    "note": "尺寸来自 reducer.params.json::parts.washer_10，不硬编码",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "cl",
+      "op": "centerline",
+      "x1": 0.0,
+      "y1": 0.0,
+      "x2": 1.5,
+      "y2": 0.0
+    },
+    {
+      "id": "prof",
+      "op": "polyline",
+      "points": [
+        [
+          0.0,
+          5.5
+        ],
+        [
+          1.5,
+          5.5
+        ],
+        [
+          1.5,
+          11.0
+        ],
+        [
+          0.0,
+          11.0
+        ]
+      ],
+      "close": true
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "平垫圈 10半剖面"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch_constraint",
+      "sketch": "平垫圈 10半剖面",
+      "expect_min_dims": 0,
+      "note": "★ 尺寸标注已封存 ⇒ 不校验尺寸条数，只记录约束状态；几何正确性由 check_bbox / check_mass 兜"
+    },
+    {
+      "id": "rev",
+      "op": "revolve_boss",
+      "angle": 360,
+      "name": "平垫圈 10"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        1.5,
+        22.0,
+        22.0
+      ],
+      "tol": 0.05,
+      "note": "与参照件 17-平垫圈 10.SLDPRT 的包围盒一致（[1.5, 22, 22]）"
+    },
+    {
+      "id": "cyl",
+      "op": "check_cyl_radius",
+      "expect_max": 11.0,
+      "tol": 0.01
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 0.4276,
+      "tol": 0.02,
+      "note": "π/4(D²−d²)t —— 内孔对不对，靠这条兜底"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/17-ring-22x11x1.5.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "OD": 22.0,
+    "ID": 11.0,
+    "t": 1.5,
+    "ri": 5.5,
+    "ro": 11.0,
+    "analytic_volume_mm3": 427.64929996991066
+  }
+}

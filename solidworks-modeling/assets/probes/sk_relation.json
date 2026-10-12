@@ -1,0 +1,22 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 sk_relation：加几何关系（重合 + 水平/竖直）",
+    "units": "mm",
+    "note": "覆盖此前无探针的 sk_relation。两段折线共享端点 (40,0) ⇒ rel=all 应把重合/水平/竖直都加上；tol=0.01mm 放宽点合并容差。"
+  },
+  "params": {},
+  "steps": [
+    {"id": "np", "op": "new_part"},
+    {"id": "pl", "op": "select_plane", "plane": "Front"},
+    {"id": "sb", "op": "sketch_begin"},
+    {"id": "l1", "op": "line", "x1": 0, "y1": 0, "x2": 40, "y2": 0},
+    {"id": "l2", "op": "line", "x1": 40, "y1": 0, "x2": 40, "y2": 30},
+    {"id": "rel", "op": "sk_relation", "rel": "all", "tol": 0.01},
+    {"id": "cs", "op": "check_sketch"},
+    {"id": "se", "op": "sketch_end", "name": "RelSk"},
+    {"id": "dg", "op": "check_diagnostics"},
+    {"id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_sk_relation.SLDPRT",
+     "overwrite": true}
+  ]
+}

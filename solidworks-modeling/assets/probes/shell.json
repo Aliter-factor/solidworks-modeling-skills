@@ -1,0 +1,70 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 shell：60×40×30 无盖箱体抽壳 t=3（移除 +Z 顶面）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "r1",
+      "op": "rect_corner",
+      "x1": -30,
+      "y1": -20,
+      "x2": 30,
+      "y2": 20
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "BoxSk"
+    },
+    {
+      "id": "e1",
+      "op": "extrude_boss",
+      "depth": 30,
+      "end_cond": "swEndCondMidPlane",
+      "name": "Box"
+    },
+    {
+      "id": "bb0",
+      "op": "check_bbox",
+      "expect": [60, 40, 30],
+      "tol": 0.05
+    },
+    {
+      "id": "sh",
+      "op": "shell",
+      "thickness": 3,
+      "remove": ["+Z"]
+    },
+    {
+      "id": "mass",
+      "op": "check_mass"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_shell.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

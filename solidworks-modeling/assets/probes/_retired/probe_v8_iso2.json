@@ -1,0 +1,289 @@
+{
+ "schema": "yoyo.swplan/1",
+ "meta": {
+  "name": "v8 复现2: +腔+键槽(无哨兵)",
+  "units": "mm",
+  "note": "隔离 e5 失败原因"
+ },
+ "steps": [
+  {
+   "id": "n",
+   "op": "new_part"
+  },
+  {
+   "id": "p1",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s1",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c1",
+   "op": "circle",
+   "cx": 0,
+   "cy": 0,
+   "d": 50
+  },
+  {
+   "id": "s2",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e1",
+   "op": "extrude_boss",
+   "depth": 78,
+   "end_cond": "swEndCondBlind",
+   "name": "毛坯"
+  },
+  {
+   "id": "p2",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s3",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c2",
+   "op": "circle",
+   "cx": 0,
+   "cy": 0,
+   "d": 32
+  },
+  {
+   "id": "s4",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e2",
+   "op": "extrude_cut",
+   "depth": 40,
+   "end_cond": "swEndCondBlind",
+   "reverse_dir": true,
+   "name": "腔"
+  },
+  {
+   "id": "p3",
+   "op": "select_plane",
+   "plane": "Front"
+  },
+  {
+   "id": "s5",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "k1",
+   "op": "line",
+   "x1": -5,
+   "y1": 14,
+   "x2": 5,
+   "y2": 14
+  },
+  {
+   "id": "k2",
+   "op": "line",
+   "x1": 5,
+   "y1": 14,
+   "x2": 5,
+   "y2": 19.3
+  },
+  {
+   "id": "k3",
+   "op": "line",
+   "x1": 5,
+   "y1": 19.3,
+   "x2": -5,
+   "y2": 19.3
+  },
+  {
+   "id": "k4",
+   "op": "line",
+   "x1": -5,
+   "y1": 19.3,
+   "x2": -5,
+   "y2": 14
+  },
+  {
+   "id": "s6",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e3",
+   "op": "extrude_cut",
+   "depth": 40,
+   "end_cond": "swEndCondBlind",
+   "reverse_dir": true,
+   "name": "键槽"
+  },
+  {
+   "id": "pf1",
+   "op": "plane_offset",
+   "base": "Front",
+   "offset": 78,
+   "name": "右端面"
+  },
+  {
+   "id": "p4",
+   "op": "select_plane",
+   "plane": "右端面"
+  },
+  {
+   "id": "s7",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "c5",
+   "op": "circle",
+   "cx": 0,
+   "cy": 0,
+   "d": 34
+  },
+  {
+   "id": "s8",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e4",
+   "op": "extrude_cut",
+   "depth": 38,
+   "end_cond": "swEndCondBlind",
+   "name": "Ø34孔"
+  },
+  {
+   "id": "p5",
+   "op": "select_plane",
+   "plane": "Right"
+  },
+  {
+   "id": "s9",
+   "op": "sketch_begin"
+  },
+  {
+   "id": "o1",
+   "op": "line",
+   "x1": -85,
+   "y1": -30,
+   "x2": -85,
+   "y2": 30
+  },
+  {
+   "id": "o2",
+   "op": "line",
+   "x1": -85,
+   "y1": 30,
+   "x2": -38.5,
+   "y2": 30
+  },
+  {
+   "id": "o3",
+   "op": "line",
+   "x1": -38.5,
+   "y1": 30,
+   "x2": -38.5,
+   "y2": 25
+  },
+  {
+   "id": "o4",
+   "op": "arc3p",
+   "p1": [
+    -38.5,
+    25
+   ],
+   "p2": [
+    -48,
+    13
+   ],
+   "p3": [
+    -42,
+    17
+   ]
+  },
+  {
+   "id": "o5",
+   "op": "line",
+   "x1": -48,
+   "y1": 13,
+   "x2": -65,
+   "y2": 13
+  },
+  {
+   "id": "o6",
+   "op": "arc3p",
+   "p1": [
+    -65,
+    13
+   ],
+   "p2": [
+    -65,
+    -13
+   ],
+   "p3": [
+    -78,
+    0
+   ]
+  },
+  {
+   "id": "o7",
+   "op": "line",
+   "x1": -65,
+   "y1": -13,
+   "x2": -48,
+   "y2": -13
+  },
+  {
+   "id": "o8",
+   "op": "arc3p",
+   "p1": [
+    -48,
+    -13
+   ],
+   "p2": [
+    -38.5,
+    -25
+   ],
+   "p3": [
+    -42,
+    -17
+   ]
+  },
+  {
+   "id": "o9",
+   "op": "line",
+   "x1": -38.5,
+   "y1": -25,
+   "x2": -38.5,
+   "y2": -30
+  },
+  {
+   "id": "o10",
+   "op": "line",
+   "x1": -38.5,
+   "y1": -30,
+   "x2": -85,
+   "y2": -30
+  },
+  {
+   "id": "s10",
+   "op": "sketch_end"
+  },
+  {
+   "id": "e5",
+   "op": "extrude_cut",
+   "end_cond": "swEndCondThroughAll",
+   "both_directions": true,
+   "name": "外廓"
+  },
+  {
+   "id": "v1",
+   "op": "check_bbox",
+   "expect": [
+    50,
+    50,
+    78
+   ]
+  }
+ ]
+}

@@ -1,0 +1,123 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "直齿圆柱齿轮",
+    "units": "mm",
+    "note": "整圈渐开线点表一次成形，不做草图阵列；参数改 mn/z 就能重建同族零件。mode=polyline（默认）用折线内接真实渐开线，误差 <0.01mm，z=55 时约 770 个图元；mode=spline 换成一条闭合样条（1 个图元、曲线光滑）但插值会向外过冲约 0.2mm，只适合看效果。包围盒用的是相对容差，0.01 → da=114 时允许 ±1.14mm，足够覆盖「正对 +x 的采样点未必落在最大值处」这点偏差。"
+  },
+  "params": {
+    "mn": 2.0,
+    "z": 55,
+    "b": 20.0,
+    "alpha_n": 20.0,
+    "x": 0.0,
+    "bore": 20.0,
+    "keyway": "6x2.8",
+    "mode": "polyline",
+    "n_flank": 6
+  },
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "g",
+      "op": "gear_profile",
+      "mn": "{{ params.mn }}",
+      "z": "{{ params.z }}",
+      "beta": 0,
+      "alpha_n": "{{ params.alpha_n }}",
+      "x": "{{ params.x }}",
+      "mode": "{{ params.mode }}",
+      "n_flank": "{{ params.n_flank }}",
+      "n_root": 2,
+      "n_tip": 3,
+      "bore": "{{ params.bore }}",
+      "strict": true
+    },
+    {
+      "id": "ck",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "e1",
+      "op": "sketch_end"
+    },
+    {
+      "id": "cs",
+      "op": "check_sketch"
+    },
+    {
+      "id": "x1",
+      "op": "extrude_boss",
+      "depth": "{{ params.b }}",
+      "end_cond": "swEndCondMidPlane",
+      "name": "GearBody"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s2",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "kw",
+      "op": "keyway_rect",
+      "bore": "{{ params.bore }}",
+      "spec": "{{ params.keyway }}"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_end"
+    },
+    {
+      "id": "ks",
+      "op": "check_sketch"
+    },
+    {
+      "id": "k1",
+      "op": "extrude_cut",
+      "end_cond": "swEndCondThroughAllBoth",
+      "name": "Keyway"
+    },
+    {
+      "id": "rb",
+      "op": "rebuild"
+    },
+    {
+      "id": "v1",
+      "op": "check_bbox",
+      "expect": [
+        "{{ params.mn*(params.z+2) }}",
+        "{{ params.mn*(params.z+2) }}",
+        "{{ params.b }}"
+      ],
+      "tol": 0.01
+    },
+    {
+      "id": "v2",
+      "op": "check_feature_count",
+      "min": 2
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "D:\\out\\gear.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

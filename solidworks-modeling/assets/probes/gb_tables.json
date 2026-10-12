@@ -1,0 +1,68 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 gb_tables：★ 标准件表**离线**全覆盖 —— 轴承 / 圆锥销 / 配合 / 齿轮模数 / 长度系列 / 螺纹通孔 / 速查表。全部走 `lookup_standard`（纯数据，**不建任何几何**），把「查表」这件事本身当被测对象：既证明每条查询能跑通，也顺带把容易抄错的权威值钉在计划里。",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    { "id": "n", "op": "new_part" },
+
+    {
+      "id": "b1", "op": "lookup_standard", "what": "bearing", "spec": "6204",
+      "expect": { "d": 20, "D": 47, "B": 14, "r": 1.0 },
+      "note": "本项目齿轮轴用的轴承。★ expect 是「计划自证」——抄错当场抛。"
+    },
+    {
+      "id": "b2", "op": "lookup_standard", "what": "bearing", "spec": "6206",
+      "expect": { "d": 30, "D": 62, "B": 16 },
+      "note": "输出轴轴承。"
+    },
+    { "id": "b3", "op": "lookup_standard", "what": "bearings_for", "spec": "20",
+      "note": "内径 20 的**所有**可选型号（6004/6204/6304/6804/6904…）—— 选型用。" },
+
+    {
+      "id": "tp", "op": "lookup_standard", "what": "taper_pin", "spec": "4", "length": 18,
+      "note": "★ 本项目要 φ4×18 圆锥销（GB/T 117）。大端 D = d + L/50 = 4.36。"
+    },
+    { "id": "tp2", "op": "lookup_standard", "what": "taper_pin", "spec": "10", "length": 60,
+      "note": "对照：φ10×60 → 11.2，验 1:50 锥度公式。" },
+
+    {
+      "id": "fit1", "op": "lookup_standard", "what": "fit", "spec": "20",
+      "hole_class": "H7", "shaft_class": "k6",
+      "note": "★ 轴颈 Ø20 装 6204 内圈 —— 标准做法就是 H7/k6（过渡配合）。"
+    },
+    { "id": "fit2", "op": "lookup_standard", "what": "fit", "spec": "30.5 H7 h6",
+      "note": "★ 边界卡口：Ø30.5 **必须**落 (30,50] 段（H7=+25），不是 (18,30] 的 +21。写死一个错的分段是最隐蔽的错。" },
+    { "id": "fit3", "op": "lookup_standard", "what": "fit", "spec": "30 H7 h6",
+      "note": "对照：Ø30 落 (18,30]（H7=+21）。" },
+    { "id": "fit4", "op": "lookup_standard", "what": "fit", "spec": "20 H7 p6",
+      "note": "过盈配合对照（H7/p6）。" },
+
+    { "id": "mod", "op": "lookup_standard", "what": "module", "spec": "2",
+      "note": "★ 本项目 m=2 —— 必须判为第一系列（GB/T 1357）。" },
+    { "id": "mod2", "op": "lookup_standard", "what": "module", "spec": "2.2",
+      "note": "反例对照：2.2 不在 GB/T 1357 系列里，advice 要明确说不合规。" },
+
+    { "id": "len", "op": "lookup_standard", "what": "length", "spec": "63", "kind": "bolt",
+      "note": "★ 长度必须落标准系列：63 不是螺栓标准长度，应向上一档取 65。" },
+    { "id": "len2", "op": "lookup_standard", "what": "length", "spec": "65", "kind": "bolt",
+      "note": "对照：65 本来就是标准长度（本项目 M8×65）。" },
+
+    { "id": "hole", "op": "lookup_standard", "what": "hole", "spec": "M8", "series": "medium",
+      "note": "螺栓通孔（GB/T 5277）：M8 中系列 = 9.0。" },
+
+    { "id": "gbh", "op": "lookup_standard", "family": "hex_bolt", "spec": "M8",
+      "expect": { "s": 13, "k": 5.3, "dw": 11.6, "pitch": 1.25 },
+      "note": "★ dw 曾是「两份表打架」的现场（M8 的 11.5 vs 11.6）。现在只有一份表，钉住 11.6。" },
+    { "id": "gcx", "op": "lookup_standard", "family": "cross_pan_screw", "spec": "M3",
+      "expect": { "dk": 5.6, "k": 2.4, "pitch": 0.5 },
+      "note": "★ 十字槽盘头（GB/T 818）2026-10-01 整表重做：旧版列错位，M3 的 k 写成 1.8。本项目螺钉 M3×10 / M3×22 用这行。" },
+
+    { "id": "cs", "op": "lookup_standard", "what": "cheatsheet",
+      "note": "★ 离线速查：一次把整张表打成 Markdown —— Agent 不用联网、也不用多轮查询。" },
+
+    { "id": "diag", "op": "check_diagnostics", "fail_on": "error" }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "弹簧垫圈 8（washer_s8，平螺旋扫掠 2 圈）",
+    "units": "mm",
+    "note": "规格来自 reducer.params.json::parts.washer_s8（source=gb，GB/T 93 标准型）；**不硬编码**",
+    "source_params": "assets/reducer/reducer.params.json"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p1",
+      "op": "select_plane",
+      "plane": "Front",
+      "note": "螺旋轴 = Z ⇒ 路径画在 Front 平面（XY）"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c",
+      "op": "circle",
+      "cx": 0.0,
+      "cy": 0.0,
+      "r": 5.05,
+      "note": "螺旋中心线半径 R = d1/2 + b/2 = 5.05"
+    },
+    {
+      "id": "hx",
+      "op": "helix",
+      "pitch": 2.0,
+      "height": 4.0,
+      "clockwise": false,
+      "reversed": false,
+      "start_angle": 0,
+      "name": "弹簧垫圈 8螺旋线",
+      "note": "**草图内**建螺旋（草图态选图元，模型态选不中）；平螺旋 螺距 p=料宽 b=2（圈间相切），2 圈 ⇒ 段长 4"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Top",
+      "note": "起点切向 = +Y ⇒ 轮廓平面法向取 Y ⇒ **Top 平面**（XZ）"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "rc",
+      "op": "rect_center",
+      "cx": 5.05,
+      "cy": 0.0,
+      "w": 2.0,
+      "h": 2.0,
+      "note": "矩形 心在 (R,0)=路径起点；w=料宽 b=2（径向/X），h=厚 s=2（轴向/Z）"
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "弹簧垫圈 8截面"
+    },
+    {
+      "id": "ck",
+      "op": "check_sketch_constraint",
+      "sketch": "弹簧垫圈 8截面",
+      "expect_min_dims": 0,
+      "note": "★ 标注已封存 ⇒ 只记录约束状态"
+    },
+    {
+      "id": "sw",
+      "op": "swept_boss",
+      "profile": "弹簧垫圈 8截面",
+      "path": "弹簧垫圈 8螺旋线",
+      "twist": 1,
+      "name": "弹簧垫圈 8",
+      "note": "刚体扫掠（twist=1 直纹）：体积 = 截面积 × 路径长（check_mass 靠这个）"
+    },
+    {
+      "id": "m",
+      "op": "check_mass",
+      "expect_mass_g": 0.2543,
+      "tol": 0.02,
+      "note": "b·s·n·√((π·10.1)²+p²) = 254.3444mm³ —— **不与参照件比**（参照件是拉长态、非标准形状，见头注）"
+    },
+    {
+      "id": "bb",
+      "op": "check_bbox",
+      "expect": [
+        12.1,
+        12.1,
+        4.0
+      ],
+      "tol": 99.0,
+      "note": "外径 d1+2b=12.1、轴向 2×螺距=4（=自由高 H=4）—— **只记录不判定**：螺旋扫掠面是 B 样条，GetBodyBox 轴向虚报 ~50%（同螺纹虚报）"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/14-washer_s8-d8.1xH4x2n.SLDPRT",
+      "overwrite": true
+    }
+  ],
+  "_derived": {
+    "d1": 8.1,
+    "b": 2.0,
+    "s": 2.0,
+    "H": 4.0,
+    "n_turns": 2,
+    "pitch": 2.0,
+    "helix_R": 5.05,
+    "OD": 12.1,
+    "path_length_mm": 63.5861,
+    "analytic_volume_mm3": 254.3444,
+    "free_height_note": "自由高 H=4；s + (n−1)·b = 4"
+  }
+}

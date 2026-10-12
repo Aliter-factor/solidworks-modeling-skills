@@ -1,0 +1,90 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 S1：3D 草图（开关式 3D 草图 + z 生效 + 图元端点坐标读回）",
+    "units": "mm",
+    "note": [
+      "★ 判据分两层：",
+      "  ① **硬判据** = `check_sketch(dump_points=True)` 读回**直线段端点**的全局坐标（mm），",
+      "     证明 3D 草图里 z **真的生效** —— 一段纯沿 Z 的线（(0,0,0)→(0,0,50)）",
+      "     在 2D 草图（Front=XY 平面）里会退化成零长度、根本建不出来。",
+      "  ② `expect_segments` 钉住图元个数（2 条直线 / 1 条样条）。",
+      "★ 为什么 z 会失效过：`line`/`spline` 老版本都把 z **写死成 0**（2026-10-09 改成读第 3 个坐标）。",
+      "  本探针就是那条改动的回归用例。",
+      "★ 3D 草图是**开关式**：`sketch3d_begin` 调 `Insert3DSketch` 进入、",
+      "  `sketch3d_end` 再调一次退出（同一个 API）。",
+      "★★★ 本探针**分两个新零件**跑（`new_part` 两次），故意**不在同一零件里开第二张 3D 草图**：",
+      "  官方契约只承诺『新建一张 3D 草图 **或** 关闭活动草图』；同机实测过两种相反行为",
+      "  （一次**打开已有草图**、一次**新建第二张**）⇒ 那个场景**没有确定性**，不该进回归套件。",
+      "  真正会出错的路径由 `sketch3d_begin` 自己按**读回**拦住（反例在 sw_selftest [5b] 离线钉住）。",
+      "★ 样条走 `CreateSpline3`（3D 点）；逐点坐标的硬验证落在 `curve_xyz` 探针",
+      "  （S1 主力，放样截面就是它建的）。",
+      "★ 本探针不产实体：3D 草图单独存在，`check_body` 不适用（没有体）。"
+    ]
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n1",
+      "op": "new_part"
+    },
+    {
+      "id": "s1b",
+      "op": "sketch3d_begin"
+    },
+    {
+      "id": "l1",
+      "op": "line",
+      "x1": 0, "y1": 0, "z1": 0,
+      "x2": 0, "y2": 0, "z2": 50
+    },
+    {
+      "id": "l2",
+      "op": "line",
+      "x1": 0, "y1": 0, "z1": 50,
+      "x2": 50, "y2": 0, "z2": 50
+    },
+    {
+      "id": "s1e",
+      "op": "sketch3d_end",
+      "name": "Sk3D"
+    },
+    {
+      "id": "ks1",
+      "op": "check_sketch",
+      "sketch": "Sk3D",
+      "expect_segments": 2,
+      "dump_points": true
+    },
+    {
+      "id": "n2",
+      "op": "new_part"
+    },
+    {
+      "id": "s2b",
+      "op": "sketch3d_begin"
+    },
+    {
+      "id": "sp1",
+      "op": "spline",
+      "points": [
+        [0, 0, 0],
+        [10, 0, 10],
+        [20, 10, 20],
+        [30, 10, 30],
+        [40, 0, 40]
+      ]
+    },
+    {
+      "id": "s2e",
+      "op": "sketch3d_end",
+      "name": "Sp3D"
+    },
+    {
+      "id": "ks2",
+      "op": "check_sketch",
+      "sketch": "Sp3D",
+      "expect_segments": 1
+    }
+  ]
+}

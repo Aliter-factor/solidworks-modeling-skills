@@ -1,0 +1,283 @@
+{
+  "schema": "yoyo.swplan/1",
+  "steps": 18,
+  "executed": 18,
+  "failed": null,
+  "log": [
+    {
+      "id": "n",
+      "op": "new_part",
+      "params": {},
+      "ok": true,
+      "seconds": 1.57,
+      "result": {
+        "title": "零件57"
+      }
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "params": {
+        "plane": "Front"
+      },
+      "ok": true,
+      "seconds": 0.034,
+      "result": {
+        "selected": "Front"
+      }
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin",
+      "params": {},
+      "ok": true,
+      "seconds": 0.509,
+      "result": {}
+    },
+    {
+      "id": "g",
+      "op": "gear_profile",
+      "params": {
+        "mn": "{{ params.mn }}",
+        "z": "{{ params.z }}",
+        "beta": 0,
+        "alpha_n": "{{ params.alpha_n }}",
+        "x": "{{ params.x }}",
+        "mode": "{{ params.mode }}",
+        "n_flank": "{{ params.n_flank }}",
+        "n_root": 2,
+        "n_tip": 3,
+        "bore": "{{ params.bore }}",
+        "strict": true
+      },
+      "ok": true,
+      "seconds": 0.655,
+      "result": {
+        "teeth": 55,
+        "mode": "polyline",
+        "points": 716,
+        "entities": 715,
+        "da": 114.0,
+        "diagnostics": [],
+        "params": {
+          "mn": 2.0,
+          "z": 55,
+          "beta": 0.0,
+          "alpha_n": 20.0,
+          "x": 0.0,
+          "b": 20.0,
+          "mt": 2.0,
+          "alpha_t_deg": 20.0,
+          "d": 110.0,
+          "db": 103.3662,
+          "da": 114.0,
+          "df": 105.0,
+          "st": 3.1416,
+          "sa": 1.5619
+        }
+      }
+    },
+    {
+      "id": "ck",
+      "op": "check_diagnostics",
+      "params": {
+        "fail_on": "error"
+      },
+      "ok": true,
+      "seconds": 0.0,
+      "result": {
+        "diagnostics": []
+      }
+    },
+    {
+      "id": "e1",
+      "op": "sketch_end",
+      "params": {},
+      "ok": true,
+      "seconds": 0.534,
+      "result": {
+        "sketches": 19,
+        "sketch": "草图1",
+        "contours": 2,
+        "warn_contours": "这个草图有 2 个独立轮廓。**多数情况是正常的** —— 外轮廓 + 中心孔 + 孔阵就是好几个轮廓，SolidWorks 照常拉伸。只有在拉伸/切除报「轮廓未闭合/自相交」时才需要怀疑：① 多段图元的端点没粘合（样条端点**不会**自动吸附，圆弧会）；② 两个闭环互相重叠（典型：键槽矩形压在孔圆上）。见 30-pitfalls。",
+        "contour_hint": "多轮廓不一定是错的，先看拉伸结果再决定要不要排查。"
+      }
+    },
+    {
+      "id": "cs",
+      "op": "check_sketch",
+      "params": {},
+      "ok": true,
+      "seconds": 11.363,
+      "result": {
+        "sketch": "草图1",
+        "segments": 716,
+        "contours": 2,
+        "types": {
+          "ARC": 1,
+          "LINE": 715
+        },
+        "verdict": "2 个轮廓。有孔/槽/孔阵时是正常的；若拉伸报未闭合/自相交，查端点粘合与闭环重叠。"
+      }
+    },
+    {
+      "id": "x1",
+      "op": "extrude_boss",
+      "params": {
+        "depth": "{{ params.b }}",
+        "end_cond": "swEndCondMidPlane",
+        "name": "GearBody"
+      },
+      "ok": true,
+      "seconds": 0.575,
+      "result": {
+        "feature": "GearBody",
+        "depth": 20.0
+      }
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "params": {
+        "plane": "Front"
+      },
+      "ok": true,
+      "seconds": 0.585,
+      "result": {
+        "selected": "Front"
+      }
+    },
+    {
+      "id": "s2",
+      "op": "sketch_begin",
+      "params": {},
+      "ok": true,
+      "seconds": 0.708,
+      "result": {}
+    },
+    {
+      "id": "kw",
+      "op": "keyway_rect",
+      "params": {
+        "bore": "{{ params.bore }}",
+        "spec": "{{ params.keyway }}"
+      },
+      "ok": true,
+      "seconds": 0.442,
+      "result": {
+        "width": 6.0,
+        "depth": 2.8,
+        "y_from": 9.5394,
+        "y_to": 12.8
+      }
+    },
+    {
+      "id": "s3",
+      "op": "sketch_end",
+      "params": {},
+      "ok": true,
+      "seconds": 0.346,
+      "result": {
+        "sketches": 21,
+        "sketch": "草图2",
+        "contours": 1
+      }
+    },
+    {
+      "id": "ks",
+      "op": "check_sketch",
+      "params": {},
+      "ok": true,
+      "seconds": 0.014,
+      "result": {
+        "sketch": "草图2",
+        "segments": 6,
+        "contours": 1,
+        "types": {
+          "LINE": 6
+        },
+        "verdict": "单个闭合轮廓，正常。"
+      }
+    },
+    {
+      "id": "k1",
+      "op": "extrude_cut",
+      "params": {
+        "end_cond": "swEndCondThroughAllBoth",
+        "name": "Keyway"
+      },
+      "ok": true,
+      "seconds": 0.245,
+      "result": {
+        "feature": "Keyway",
+        "depth": null
+      }
+    },
+    {
+      "id": "rb",
+      "op": "rebuild",
+      "params": {},
+      "ok": true,
+      "seconds": 0.092,
+      "result": {
+        "rebuilt": true
+      }
+    },
+    {
+      "id": "v1",
+      "op": "check_bbox",
+      "params": {
+        "expect": [
+          "{{ params.mn*(params.z+2) }}",
+          "{{ params.mn*(params.z+2) }}",
+          "{{ params.b }}"
+        ],
+        "tol": 0.01
+      },
+      "ok": true,
+      "seconds": 0.002,
+      "result": {
+        "size_mm": [
+          113.987,
+          113.946,
+          20.0
+        ],
+        "box_m": [
+          -0.0569937,
+          -0.056946300000000005,
+          -0.01,
+          0.0569937,
+          0.057,
+          0.01
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "op": "check_feature_count",
+      "params": {
+        "min": 2
+      },
+      "ok": true,
+      "seconds": 0.117,
+      "result": {
+        "feature_count": 22,
+        "ok": true
+      }
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "params": {
+        "path": "D:\\out\\gear.SLDPRT",
+        "overwrite": true
+      },
+      "ok": true,
+      "seconds": 0.824,
+      "result": {
+        "saved": "D:\\out\\gear.SLDPRT"
+      }
+    }
+  ],
+  "gear_diagnostics": []
+}

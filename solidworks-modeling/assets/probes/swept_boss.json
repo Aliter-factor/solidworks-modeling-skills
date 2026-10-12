@@ -1,0 +1,79 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 swept_boss：扫描凸台（轮廓面垂直于路径）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    {
+      "id": "n",
+      "op": "new_part"
+    },
+    {
+      "id": "p",
+      "op": "select_plane",
+      "plane": "Front"
+    },
+    {
+      "id": "s1",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "ln",
+      "op": "line",
+      "x1": 0,
+      "y1": 0,
+      "x2": 25,
+      "y2": 0
+    },
+    {
+      "id": "s2",
+      "op": "sketch_end",
+      "name": "PathSk"
+    },
+    {
+      "id": "p2",
+      "op": "select_plane",
+      "plane": "Right"
+    },
+    {
+      "id": "s3",
+      "op": "sketch_begin"
+    },
+    {
+      "id": "c2",
+      "op": "circle",
+      "cx": 0,
+      "cy": 0,
+      "d": 6
+    },
+    {
+      "id": "s4",
+      "op": "sketch_end",
+      "name": "ProfileSk"
+    },
+    {
+      "id": "sw",
+      "op": "swept_boss",
+      "profile": "ProfileSk",
+      "path": "PathSk",
+      "name": "Sweep1"
+    },
+    {
+      "id": "v",
+      "op": "check_bbox"
+    },
+    {
+      "id": "diag",
+      "op": "check_diagnostics",
+      "fail_on": "error"
+    },
+    {
+      "id": "sv",
+      "op": "save_as",
+      "path": "{{ params.out }}/probe_swept_boss.SLDPRT",
+      "overwrite": true
+    }
+  ]
+}

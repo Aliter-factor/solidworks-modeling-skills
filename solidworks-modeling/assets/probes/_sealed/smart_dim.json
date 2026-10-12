@@ -1,0 +1,30 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "探针 smart_dim：Ø30 圆盘走智能尺寸 —— as=diameter 自动把文字放到圆外 + anchor 固定圆心 ⇒ 完全定义；拉伸量包围盒 30；set_dimension 改 Ø40 ⇒ 包围盒 40（参数化依旧有效）；末尾截图留证（尺寸不可见是纯视觉问题，数值断言抓不到）",
+    "units": "mm"
+  },
+  "params": {},
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p1", "op": "select_plane", "plane": "Front" },
+    { "id": "s1", "op": "sketch_begin" },
+    { "id": "c1", "op": "circle", "cx": 0, "cy": 0, "r": 15 },
+    { "id": "dm", "op": "smart_dim", "segment": 0, "value": 30, "as": "diameter", "anchor": true },
+    { "id": "cc1", "op": "check_sketch_constraint", "expect": "FullyConstrained" },
+    { "id": "zf0", "op": "zoom_fit" },
+    { "id": "shot_open", "op": "screenshot", "path": "{{ params.out }}/probe_smart_dim_open.bmp" },
+    { "id": "s2", "op": "sketch_end", "name": "DiscSk" },
+    { "id": "e1", "op": "extrude_boss", "depth": 10, "name": "Disc" },
+    { "id": "bb0", "op": "check_bbox", "expect": [30, 30, 10], "tol": 0.05 },
+    { "id": "ld", "op": "list_dimensions" },
+    { "id": "sd", "op": "set_dimension", "sketch": "DiscSk", "index": 0, "value": 40 },
+    { "id": "bb1", "op": "check_bbox", "expect": [40, 40, 10], "tol": 0.05 },
+    { "id": "cc2", "op": "check_sketch_constraint", "sketch": "DiscSk", "expect": "FullyConstrained" },
+    { "id": "mass", "op": "check_mass" },
+    { "id": "zf", "op": "zoom_fit" },
+    { "id": "shot", "op": "screenshot", "path": "{{ params.out }}/probe_smart_dim.bmp" },
+    { "id": "diag", "op": "check_diagnostics", "fail_on": "error" },
+    { "id": "sv", "op": "save_as", "path": "{{ params.out }}/probe_smart_dim.SLDPRT", "overwrite": true }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "yoyo.swplan/1",
+  "meta": {
+    "name": "规范核对：几何关系/锚定对草图约束状态的影响（非交付件，是诊断样本）",
+    "units": "mm",
+    "note": "对应《07 尺寸标注规范》§2.1（完全定义）/§3（先关系后尺寸）/§5 #2（定位尺寸）。用套筒的真实比例（t=13, ri=15, ro=18.5）。每加一步就读一次 GetConstrainedStatus，看它到底卡在哪一态。"
+  },
+  "params": {},
+  "steps": [
+    { "id": "n", "op": "new_part" },
+    { "id": "p", "op": "select_plane", "plane": "Front" },
+    { "id": "s1", "op": "sketch_begin" },
+    { "id": "cl", "op": "centerline", "x1": 0.0, "y1": 0.0, "x2": 13.0, "y2": 0.0 },
+    { "id": "prof", "op": "polyline",
+      "points": [[0.0, 15.0], [13.0, 15.0], [13.0, 18.5], [0.0, 18.5]],
+      "close": true,
+      "note": "与 spacer 同比例：t=13, ri=15, ro=18.5" },
+    { "id": "c0", "op": "check_sketch_constraint",
+      "note": "① 现状：polyline 画完，一条几何关系都没有" },
+    { "id": "r1", "op": "sk_relation", "rel": "coincident",
+      "note": "② 只补端点重合" },
+    { "id": "c1", "op": "check_sketch_constraint" },
+    { "id": "r2", "op": "sk_relation", "rel": "h_v",
+      "note": "③ 再补水平/竖直" },
+    { "id": "c2", "op": "check_sketch_constraint" },
+    { "id": "s2", "op": "sketch_end", "name": "SpecSk" },
+    { "id": "rev", "op": "revolve_boss", "angle": 360, "name": "SpecBody" },
+    { "id": "dm", "op": "dim_auto", "chain": "auto",
+      "note": "④ 尺寸链（规范 §70 口径）：必须在 revolve 之后" },
+    { "id": "c3", "op": "check_sketch_constraint", "sketch": "SpecSk", "dims": true },
+    { "id": "r3", "op": "sk_relation", "rel": "fix", "point": [0.0, 15.0],
+      "note": "⑤ 再把离原点最近的顶点锁住（只锁点，不锁图元）" },
+    { "id": "c4", "op": "check_sketch_constraint", "sketch": "SpecSk" },
+    { "id": "s4", "op": "sketch_end", "name": "SpecSk" },
+    { "id": "bb", "op": "check_bbox", "expect": [13.0, 37.0, 37.0], "tol": 0.05,
+      "note": "几何不能被关系/锚定改坏" },
+    { "id": "dd", "op": "check_diagnostics", "fail_on": "error" }
+  ]
+}
